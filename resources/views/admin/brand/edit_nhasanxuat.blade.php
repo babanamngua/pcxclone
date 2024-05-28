@@ -41,7 +41,7 @@
                                     <input required  name="url_name" type="file" class="form-control">
                                     <br>
                                     <div>ảnh cũ:
-                                        <img src="{{ asset('storage/block/thuonghieu/' . $brand->url_name) }}"  style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));"   height="100px">
+                                        <img src="{{ asset('storage/brand/' . $brand->url_name) }}"  style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));"   height="100px">
                                     </div>
                                 </div>
                             </div>

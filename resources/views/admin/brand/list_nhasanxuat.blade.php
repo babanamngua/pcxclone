@@ -51,7 +51,7 @@
 									<tr>
 										<td>{{ $i }}</td>
 										<td>{{$brand->brand_name}}</td>
-										<td><img src="{{ asset('storage/block/thuonghieu/' . $brand->url_name) }} " height="100" > </td>
+										<td><img src="{{ asset('storage/brand/' . $brand->url_name) }} " height="100" > </td>
 										<td class="form-group">
 											<a href="{{ route('brand.edit', $brand->brand_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
 											<form method="POST" action="{{ route('brand.destroy', $brand->brand_id) }}">

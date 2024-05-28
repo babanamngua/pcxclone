@@ -33,7 +33,7 @@ class BrandController extends Controller
         if ($request->hasFile('url_name')) {
             $image = $request->file('url_name');
             $name = date('d-m-y-H-i').'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/storage/block/thuonghieu'); // Thư mục đích
+            $destinationPath = public_path('/storage/brand'); // Thư mục đích
             $image->move($destinationPath, $name);
             $brand->url_name = $name;
         }
@@ -54,13 +54,13 @@ class BrandController extends Controller
     // dd($brand);
     if ($request->hasFile('url_name')) {
         // Xóa ảnh cũ nếu có
-        if ($brand->url_name && file_exists(public_path('storage/block/thuonghieu/' . $brand->url_namme))) { unlink(public_path('storage/block/thuonghieu/' . $brand->url_name));
-            // if ($brand->image && file_exists('storage/img/block/thuonghieu/' . $brand->image)) { unlink('storage/img/block/thuonghieu/' . $brand->image);
+        if ($brand->url_name && file_exists(public_path('storage/brand/' . $brand->url_namme))) { unlink(public_path('storage/brand/' . $brand->url_name));
+            // if ($brand->image && file_exists('storage/img/brand/' . $brand->image)) { unlink('storage/img/brand/' . $brand->image);
         }
         // thêm mới
         $image = $request->file('url_name');
         $name =$brand->brand_id .'-' . time() . '.' . $image->getClientOriginalExtension();
-        $destinationPath = public_path('storage/block/thuonghieu'); // Thư mục đích
+        $destinationPath = public_path('storage/brand'); // Thư mục đích
         $image->move($destinationPath, $name);
         $brand->url_name = $name; // Cập nhật tên tệp vào cơ sở dữ liệu
     }
@@ -72,7 +72,6 @@ class BrandController extends Controller
    {
     $this->data['title'] = 'trang sửa nhà sản xuất';
     $brand = Brand::findOrFail($id);
-    $this->data['title'] = 'trang sửa nhà sản xuất';
     return view('admin.brand.edit_nhasanxuat',$this->data,compact('brand'));
  
    }
@@ -81,8 +80,8 @@ class BrandController extends Controller
     $this->data['title'] = 'trang nhà sản xuất';
        $brand = Brand::findOrFail($id);
        // Xóa ảnh nếu có
-       if ($brand->url_name && file_exists(public_path('storage/block/thuonghieu/' . $brand->url_namme)))
-        { unlink(public_path('storage/block/thuonghieu/' . $brand->url_name));}
+       if ($brand->url_name && file_exists(public_path('storage/brand/' . $brand->url_namme)))
+        { unlink(public_path('storage/brand/' . $brand->url_name));}
    
        $brand->delete();
    

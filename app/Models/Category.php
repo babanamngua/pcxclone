@@ -12,18 +12,19 @@ class Category extends Model
     protected $table = 'category';
     protected $fillable = [
         'category_name',
-        'parent_id',
-        'group_name',
+        'url_name',
+        'brand_id',
+        'component_id'
     ];
-
-    public function parent()
+    public function brand()
     {
-        return $this->belongsTo(Category::class, 'parent_id');
+        return $this->belongsTo(Brand::class);
     }
 
-    public function children()
+    public function component()
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->belongsTo(Component::class);
     }
+
 public $timestamps = true; // Đảm bảo timestamps được bật
 }

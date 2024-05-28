@@ -26,13 +26,16 @@
       
 		</div><!--/.row-->
 		<div id="toolbar" class="btn-group">
-            <a href="/loaisanphamController/add_loaisp" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i> Thêm danh mục sản phẩm
+            <a href="{{route('category.create')}}" class="btn btn-success">
+                <i class="glyphicon glyphicon-plus"></i> Thêm loại sản phẩm
             </a>
 			<br>
         </div>
-		
-        
+		@if(session()->has('success'))
+		<div>
+			{{session('success')}}
+		</div>  
+		@endif  
 		<div class="row">
 			<div class="col-md-12">
 					<div class="panel panel-default">
@@ -55,11 +58,16 @@
 										<tr>
 											<td >{{$i}}</td>
 											<td>{{$category->category_name}}</td>
-											<td><img src="{{ asset('storage/block/danhmuc/' . $category->url_name) }} " height="100" width="100"></td>
+											<td><img src="{{ asset('storage/category/' . $category->url_name) }}" height="100" width="100"></td>
 											
 											<td class="form-group">
-												<a href="/loaisanphamController/edit_loaisp/" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
-												<a href="/loaisanphamController/delete_loaisp/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+												<a href="{{ route('category.edit', $category->category_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
+												<form method="POST" action="{{ route('category.destroy', $category->category_id) }}">
+													@csrf
+													@method('delete')
+													<button type="submit"class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
+													<a><i class="glyphicon glyphicon-remove"></i></a></button>
+												</form>
 											</td>
 										</tr>                   
                     @endforeach

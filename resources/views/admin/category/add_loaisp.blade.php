@@ -39,29 +39,26 @@
                                     <input required name="category_name" class="form-control" placeholder="Tên loại sản phẩm...">
                                 </div>
 
-                               
                                 <div class="form-group">
                                     <label>Hình ảnh</label>
                                     <input  name="url_name" type="file" class="form-control">
                                     <br>    
                                 </div>
                                 <div class="form-group">
-                                    <label for="parent_id">Parent Category:</label>
-                                    <select id="parent_id" name="parent_id">
-                                        <option value="">None</option>
-                                        @foreach ($category as $parentCategory)
-                                            <option value="{{ $parentCategory->category_id }}">{{ $parentCategory->category_name }}</option>
+                                    <label>Brand:</label>
+                                    <select name="brand_id">
+                                        <option value="">không chọn</option>
+                                        @foreach($brand as $brand)
+                                            <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="group_name">Group Name:</label>
-
-                                    {{-- <input type="text" id="group_name" name="group_name"> --}}
-                                    <select id="group_name" name="group_name">
-                                        <option value="">None</option>
-                                        @foreach ($category as $category)
-                                            <option value="{{ $category->category_id }}">{{ $category->group_name }}</option>
+                                    <label>Component:</label>
+                                    <select name="component_id">
+                                        <option value="">không chọn</option>
+                                        @foreach($component as $component)
+                                            <option value="{{ $component->component_id }}">{{ $component->component_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

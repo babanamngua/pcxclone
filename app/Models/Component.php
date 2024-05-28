@@ -13,5 +13,9 @@ class Component extends Model
     protected $fillable = [
         'component_name',
         ];
+        public function category()
+        {
+            return $this->hasMany(Category::class);
+        }
 public $timestamps = true; // Đảm bảo timestamps được bật
 }

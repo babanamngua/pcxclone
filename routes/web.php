@@ -48,6 +48,10 @@ Route::delete('brand/{id}/destroy',[brandController::class,'destroy'])->name('br
 Route::get('category',[CategoryController::class,'index'])->name('category.index');
 Route::get('category/create',[CategoryController::class,'create'])->name('category.create');
 Route::post('category/',[CategoryController::class,'store'])->name('category.store');
+Route::get('category/{category}/edit',[CategoryController::class,'edit'])->name('category.edit');
+Route::put('category/{category}/update',[CategoryController::class,'update'])->name('category.update');
+Route::delete('category/{category}/destroy',[CategoryController::class,'destroy'])->name('category.destroy');
+
 
 Route::get('component',[componentController::class,'index'])->name('component.index');
 Route::get('component/create',[ComponentController::class,'create'])->name('component.create');
