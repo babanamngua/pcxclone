@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Models\Brand;
+// use 
 
 
 class BrandController extends Controller
@@ -29,17 +31,24 @@ class BrandController extends Controller
         ]);
 
         $brand = new Brand();
+
+        $brand->brand_name = $request->input('brand_name'); // Cung cấp giá trị cho brand_name
+        $brandFolder = public_path('storage/brand/' . $brand->brand_name);
+
+        if (!File::exists($brandFolder)) {
+            File::makeDirectory($brandFolder, 0755, true);
+        }
         // Lưu các thuộc tính khác
         if ($request->hasFile('url_name')) {
             $image = $request->file('url_name');
             $name = date('d-m-y-H-i').'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/storage/brand'); // Thư mục đích
+            $destinationPath = public_path('storage/brand/' . $brand->brand_name); // Thư mục đích
             $image->move($destinationPath, $name);
             $brand->url_name = $name;
         }
 
-        
-        $brand->brand_name = $request->input('brand_name'); // Cung cấp giá trị cho brand_name
+         
+       
         $brand->save();
         return redirect()->route('brand.index',$this->data)->with('success', 'Nhà sản xuất đã thêm thành công.');
     }
@@ -54,13 +63,13 @@ class BrandController extends Controller
     // dd($brand);
     if ($request->hasFile('url_name')) {
         // Xóa ảnh cũ nếu có
-        if ($brand->url_name && file_exists(public_path('storage/brand/' . $brand->url_namme))) { unlink(public_path('storage/brand/' . $brand->url_name));
+        if ($brand->url_name && file_exists(public_path('storage/brand/' . $brand->brand_name .'/'. $brand->url_name))) { unlink(public_path('storage/brand/' . $brand->brand_name .'/'. $brand->url_name));
             // if ($brand->image && file_exists('storage/img/brand/' . $brand->image)) { unlink('storage/img/brand/' . $brand->image);
         }
         // thêm mới
         $image = $request->file('url_name');
         $name =$brand->brand_id .'-' . time() . '.' . $image->getClientOriginalExtension();
-        $destinationPath = public_path('storage/brand'); // Thư mục đích
+        $destinationPath = public_path('storage/brand/' . $brand->brand_name); // Thư mục đích
         $image->move($destinationPath, $name);
         $brand->url_name = $name; // Cập nhật tên tệp vào cơ sở dữ liệu
     }
@@ -80,8 +89,8 @@ class BrandController extends Controller
     $this->data['title'] = 'trang nhà sản xuất';
        $brand = Brand::findOrFail($id);
        // Xóa ảnh nếu có
-       if ($brand->url_name && file_exists(public_path('storage/brand/' . $brand->url_namme)))
-        { unlink(public_path('storage/brand/' . $brand->url_name));}
+       if ($brand->url_name && file_exists(public_path('storage/brand/' .'/'. $brand->brand_name . $brand->url_namme)))
+        { unlink(public_path('storage/brand/' . $brand->brand_name .'/'. $brand->url_name));}
    
        $brand->delete();
    

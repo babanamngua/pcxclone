@@ -34,44 +34,56 @@
 								<table data-toolbar="#toolbar" data-toggle="table" id="table_id" class="table table-striped">
 									<thead>
 									<tr>
-										<th data-field="id" data-sortable="true">ID</th>
+										<th data-field="id" data-sortable="true">stt</th>
 										<th>Tên sản phẩm </th>
 										<th>Hình </th>
-										<!-- <th>Mô tả </th> -->
+										<th>Mô tả </th> 
 										<th>Số lượng</th>
+										<th>Giá</th>
 										<th>Loại sản phẩm </th>
 										<th>Nhà sản xuất </th>
-										<th>Khuyến mãi</th>
-										<th>Giá</th>
-
+										{{-- <th>Khuyến mãi</th> --}}
 										<th>Chức năng</th>
 									</tr>
 									</thead>
 									<tbody>
-									<?php
-									$i = 0;
-									
-									?>
+									{{$i = 0;}} 
+									@foreach($product as $product)
 										<tr>
-											<td ></td>
-											<td></td>
-											<td><img src="/public/uploads/sanpham/" height="100" width="100"></td>
-											<!-- <td></td> -->
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-
+											 <td>{{$i}}</td> {{--stt--}}
+											<td>{{$product->product_name}}</td> {{--ten--}}
+											<td>
+												@foreach($img as $img)
+												@if($img->img_id == $product->img_id)
+												<img src="{{ asset('storage/product/' . $img->url_img) }}" height="100" width="100">
+												@endif
+                                    			@endforeach
+											</td>
+											<td>{{$product->description}}</td> {{--mo ta--}}
+											<td>{{$product->quantity}}</td> {{--so luong--}}
+											<td>{{$product->price}}</td> {{--gia--}}
+											<td>
+												<select name="category_id">
+													<option value="">không chọn</option>
+													@foreach($category as $category)
+														<option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
+													@endforeach
+												</select>
+											</td>
+											<td>
+												<select name="brand_id">
+													<option value="">không chọn</option>
+													@foreach($brand as $brand)
+														<option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
+													@endforeach
+												</select>
+											</td>
 											<td class="form-group">
 												<a href="/sanphamController/edit_sanpham/" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
 												<a href="/sanphamController/delete_sanpham/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
 											</td>
 										</tr>
-                    <?php
-                    
-                    ?>
-
+                  					@endforeach
 									</tbody>
 								</table>
 							</div>

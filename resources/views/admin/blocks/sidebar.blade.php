@@ -37,20 +37,20 @@
             </ul>		
                 
         </li>
-        <!-- <li class="parent ">
-            <a href="0/sanphamController/list_sanpham">
+        <li class="parent ">
+            <a href="{{ route('product.index')}}">
                 <span data-toggle="collapse" href="#sub-item-3"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý sản phẩm
             </a>
-            <ul class="children collapse" id="sub-item-3">
+            {{-- <ul class="children collapse" id="sub-item-3">
                 <li>
                     <a class="" href="0/sanphamController/add_sanpham">
                         <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Thêm mới
                     </a>
                 </li>
 
-            </ul>				
-        </li> -->
-        <li class="parent ">
+            </ul> --}}
+        </li> 
+     {{-- <li class="parent ">
             <a href="0/baivietController/list_baiviet">
                 <span data-toggle="collapse" href="#sub-item-4"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý bài viết
             </a>

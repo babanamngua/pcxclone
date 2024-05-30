@@ -70,7 +70,7 @@ class CategoryController extends Controller
     // dd($brand);
     if ($request->hasFile('url_name')) {
         // Xóa ảnh cũ nếu có
-        if ($category->url_name && file_exists(public_path('storage/category/' . $category->url_namme))) { unlink(public_path('storage/category/' . $category->url_name));
+        if ($category->url_name && file_exists(public_path('storage/category/' . $category->url_name))) { unlink(public_path('storage/category/' . $category->url_name));
             // if ($brand->image && file_exists('storage/img/block/thuonghieu/' . $brand->image)) { unlink('storage/img/block/thuonghieu/' . $brand->image);
         }
         // thêm mới

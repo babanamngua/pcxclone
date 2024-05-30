@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('img', function (Blueprint $table) {
             $table->integer('img_id', true);
-            $table->integer('product_id')->index('product_id');
             $table->string('url_img', 225);
         });
     }

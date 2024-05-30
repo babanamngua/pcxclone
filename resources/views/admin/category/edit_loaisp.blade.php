@@ -53,7 +53,11 @@
                                     <label>Brand:</label>
                                     <select name="brand_id">
                                     @foreach($brand as $brand)
-                                    <option value="{{ $brand->brand_id }}" @if($brand->brand_id == $category->brand_id) selected @endif>{{ $brand->brand_name }}</option>
+                                    <option value="{{ $brand->brand_id }}" 
+                                        @if($brand->brand_id == $category->brand_id) 
+                                        selected 
+                                        @endif>
+                                        {{ $brand->brand_name }}</option>
                                     @endforeach
                                     </select>
                                 </div>

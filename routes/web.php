@@ -59,3 +59,11 @@ Route::post('component/',[ComponentController::class,'store'])->name('component.
 Route::get('component/{component}/edit',[ComponentController::class,'edit'])->name('component.edit');
 Route::put('component/{component}/update',[ComponentController::class,'update'])->name('component.update');
 Route::delete('component/{component}/destroy',[ComponentController::class,'destroy'])->name('component.destroy');
+
+
+Route::get('product',[ProductController::class,'index'])->name('product.index');
+Route::get('product/create',[ProductController::class,'create'])->name('product.create');
+Route::post('product/',[ProductController::class,'store'])->name('product.store');
+Route::get('product/{product}/edit',[ProductController::class,'edit'])->name('product.edit');
+Route::put('product/{product}/update',[ProductController::class,'update'])->name('product.update');
+Route::delete('product/{product}/destroy',[ProductController::class,'destroy'])->name('product.destroy');

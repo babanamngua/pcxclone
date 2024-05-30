@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('color', function (Blueprint $table) {
             $table->integer('color_id', true);
-            $table->integer('product_id')->index('product_id');
             $table->string('color_name', 100);
         });
     }
