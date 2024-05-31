@@ -36,12 +36,13 @@
 									<tr>
 										<th data-field="id" data-sortable="true">stt</th>
 										<th>Tên sản phẩm </th>
-										<th>Hình </th>
 										<th>Mô tả </th> 
 										<th>Số lượng</th>
 										<th>Giá</th>
 										<th>Loại sản phẩm </th>
 										<th>Nhà sản xuất </th>
+										<th>Hình </th>
+										<th>Màu </th>
 										{{-- <th>Khuyến mãi</th> --}}
 										<th>Chức năng</th>
 									</tr>
@@ -49,38 +50,43 @@
 									<tbody>
 									{{$i = 0;}} 
 									@foreach($product1 as $product)
+									{{ $i++;}}
 										<tr>
 											 <td>{{$i}}</td> {{--stt--}}
 											<td>{{$product->product_name}}</td> {{--ten--}}
-											<td>
-												@foreach($img1 as $img)
-												@if($img->img_id == $product->img_id)
-												<img src="{{ asset('storage/product/' . $img->url_img) }}" height="100" width="100">
-												@endif
-                                    			@endforeach
-											</td>
 											<td>{{$product->description}}</td> {{--mo ta--}}
 											<td>{{$product->quantity}}</td> {{--so luong--}}
 											<td>{{$product->price}}</td> {{--gia--}}
+											{{-- loai san pham --}}
+											<td> 
+												@foreach($category1 as $category)
+												@if($product->category_id == $category->category_id)
+												{{ $category->category_name }}
+												@endif
+												@endforeach					
+											</td>
+											{{-- nha san xuat --}}
 											<td>
-												<select name="category_id">
-													<option value="">không chọn</option>
-													@foreach($category1 as $category)
-														<option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
-													@endforeach
-												</select>
+												@foreach($brand1 as $brand)
+												@if($product->brand_id == $brand->brand_id)
+												{{ $brand->brand_name }}
+												@endif
+												@endforeach	
 											</td>
 											<td>
-												<select name="brand_id">
-													<option value="">không chọn</option>
-													@foreach($brand1 as $brand)
-														<option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
-													@endforeach
-												</select>
+												<a href="{{ route('img.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem ảnh</a>
+											</td>
+											<td>
+												<a href="" class="btn btn-info">Thêm / Xem màu</a>
 											</td>
 											<td class="form-group">
-												<a href="/sanphamController/edit_sanpham/" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
-												<a href="/sanphamController/delete_sanpham/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+												<a href="{{ route('product.edit', $product->product_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
+												<form method="POST" action="{{ route('product.destroy', $product->product_id) }}">
+													@csrf
+													@method('delete')
+													<button type="submit"class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
+													<a><i class="glyphicon glyphicon-remove"></i></a></button>
+												</form>
 											</td>
 										</tr>
                   					@endforeach

@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentController;
+use App\Http\Controllers\ImgController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -52,7 +53,6 @@ Route::get('category/{category}/edit',[CategoryController::class,'edit'])->name(
 Route::put('category/{category}/update',[CategoryController::class,'update'])->name('category.update');
 Route::delete('category/{category}/destroy',[CategoryController::class,'destroy'])->name('category.destroy');
 
-
 Route::get('component',[componentController::class,'index'])->name('component.index');
 Route::get('component/create',[ComponentController::class,'create'])->name('component.create');
 Route::post('component/',[ComponentController::class,'store'])->name('component.store');
@@ -60,10 +60,13 @@ Route::get('component/{component}/edit',[ComponentController::class,'edit'])->na
 Route::put('component/{component}/update',[ComponentController::class,'update'])->name('component.update');
 Route::delete('component/{component}/destroy',[ComponentController::class,'destroy'])->name('component.destroy');
 
-
 Route::get('product',[ProductController::class,'index'])->name('product.index');
 Route::get('product/create',[ProductController::class,'create'])->name('product.create');
 Route::post('product/',[ProductController::class,'store'])->name('product.store');
-Route::get('product/{product}/edit',[ProductController::class,'edit'])->name('product.edit');
-Route::put('product/{product}/update',[ProductController::class,'update'])->name('product.update');
-Route::delete('product/{product}/destroy',[ProductController::class,'destroy'])->name('product.destroy');
+Route::get('product/{id}/edit',[ProductController::class,'edit'])->name('product.edit');
+Route::put('product/{id}/update',[ProductController::class,'update'])->name('product.update');
+Route::delete('product/{id}/destroy',[ProductController::class,'destroy'])->name('product.destroy');
+
+Route::get('img/{id}/upload',[ImgController::class,'upload'])->name('img.upload');
+Route::post('img/{id}/upload',[ImgController::class,'store'])->name('img.store');
+Route::get('img/{id}/destroy',[ImgController::class,'destroy'])->name('img.destroy');

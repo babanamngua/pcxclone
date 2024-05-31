@@ -948,6 +948,31 @@ h1.page-header {
     vertical-align: middle;
 }
 
+.img-container {
+	position: relative;
+	display: inline-block;
+}
+.delete-btn {
+	display: none;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: red;
+	color: white;
+	padding: 5px;
+	border-radius: 20%;
+	text-decoration: none;
+	opacity: 0.6;
+	transition: 0.4s;
+	/* transition: opacity 3.0s ease-in-out; 
+	opacity: 0;  */
+}
+.img-container:hover .delete-btn {
+	display: block;
+	opacity: 0.9; /* Thay đổi opacity khi di chuột vào */
+	text-decoration: none;
+}
+
 
 
 

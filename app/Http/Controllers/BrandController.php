@@ -54,7 +54,7 @@ class BrandController extends Controller
     $request->validate([
         'category_id'=> 'nullable|exists:category,category_id',
         'brand_name' => 'required|string|max:255',
-        'image' => 'nullable|image|file',
+        'url_name' => 'nullable|image|file',
     ]);
     $brand = Brand::findOrFail($id);
     // dd($brand);
@@ -88,7 +88,7 @@ class BrandController extends Controller
     $this->data['title'] = 'trang nhà sản xuất';
        $brand = Brand::findOrFail($id);
        // Xóa ảnh nếu có
-       if ($brand->url_name && file_exists(public_path('storage/brand/' . $brand->url_namme)))
+       if ($brand->url_name && file_exists(public_path('storage/brand/' . $brand->url_name)))
         { unlink(public_path('storage/brand/' . $brand->url_name));}
    
        $brand->delete();

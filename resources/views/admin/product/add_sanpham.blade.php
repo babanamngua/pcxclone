@@ -9,7 +9,7 @@
 		<div class="row"  style="margin-top: -20px;">
 			<ol class="breadcrumb">
         <li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-        <li><a href="/sanphamController/list_sanpham">Quản lý sản phẩm</a></li>
+        <li><a href="{{route('product.index')}}">Quản lý sản phẩm</a></li>
 				<li class="active">Thêm sản phẩm</li>
 			</ol>
 		</div><!--/.row-->
@@ -34,7 +34,7 @@
                             <form action="{{route('product.store')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
-                            <div class="form-group">
+                                <div class="form-group">
                                 {{-- tên sản phẩm --}}
                                     <label>Tên sản phẩm</label>
                                     <input required name="product_name" class="form-control" placeholder="Tên sản phẩm...">
@@ -43,72 +43,45 @@
                                     {{-- số lượng sản phẩm --}}
                                 <label >Số lượng sản phẩm</label>
                                 <input type="number" name= "quantity" min="0" class="form-control" placeholder="Số lượng sản phẩm...">
-                              </div>
-                              <div class="form-group">
-                                {{-- mô tả --}}
-                                <label>mô tả</label>
-                                <input required name="description" type="text" class="form-control" placeholder="Mô tả sản phẩm...">
-                            </div>                                                             
+                            </div>                                                            
                             <div class="form-group">
                                 {{-- giá sản phẩm --}}
                               <label>Giá sản phẩm</label>
                               <input  name="price" type="text" class="form-control" placeholder="Giá sản phẩm...">
                           </div>
-                                </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Ảnh sản phẩm</label>   
-                                    <input type="file" name="url_img[]" id="url_img" multiple>
-                                    <br>                                   
-                                </div>    
-
-                                <div class="form-group">
-                                <label>Loại sản phẩm</label>
-                                <select id="category-select" name="category_id" class="form-control">
-                                  <option value="">không chọn</option>
-                                  @foreach($category1 as $category)
-                                    <option value="{{ $category->category_id }}" data-image="{{ asset('storage/category/' . $category->url_name) }}">
-                                        {{ $category->category_name }}
-                                    </option>
-                                  @endforeach
-                                 
-                                </select>
-                              </select>
-                                </div>
-
-                                <div class="form-group">
+                          {{-- loai san pham --}}
+                          <div class="form-group">
+                            <label>Loại sản phẩm</label>
+                            <select id="category-select" name="category_id" class="form-control">
+                              <option value="">không chọn</option>
+                              @foreach($category1 as $category)
+                                <option value="{{ $category->category_id }}" data-image="{{ asset('storage/category/' . $category->url_name) }}">
+                                    {{ $category->category_name }}
+                                </option>
+                              @endforeach
+                            </select>
+                          </select>
+                            </div>
+                            {{-- nha san xuat --}}
+                            <div class="form-group">
                                 <label for="pwd">Nhà sản xuất</label>
-                                
                                 <select id="brand-select" name="brand_id" class="form-control">
-                                    <option value="">không chọn</option>
-                                    @foreach($brand1 as $brand)
-                                        <option value="{{ $brand->brand_id }}" data-image="{{ asset('storage/brand/' . $brand->url_name) }}">
-                                            {{ $brand->brand_name }}
-                                        </option>
-                                    @endforeach
+                                <option value="">không chọn</option>
+                                @foreach($brand1 as $brand)
+                                    <option value="{{ $brand->brand_id }}" data-image="{{ asset('storage/brand/' . $brand->url_name) }}">
+                                        {{ $brand->brand_name }}
+                                    </option>
+                                @endforeach
                                 </select>
-                                
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Tên màu</label>
-                                    <input name="color_name[]" class="form-control" placeholder="Tên màu...">
-                                </div> 
-                                
-
-                                {{-- <div class="form-group">
-                                <label for="pwd">Khuyến mãi</label>
-                                <select class="form-control" name="khuyenmai" id="">
-
-                                </select> 
-                                </div> --}}
-{{-- 
+                            </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                       <label for="pwd">Mô tả sản phẩm</label>
                                       
-                                      <textarea id="chi_tiet_bv" name="mota" style="resize: none;" rows="5" class="form-control"></textarea>
-                                    </div> --}}
-
+                                      <textarea id="chi_tiet_bv" name="description" style="resize: none;" rows="5" class="form-control"></textarea>
+                                    </div> 
+                                </div>
                                 <button name="sbm" type="submit" class="btn btn-success">Thêm</button>
                                 <button type="reset" class="btn btn-default">Làm mới</button>                             
                               
