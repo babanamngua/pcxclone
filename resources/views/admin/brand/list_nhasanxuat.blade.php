@@ -41,17 +41,25 @@
 										<th data-field="id" data-sortable="true">stt</th>
 										<th>Tên nhà sản xuất </th>
 										<th>Hình ảnh</th>
+										<th>Loại sản phẩm</th>
 										<th>Chức năng</th>
 									</tr>
 									</thead>
 								<tbody>
 								{{$i = 0;}}
-									@foreach($brand as $brand)
+									@foreach($brand1 as $brand)
 								{{$i++;}}
 									<tr>
 										<td>{{ $i }}</td>
 										<td>{{$brand->brand_name}}</td>
 										<td><img src="{{ asset('storage/brand/' . $brand->url_name) }} " height="100" > </td>
+										<td>
+											@foreach( $category1 as $category)
+											@if($category->category_id == $brand->category_id) 
+											<img src="{{ asset('storage/category/' . $category->url_name) }}" height="100" width="100">
+											 @endif
+											 @endforeach
+										</td>
 										<td class="form-group">
 											<a href="{{ route('brand.edit', $brand->brand_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
 											<form method="POST" action="{{ route('brand.destroy', $brand->brand_id) }}">

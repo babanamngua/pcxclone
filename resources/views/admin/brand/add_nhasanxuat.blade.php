@@ -36,11 +36,19 @@
                                     <input required name="brand_name" class="form-control" placeholder="Tên nhà sản xuất...">
                                 </div>
                                 <div class="form-group">
-                                    <label>Ảnh nhà sản xuất</label>
-                                    
-                                    <input required name="url_name" type="file" class="form-control">
-                                    
-                                    
+                                    <label>Ảnh nhà sản xuất</label>                              
+                                    <input required name="url_name" type="file" class="form-control"> 
+                                </div>
+                                <div class="form-group">
+                                    <label>thể loại:</label>
+                                    <select name="category_id">
+                                        <option value="">không chọn</option>
+                                        @foreach($category as $category)
+                                            <option value="{{ $category->category_id }}">
+                                                {{ $category->category_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <button name="sbm" type="submit" class="btn btn-success">Thêm</button>
                                 <button type="reset" class="btn btn-default">Làm mới</button>                             

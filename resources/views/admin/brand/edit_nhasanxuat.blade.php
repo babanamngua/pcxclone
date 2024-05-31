@@ -38,11 +38,21 @@
                                 <br>
                                 <div class="form-group">
                                     <label>Hình ảnh</label>
-                                    <input required  name="url_name" type="file" class="form-control">
+                                    <input name="url_name" type="file" class="form-control">
                                     <br>
                                     <div>ảnh cũ:
                                         <img src="{{ asset('storage/brand/' . $brand->url_name) }}"  style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));"   height="100px">
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>thể loại:</label>
+                                    <select name="category_id">
+                                        <option value="">không chọn</option>
+                                        @foreach($category as $category)
+                                            <option value="{{ $category->category_id }}" @if($category->category_id == $brand->category_id) selected @endif>{{ $category->category_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <button type="submit" name="sbm" class="btn btn-success">Cập nhật</button>

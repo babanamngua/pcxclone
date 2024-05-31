@@ -11,6 +11,7 @@ class Img extends Model
     protected $primaryKey = 'img_id'; // Tên cột khóa chính của bạn là 'brand_id'
     protected $table = 'img';
     protected $fillable = [
+        'product_id',
         'url_img',
         ];
 }

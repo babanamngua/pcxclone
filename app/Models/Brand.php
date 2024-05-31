@@ -11,6 +11,7 @@ class Brand extends Model
     protected $primaryKey = 'brand_id'; // Tên cột khóa chính của bạn là 'brand_id'
     protected $table = 'brand';
     protected $fillable = [
+        'category_id',
         'brand_name',
         'url_name',
         ];

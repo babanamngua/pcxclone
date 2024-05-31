@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('category', function (Blueprint $table) {
             $table->integer('category_id', true);
-            $table->integer('brand_id');
             $table->integer('component_id');
             $table->string('category_name', 255);
             $table->string('url_name', 255)->nullable();

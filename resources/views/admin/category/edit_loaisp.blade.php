@@ -49,7 +49,7 @@
                                         <img src="{{ asset('storage/category/' . $category->url_name) }}" style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));" width="100px" height="100px" >
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label>Brand:</label>
                                     <select name="brand_id">
                                     @foreach($brand as $brand)
@@ -60,7 +60,7 @@
                                         {{ $brand->brand_name }}</option>
                                     @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label>Component:</label>
                                     <select name="component_id">

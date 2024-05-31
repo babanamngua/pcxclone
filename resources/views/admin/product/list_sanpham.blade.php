@@ -5,7 +5,7 @@
 
 @section('content')
    <section>
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+	<div class="col-sm-9 col-sm-offset-3 col-lg-12 col-lg-offset-0 main">			
 		<div class="row" style="margin-top: -20px;">
 			<ol class="breadcrumb">
 				<li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
@@ -20,7 +20,7 @@
       
 		</div><!--/.row-->
 		<div id="toolbar" class="btn-group">
-            <a href="/sanphamController/add_sanpham" class="btn btn-success">
+            <a href="{{ route('product.create')}}" class="btn btn-success">
                 <i class="glyphicon glyphicon-plus"></i> Thêm sản phẩm
             </a>
 			<br>
@@ -48,12 +48,12 @@
 									</thead>
 									<tbody>
 									{{$i = 0;}} 
-									@foreach($product as $product)
+									@foreach($product1 as $product)
 										<tr>
 											 <td>{{$i}}</td> {{--stt--}}
 											<td>{{$product->product_name}}</td> {{--ten--}}
 											<td>
-												@foreach($img as $img)
+												@foreach($img1 as $img)
 												@if($img->img_id == $product->img_id)
 												<img src="{{ asset('storage/product/' . $img->url_img) }}" height="100" width="100">
 												@endif
@@ -65,7 +65,7 @@
 											<td>
 												<select name="category_id">
 													<option value="">không chọn</option>
-													@foreach($category as $category)
+													@foreach($category1 as $category)
 														<option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
 													@endforeach
 												</select>
@@ -73,7 +73,7 @@
 											<td>
 												<select name="brand_id">
 													<option value="">không chọn</option>
-													@foreach($brand as $brand)
+													@foreach($brand1 as $brand)
 														<option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
 													@endforeach
 												</select>

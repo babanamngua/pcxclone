@@ -11,6 +11,8 @@ class Color extends Model
     protected $primaryKey = 'color_id'; // Tên cột khóa chính của bạn là 'brand_id'
     protected $table = 'color';
     protected $fillable = [
-        'color_name',
+        'product_id',
+        'color_name'
         ];
+        public $timestamps = true; // Đảm bảo timestamps được bật
 }

@@ -20,9 +20,8 @@ class CategoryController extends Controller
     public function create()
     {
         $this->data['title'] = 'trang thêm thể loại';
-        $brand = Brand::all();
         $component = Component::all();
-        return view('admin.category.add_loaisp',$this->data,compact('brand', 'component'));
+        return view('admin.category.add_loaisp',$this->data,compact('component'));
     }
     public function store(Request $request)
     {
@@ -31,7 +30,6 @@ class CategoryController extends Controller
         $request->validate([
             'category_name' => 'required|string|max:255',
             'url_name'=>'nullable|image|file',
-            'brand_id' => 'nullable|exists:brand,brand_id',
             'component_id' => 'nullable|exists:component,component_id',
 
         ]);
@@ -45,7 +43,6 @@ class CategoryController extends Controller
             $category->url_name = $name;
         }
         $category->category_name = $request->input('category_name'); 
-        $category->brand_id = $request->input('brand_id'); 
         $category->component_id = $request->input('component_id'); 
         $category->save();
         return redirect()->route('category.index',$this->data)->with('success', 'Category added successfully.');
@@ -53,9 +50,8 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
     $this->data['title'] = 'trang sửa thể loại';
-    $brand = Brand::all();
     $component = Component::all();
-     return view('admin.category.edit_loaisp',$this->data, compact('category', 'brand', 'component'));
+     return view('admin.category.edit_loaisp',$this->data, compact('category', 'component'));
   
     }
     public function update(Request $request, Category $category)
@@ -64,7 +60,6 @@ class CategoryController extends Controller
     $request->validate([
         'category_name' => 'required|string|max:255',
         'url_name'=>'nullable|image|file',
-        'brand_id' => 'nullable|exists:brand,brand_id',
         'component_id' => 'nullable|exists:component,component_id',
     ]);
     // dd($brand);
@@ -81,7 +76,6 @@ class CategoryController extends Controller
         $category->url_name = $name; // Cập nhật tên tệp vào cơ sở dữ liệu
     }
     $category->category_name = $request->input('category_name'); 
-    $category->brand_id = $request->input('brand_id'); 
     $category->component_id = $request->input('component_id'); 
 
     $category->save();

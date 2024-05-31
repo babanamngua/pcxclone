@@ -16,7 +16,8 @@
         </li>
         <li class="parent ">
             <a >
-                <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý danh mục
+                <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
+                    </use></svg></span> Quản lý danh mục
             </a>
             <ul class="children collapse" id="sub-item-2">
                 <li>
@@ -39,7 +40,8 @@
         </li>
         <li class="parent ">
             <a href="{{ route('product.index')}}">
-                <span data-toggle="collapse" href="#sub-item-3"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý sản phẩm
+                <span data-toggle="collapse" href="#sub-item-3"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
+                    </use></svg></span> Quản lý sản phẩm
             </a>
             {{-- <ul class="children collapse" id="sub-item-3">
                 <li>
@@ -50,7 +52,7 @@
 
             </ul> --}}
         </li> 
-     {{-- <li class="parent ">
+     <li class="parent ">
             <a href="0/baivietController/list_baiviet">
                 <span data-toggle="collapse" href="#sub-item-4"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý bài viết
             </a>
@@ -88,7 +90,7 @@
 
             </ul>			
         </li>
-        <!-- <li class="parent ">
+        <li class="parent ">
             <a href="0/nhasanxuatController/list_nhasanxuat">
                 <span data-toggle="collapse" href="#sub-item-7"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý nhà sản xuất
             </a>
@@ -100,7 +102,7 @@
                 </li>
 
             </ul>			
-        </li> -->
+        </li> 
        
 
         <li role="presentation" class="divider"></li>

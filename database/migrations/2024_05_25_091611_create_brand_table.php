@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('brand', function (Blueprint $table) {
             $table->integer('brand_id', true);
+            $table->integer('category_id');
             $table->string('brand_name', 255);
             $table->string('url_name', 255)->nullable();
             $table->timestamps();

@@ -36,7 +36,7 @@
                                 @method('post')
                                 <div class="form-group">
                                     <label>Tên loại sản phẩm</label>
-                                    <input required name="category_name" class="form-control" placeholder="Tên loại sản phẩm...">
+                                    <input name="category_name" class="form-control" placeholder="Tên loại sản phẩm...">
                                 </div>
 
                                 <div class="form-group">
@@ -44,14 +44,10 @@
                                     <input  name="url_name" type="file" class="form-control">
                                     <br>    
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label>Brand:</label>
-                                    <select name="brand_id">
-                                        <option value="">không chọn</option>
-                                        @foreach($brand as $brand)
-                                            <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="brand_id[]" id="colors" placeholder="Enter colors separated by commas">
+                                </div> --}}
                                 </div>
                                 <div class="form-group">
                                     <label>Component:</label>
