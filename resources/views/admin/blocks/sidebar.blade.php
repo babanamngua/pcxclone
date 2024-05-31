@@ -1,6 +1,10 @@
             
     <ul class="nav menu">
+<<<<<<< HEAD
         <li class="active"><a href="{{ route('homeAdmin')}}"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Trang chủ quản trị</a></li>
+=======
+        <li class="active"><a href="0/login/dashboard"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Trang chủ quản trị</a></li>
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
         <li class="parent ">
             <a href="0/khachhangController/list_khachhang">
                 <span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý khách hàng
@@ -16,43 +20,74 @@
         </li>
         <li class="parent ">
             <a >
+<<<<<<< HEAD
                 <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
                     </use></svg></span> Quản lý danh mục
             </a>
             <ul class="children collapse" id="sub-item-2">
                 <li>
                     <a class="" href="{{ route('category.index')}}">
+=======
+                <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý danh mục
+            </a>
+            <ul class="children collapse" id="sub-item-2">
+                <li>
+                    <a class="" href="0/loaisanphamController/list_loaisp">
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
                         <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý loại sản phẩm
                     </a>
                 </li>
                 <li>
+<<<<<<< HEAD
                     <a class="" href="{{ route('brand.index')}}">
+=======
+                    <a class="" href="0/nhasanxuatController/list_nhasanxuat">
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
                         <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý nhà sản xuất
                     </a>
                 </li>
                 <li>
+<<<<<<< HEAD
                     <a class="" href="{{ route('component.index')}}">
                         <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý linh kiện
+=======
+                    <a class="" href="0/sanphamController/list_sanpham">
+                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý sản phẩm
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
                     </a>
                 </li>
             </ul>		
                 
         </li>
+<<<<<<< HEAD
         <li class="parent ">
             <a href="{{ route('product.index')}}">
                 <span data-toggle="collapse" href="#sub-item-3"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
                     </use></svg></span> Quản lý sản phẩm
             </a>
             {{-- <ul class="children collapse" id="sub-item-3">
+=======
+        <!-- <li class="parent ">
+            <a href="0/sanphamController/list_sanpham">
+                <span data-toggle="collapse" href="#sub-item-3"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý sản phẩm
+            </a>
+            <ul class="children collapse" id="sub-item-3">
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
                 <li>
                     <a class="" href="0/sanphamController/add_sanpham">
                         <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Thêm mới
                     </a>
                 </li>
 
+<<<<<<< HEAD
             </ul> --}}
         </li> 
      <li class="parent ">
+=======
+            </ul>				
+        </li> -->
+        <li class="parent ">
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
             <a href="0/baivietController/list_baiviet">
                 <span data-toggle="collapse" href="#sub-item-4"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý bài viết
             </a>
@@ -90,7 +125,11 @@
 
             </ul>			
         </li>
+<<<<<<< HEAD
         <li class="parent ">
+=======
+        <!-- <li class="parent ">
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
             <a href="0/nhasanxuatController/list_nhasanxuat">
                 <span data-toggle="collapse" href="#sub-item-7"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý nhà sản xuất
             </a>
@@ -102,7 +141,11 @@
                 </li>
 
             </ul>			
+<<<<<<< HEAD
         </li> 
+=======
+        </li> -->
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
        
 
         <li role="presentation" class="divider"></li>

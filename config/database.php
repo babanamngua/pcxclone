@@ -44,7 +44,11 @@ return [
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
+<<<<<<< HEAD
             'database' => env('DB_DATABASE', 'laravel'),
+=======
+            'database' => env('DB_DATABASE', 'pcxclone'),
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),

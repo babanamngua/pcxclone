@@ -1,10 +1,13 @@
 <?php
 use App\Http\Controllers\Clients\ClientController;
 use App\Http\Controllers\admin\AdminController;
+<<<<<<< HEAD
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentController;
+=======
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,11 +22,19 @@ Route::prefix('collections')->name('collections')->group(function(){
 
 });
 
+<<<<<<< HEAD
 // Route::prefix('product')->name('product')->group(function(){
 
 //     Route::get('/{id}',[ClientController::class,'product'])->name('product');
 
 // });
+=======
+Route::prefix('product')->name('product')->group(function(){
+
+    Route::get('/{id}',[ClientController::class,'product'])->name('product');
+
+});
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
 
 Route::get('/login',[ClientController::class,'login'])->name('login');
 Route::get('/register',[ClientController::class,'register'])->name('register');
@@ -34,6 +45,7 @@ Route::get('/register',[ClientController::class,'register'])->name('register');
     Route::get('/logout',[AdminController::class,'logout'])->name('logout');
     Route::get('/admin',[AdminController::class,'index'])->name('homeAdmin');
 
+<<<<<<< HEAD
 
 // Route::get('product',[ProductController::class,'index'])->name('product.index');
 // Route::get('product/create',[ProductController::class,'create'])->name('product.create');
@@ -67,3 +79,5 @@ Route::post('product/',[ProductController::class,'store'])->name('product.store'
 Route::get('product/{product}/edit',[ProductController::class,'edit'])->name('product.edit');
 Route::put('product/{product}/update',[ProductController::class,'update'])->name('product.update');
 Route::delete('product/{product}/destroy',[ProductController::class,'destroy'])->name('product.destroy');
+=======
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784

@@ -928,6 +928,7 @@ h1.page-header {
 	height: 65px;
 	overflow: scroll;
 }
+<<<<<<< HEAD
 /* ////// */
 .select2-container--default .select2-selection--single {
     background-color: #fff;
@@ -947,6 +948,8 @@ h1.page-header {
     object-fit: cover;
     vertical-align: middle;
 }
+=======
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
 
 
 

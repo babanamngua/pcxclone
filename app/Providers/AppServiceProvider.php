@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Providers;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Schema;
+=======
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
 
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+<<<<<<< HEAD
         Schema::defaultStringLength(191);
     }
     
+=======
+        //
+    }
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
 }

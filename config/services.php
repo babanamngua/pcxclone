@@ -24,10 +24,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+<<<<<<< HEAD
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],
 
+=======
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

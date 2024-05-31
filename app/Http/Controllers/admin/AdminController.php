@@ -49,3 +49,7 @@ class AdminController extends Controller
         return redirect()->route('home');
     }
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> bfb1268ec0da4c22344b6c5ab5b3dc41267ea784
