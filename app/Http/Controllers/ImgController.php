@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Img;
 use App\Models\Product;
+use Carbon\Carbon; // Sử dụng thư viện Carbon để làm việc với thời gian
 
 class ImgController extends Controller
 {
@@ -23,13 +24,14 @@ class ImgController extends Controller
         $request->validate([
             'url_img.*' => 'nullable|image|file',
             ]);
-            $imgData = [];
+            $imgData = [];  
+            $timestamp = Carbon::now()->format('His'); // Định dạng YYYYMMDD_HHMMSS
             if($files = $request->file('url_img'))
             {
-                foreach($files as$key => $file)
+                foreach($files as $key => $file)
                 {
                     
-                    $name =$product->product_id.'-'. $key .'-' . time() . '.' . $file->getClientOriginalExtension();
+                    $name =$product->product_id.'-'.  $timestamp . '.' . $file->getClientOriginalExtension();
                     $destinationPath = public_path('storage/img'); // Thư mục đích
                     $file->move($destinationPath, $name);
 

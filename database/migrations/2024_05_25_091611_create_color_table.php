@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('product_id');
             $table->string('color_name', 100);
             $table->string('color_code',100);
+            $table->timestamps();
         });
     }
 

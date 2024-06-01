@@ -15,4 +15,5 @@ class Color extends Model
         'color_name',
         'color_code'
         ];
+        public $timestamps = true; // Đảm bảo timestamps được bật
 }

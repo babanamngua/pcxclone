@@ -112,6 +112,23 @@
                         templateResult: formatColor,
                         templateSelection: formatColor,
                     });
+
+                $('form').submit(function() {
+                var selectedColors = $('#colors').select2('data');
+                $(selectedColors).each(function(index, color) 
+                {
+                    $('<input>').attr({
+                    type: 'hidden',
+                    name: 'color_name[]',
+                    value: color.text
+                    }).appendTo('form');
+                    $('<input>').attr({
+                    type: 'hidden',
+                    name: 'color_code[]',
+                    value: $(color.element).data('color-code')
+                    }).appendTo('form');
                 });
+                });
+            });
                 </script>
 </html>

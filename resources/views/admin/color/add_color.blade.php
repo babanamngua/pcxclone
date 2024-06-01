@@ -30,7 +30,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                             <form action="{{route('color.store', $product->product_id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
@@ -42,8 +42,8 @@
                                     <label for="colors">Thêm màu (Hiện có)</label>
                                     <select class="form-control custom-select2" id='colors' name="colors[]" multiple="multiple" data-placeholder="Tìm tên màu ...">
                                         @foreach ($colors1 as $color)
-                                            <option value="{{ $color->color_id }}" data-color-code="{{ $color->color_code }}">
-                                                {{ $color->color_name }}</option>
+                                        <option value="{{ $color->color_id }}" data-color-name="{{ $color->color_name }}" data-color-code="{{ $color->color_code }}">
+                                            {{ $color->color_name }}
                                         @endforeach
                                     </select>
                                 </div>
@@ -60,11 +60,11 @@
                                             <form action="{{route('color.add')}}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('post')
-                                            <div class="col-md-6">
+                                            <div class="col-md-10">
                                                 <div class="form-group">
                                     <label>Thêm màu khác nếu (không có)</label>
                                     <sup style="color: red" title="You can skip this field">(optional)</sup>
-                                    <input type="text" name="color_name" class="form-control" value="" placeholder="tên màu . . .">                               
+                                    <input type="text" name="color_name" class="form-control" value="" placeholder="tên màu . . . ví dụ: Trắng">                               
                                     <input type="text" name="color_code" class="form-control" value="" placeholder="mã HEX . . . ví dụ: #33CC66">
                                                 </div>
                                                 <button name="sbm" type="submit" class="btn btn-success">Thêm</button>

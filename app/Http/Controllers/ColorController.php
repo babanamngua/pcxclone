@@ -21,7 +21,7 @@ class ColorController extends Controller
         ]);
         $color->color_name = $request->input('color_name');  
         $color->color_code = $request->input('color_code');
-        $color->create();
+        $color->save();
         return redirect()->back()->with('status', 'Thêm màu mới thành công.');
     }
     public function upload($id)
@@ -35,32 +35,33 @@ class ColorController extends Controller
     public function store(Request $request,$id)
     {
         $product = Product::findOrFail($id);
+        
         $this->data['title'] = 'trang màu sản phẩm';
         $request->validate([
-            'color_name' => 'required|array',
-            'color_name.*' => 'required|string|max:255',
-            'color_code' => 'required|array',
-            'color_code.*' => 'required|string|max:7'
+            'color_name.*' => 'required|string|max:100',
+            'color_code.*' => 'required|string|max:100'
         ]);
-
         $colorsData = [];
-        foreach ($request->color_name as $key => $colorName) {
+        foreach ($request->color_name as $index => $colorName)
+        {
             $colorsData[] = [
-                'product_id' => $product,
+                'product_id' => $product->product_id,
                 'color_name' => $colorName,
-                'color_code' => $request->color_code[$key]
+                'color_code' => $request->color_code[$index]
             ];
         }
+         // Sử dụng Eloquent để chèn từng màu một vào cơ sở dữ liệu
+    foreach ($colorsData as $color) {
+        Color::create($color);
+    }
 
-        Color::insert($colorsData);
-
-        return redirect()->back()->with('status', 'Thêm ảnh thành công.');
+        return redirect()->back()->with('status', 'Thêm màu vào sản phẩm thành công.');
     }
     public function destroy($id)
    {
     $this->data['title'] = 'trang màu sản phẩm';
        $color = Color::findOrFail($id);
        $color->delete();
-       return redirect()->back()->with('status', 'Xóa ảnh thành công.');
+       return redirect()->back()->with('status', 'Xóa màu thành công.');
    }
 }
