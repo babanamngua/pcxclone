@@ -12,6 +12,8 @@
         <link src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Select2 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.0.0-beta.3/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     </head>
         <body>
         {{-- header --}}
@@ -33,6 +35,7 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <Script>
             $(document).ready( function () {
             $('.table').DataTable();
@@ -83,4 +86,32 @@
                 });
             });
         </script>
+
+            <script>
+                $(document).ready(function() {
+
+                    // Add custom color display
+                    // function formatColor (color) {
+                    //     if (!color.id) { return color.text; }
+                    //     var $color = $(
+                    //         '<span><span class="color-box" style="background-color:' + $(color.element).data('color-code') + ';"></span>' + color.text + '</span>'
+                    //     );
+                    //     return $color;
+                    // };
+                    function formatColor (color) {
+                    if (!color.id) { return color.text; }
+                    var colorCode = $(color.element).data('color-code');
+                    var $color = $(
+                                    '<span><span class="color-box" style="background-color:' + colorCode + ';margin-left: 10px; width: 25px;height: 22px;"></span>' + color.text + '</span>'
+                    );
+                    return $color;
+    };
+                
+
+                    $('#colors').select2({
+                        templateResult: formatColor,
+                        templateSelection: formatColor,
+                    });
+                });
+                </script>
 </html>

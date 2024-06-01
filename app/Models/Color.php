@@ -12,7 +12,7 @@ class Color extends Model
     protected $table = 'color';
     protected $fillable = [
         'product_id',
-        'color_name'
+        'color_name',
+        'color_code'
         ];
-        public $timestamps = true; // Đảm bảo timestamps được bật
 }

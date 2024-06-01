@@ -42,7 +42,6 @@
                                 <div class="form-group">
                                     <label>thể loại:</label>
                                     <select name="category_id">
-                                        <option value="">không chọn</option>
                                         @foreach($category as $category)
                                             <option value="{{ $category->category_id }}">
                                                 {{ $category->category_name }}

@@ -60,7 +60,6 @@
                                 </option>
                               @endforeach
                             </select>
-                          </select>
                             </div>
                             {{-- nha san xuat --}}
                             <div class="form-group">

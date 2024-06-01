@@ -77,7 +77,7 @@
 												<a href="{{ route('img.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem ảnh</a>
 											</td>
 											<td>
-												<a href="" class="btn btn-info">Thêm / Xem màu</a>
+												<a href="{{ route('color.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem màu</a>
 											</td>
 											<td class="form-group">
 												<a href="{{ route('product.edit', $product->product_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>

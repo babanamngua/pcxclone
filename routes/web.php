@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ImgController;
+use App\Http\Controllers\ColorController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -70,3 +71,10 @@ Route::delete('product/{id}/destroy',[ProductController::class,'destroy'])->name
 Route::get('img/{id}/upload',[ImgController::class,'upload'])->name('img.upload');
 Route::post('img/{id}/upload',[ImgController::class,'store'])->name('img.store');
 Route::get('img/{id}/destroy',[ImgController::class,'destroy'])->name('img.destroy');
+
+Route::get('color/{id}/upload',[ColorController::class,'upload'])->name('color.upload');
+Route::post('color/{id}/upload',[ColorController::class,'store'])->name('color.store');
+Route::get('color/{id}/destroy',[ColorController::class,'destroy'])->name('color.destroy');
+
+
+Route::post('color/add',[ColorController::class,'add'])->name('color.add');

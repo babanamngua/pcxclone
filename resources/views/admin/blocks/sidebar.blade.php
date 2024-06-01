@@ -1,7 +1,8 @@
             
     <ul class="nav menu">
         <li class="active"><a href="{{ route('homeAdmin')}}"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Trang chủ quản trị</a></li>
-        <li class="parent ">
+        
+        {{-- <li class="parent ">
             <a href="0/khachhangController/list_khachhang">
                 <span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý khách hàng
             </a>
@@ -13,7 +14,7 @@
                     </a>
                 </li>
             </ul>			
-        </li>
+        </li> --}}
         <li class="parent ">
             <a >
                 <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
@@ -52,7 +53,7 @@
 
             </ul> --}}
         </li> 
-     <li class="parent ">
+     {{-- <li class="parent ">
             <a href="0/baivietController/list_baiviet">
                 <span data-toggle="collapse" href="#sub-item-4"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý bài viết
             </a>
@@ -64,20 +65,17 @@
                 </li>
 
             </ul>				
-        </li>
-        <li class="parent ">
-            <a href="0/donhangController/list_donhang">
-                <span data-toggle="collapse" href="#sub-item-5"><svg class="glyph stroked clipboard with paper"><use xlink:href="#stroked-clipboard-with-paper"/></svg></use></svg></span> Quản lý đơn hàng
-            </a>
-               
-        </li>
-        <li class="parent ">
+        </li> --}}
+
+        
+        {{-- <li class="parent ">
             <a href="0/binhluanController/list_binhluan">
                 <span data-toggle="collapse" href="#sub-item-5"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"/></svg></span> Quản lý bình luận
             </a>
 
-        </li>
-        <li class="parent ">
+        </li> --}}
+
+        {{-- <li class="parent ">
             <a href="0/khuyenmaiController/list_khuyenmai">
                 <span data-toggle="collapse" href="#sub-item-6"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý khuyến mãi
             </a>
@@ -89,8 +87,9 @@
                 </li>
 
             </ul>			
-        </li>
-        <li class="parent ">
+        </li> --}}
+
+        {{-- <li class="parent ">
             <a href="0/nhasanxuatController/list_nhasanxuat">
                 <span data-toggle="collapse" href="#sub-item-7"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Quản lý nhà sản xuất
             </a>
@@ -102,9 +101,9 @@
                 </li>
 
             </ul>			
-        </li> 
+        </li>  --}}
        
 
-        <li role="presentation" class="divider"></li>
-        <li><a href="0/login/logout"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Đăng xuất</a></li>
+        {{-- <li role="presentation" class="divider"></li>
+        <li><a href="0/login/logout"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Đăng xuất</a></li> --}}
     </ul>
