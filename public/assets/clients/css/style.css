@@ -34,7 +34,7 @@
     z-index:100;
    transform: opacity 0.75s, visibility 0.75s;
 }
-.container{
+.fhgksvfjsa{
     width: 100%;
     background-color: var(--mauchudao1-color);
     border: 1px solid var(--tex2-color);
@@ -43,6 +43,7 @@
 .container1{
     width: 100%;
     background-color: var(--mauchudao-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
 }
 .container2{
     width: 100%;
@@ -84,10 +85,11 @@ body{
     /* background-color: var(--mauxamkhoi-color); */
 }
 .info_top {
-    padding: 6px 0;
+    /* padding: 6px 0; */
     text-align: right;
    color: var(--mautrang-color);
    /* width: 1470px; */
+   height: 24px;
 }
 .bg_in1{
     /* width: 750px; */
@@ -200,8 +202,8 @@ body{
     top: 3.6rem;
     right: 6.8rem; */
     position: relative;
-    margin-bottom: -9px;
-    margin-right: 4.7rem;
+    margin-bottom: -13px;
+    margin-right: -0.8rem;
     border-radius: 50%;
     padding: 0;
     width: 20px;
@@ -907,6 +909,7 @@ a.tendanhmuc123 {
     transition: all 0.25s;
     opacity: 0;
     animation-delay: 5s;
+    text-decoration: none;
 }
 .anhdanoilaanhyeuem {
     display: contents;
@@ -973,6 +976,8 @@ a.tendanhmuc123 {
 }
 .bannerogiua1 {
     margin-bottom: -5px;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 .boxtrenbanner {
     position: absolute;
@@ -1055,6 +1060,7 @@ a.sobestsellersold
     color: var(--mauxam-color);
     padding: 0px 10px 10px 10px;
     font-size: 19px;
+    text-decoration: none;
 }
 a.sobestsellerssale
 {
@@ -1236,13 +1242,16 @@ input#id-btn-login1:hover
     font-size: 28px;
     height: 111px;
     transition: all 0.3s;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-top: 10px;
 }
 .thoigian
 {
     width: 454px;
     text-decoration: none;
     color: var(--mauxam-color);
-    font-size: .7rem;
+    /* font-size: .7rem; */
     padding: 10px 0px;
 }
 .totnhat:hover .hinhanhtrongtintuc
@@ -1919,4 +1928,40 @@ ul.top_header {
     /* background-color: var(--mautrang-color); */
     border: none;
     padding: 54px 0px 44px 0px;
+}
+
+.navbar-nav .nav-item .nav-link {
+    margin-left: 15px; /* Khoảng cách giữa các mục */
+    font-size: large;
+    transition: all 0.3s;
+    color: white;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: var(--flickity-arrow-color); /* Màu chữ khi hover */
+}
+.navbar {
+    background-color: #000000; /* Màu nền trắng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+}
+.navbar-brand img {
+    /* height: 40px;  */
+    /* Chiều cao logo */
+}
+.search-container {
+    /* position: relative; */
+}
+.search-container input {
+    /* width: 300px;  */
+    /* Độ rộng thanh tìm kiếm */
+    /* padding-right: 40px;  */
+    /* Đệm bên phải để tạo chỗ cho biểu tượng */
+}
+.search-container .bi-search {
+    /* position: absolute; */
+    /* right: 10px; */
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
+    /* color: #6c757d;  */
+    /* Màu biểu tượng */
 }

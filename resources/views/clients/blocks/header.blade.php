@@ -1,4 +1,4 @@
-<div class="container">
+<div class="fhgksvfjsa">
     <div class="info_top">
 
         <ul class="top_header">
@@ -44,36 +44,42 @@
                     </div>
                 </td>
                 <td width="45%">
-                    <div>
-                        <form action="" id="search-box">
+                    <div style="margin-right:28px; cursor:pointer; padding:5px;">
+                        {{-- <form action="" id="search-box">
                             <input type="text" id="search-text" placeholder="Tìm kiếm . . .">
                             <button id="search-btn"><i class="bi bi-search"></i></i></button>
-                        </form>
+                        </form> --}}
+
+                        <a id="form-giohang"> <i class="bi bi-search"></i></a>
+
                     </div>
                 </td>
-                <td width="15%">
+                <td width="7%">
                     <div>
-                     
-                        <a id="form-login">Xin chào </a><br />
 
-                        <div class="form-dangnhap1">
+                        <ul class="navbar-nav ms-auto" style="display: -webkit-box;">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Register</a>
+                            </li>
+                        </ul>
+{{-- if ifelse--}}
+                        {{-- <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" >
+                                <img src="https://cdn.discordapp.com/attachments/895584939368648756/1243238874965086308/image.png?ex=665e97ae&is=665d462e&hm=678bb404b2a03ed01eab018b1ddb3b0785549c037d7c2b1ce452a3fe9b86e58d&"
+                                 alt="Dropdown Image" class="img-fluid" style="width: 40px; height:40px;     border-radius: 50%;">
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </div> --}}
 
-                            <button class="click"><a id="form-taikhoan1">Tài khoản&nbsp;<i
-                                        class="bi bi-chevron-down"></i></a></button>
-
-                            <div class="list">
-                           
-                                <div class="links1">
-                                    <div class="dadangnhap001"><a href="">Đơn hàng</div>
-                                    <div class="dadangnhap002"><a href="">Địa chỉ</div>
-                                    <div class="dadangnhap003"><a
-                                            href="">Đăng xuất</a>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
                 </td>
-                <td width="15%">
+                <td width="3%">
                     <div>
                         <?php 
     $total = 0;
@@ -81,7 +87,8 @@
      ?>
                         <a id="form-giohang" href="/giohang/giohang">
                             <p class="giohangbienhinh"><?php echo $total;?></p>
-                            <i class="bi bi-cart"  ></i>&nbsp;&nbsp;&nbsp;Giỏ hàng</a>
+                            <i class="bi bi-cart" ></i>
+                        </a>
                             
                         </a>
                     </div>
