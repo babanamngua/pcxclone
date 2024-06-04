@@ -10,6 +10,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    protected $primaryKey = 'user_id'; // Tên cột khóa chính của bạn là 'brand_id'
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'QuanLyorNot',
     ];
 
     /**

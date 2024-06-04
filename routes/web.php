@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ImgController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\RolesController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -75,6 +76,11 @@ Route::get('img/{id}/destroy',[ImgController::class,'destroy'])->name('img.destr
 Route::get('color/{id}/upload',[ColorController::class,'upload'])->name('color.upload');
 Route::post('color/{id}/upload',[ColorController::class,'store'])->name('color.store');
 Route::get('color/{id}/destroy',[ColorController::class,'destroy'])->name('color.destroy');
-
-
 Route::post('color/add',[ColorController::class,'add'])->name('color.add');
+
+Route::get('roles',[RolesController::class,'index'])->name('roles.index');
+Route::get('roles/create',[RolesController::class,'create'])->name('roles.create');
+Route::post('roles/',[RolesController::class,'store'])->name('roles.store');
+Route::get('roles/{roles}/edit',[RolesController::class,'edit'])->name('roles.edit');
+Route::put('roles/{roles}/update',[RolesController::class,'update'])->name('roles.update');
+Route::delete('roles/{roles}/destroy',[RolesController::class,'destroy'])->name('roles.destroy');

@@ -19,5 +19,5 @@ class Brand extends Model
         {
             return $this->hasMany(Category::class);
         }
-public $timestamps = true; // Đảm bảo timestamps được bật
+    public $timestamps = true; // Đảm bảo timestamps được bật
 }
