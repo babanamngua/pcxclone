@@ -1,12 +1,12 @@
             
     <ul class="nav menu">
-        <li class="active"><a href="{{ route('homeAdmin')}}"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Trang chủ quản trị</a></li>
-        <li class="parent ">
+        <li class="active"><a href="{{ route('dashboard')}}"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Trang chủ quản trị</a></li>
+        <li class="parent">
             <a >
-                <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
+                <span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
                     </use></svg></span> Quản lý nhân sự
             </a>
-            <ul class="children collapse" id="sub-item-2">
+            <ul class="children collapse" id="sub-item-1">
                 <li>
                     <a class="" href="{{ route('roles.index')}}">
                         <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý vai trò
@@ -14,7 +14,7 @@
                 </li>
             </ul>		    
         </li>
-        <li class="parent ">
+        <li class="parent">
             <a >
                 <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
                     </use></svg></span> Quản lý danh mục

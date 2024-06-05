@@ -1,6 +1,6 @@
 <?php
-use App\Http\Controllers\Clients\ClientController;
-use App\Http\Controllers\admin\AdminController;
+
+
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
@@ -8,39 +8,27 @@ use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ImgController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\RolesController;
+
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
+
+Route::get('/',[HomeController::class,'index'])->name('home');
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/',[ClientController::class,'index'])->name('home');
-Route::get('/tintuc',[ClientController::class,'tintuc'])->name('tintuc');
-Route::get('/lienhe',[ClientController::class,'lienhe'])->name('lienhe');
-Route::get('/cart',[ClientController::class,'cart'])->name('cart');
+Route::get('/dashboard',[DashboardController::class,'index'])->middleware(['auth','admin'])->name('dashboard');
 
-Route::prefix('collections')->name('collections')->group(function(){
-
-    Route::get('/chuot',[ClientController::class,'category'])->name('category');
-
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-// Route::prefix('product')->name('product')->group(function(){
-
-//     Route::get('/{id}',[ClientController::class,'product'])->name('product');
-
-// });
-
-Route::get('/login',[ClientController::class,'login'])->name('login');
-Route::get('/register',[ClientController::class,'register'])->name('register');
-
-
-    Route::get('/loginAdmin',[AdminController::class,'login'])->name('loginAdmin');
-    Route::post('/loginAdminCheck',[AdminController::class,'loginCheck'])->name('loginAdminCheck');
-    Route::get('/logout',[AdminController::class,'logout'])->name('logout');
-    Route::get('/admin',[AdminController::class,'index'])->name('homeAdmin');
-
-
-// Route::get('product',[ProductController::class,'index'])->name('product.index');
-// Route::get('product/create',[ProductController::class,'create'])->name('product.create');
-
+Route::middleware(['auth','admin'])->group(function () {
 Route::get('brand',[BrandController::class,'index'])->name('brand.index');
 Route::get('brand/create',[brandController::class,'create'])->name('brand.create');
 Route::post('brand/',[brandController::class,'store'])->name('brand.store');
@@ -84,4 +72,7 @@ Route::post('roles/',[RolesController::class,'store'])->name('roles.store');
 Route::get('roles/{roles}/edit',[RolesController::class,'edit'])->name('roles.edit');
 Route::put('roles/{roles}/update',[RolesController::class,'update'])->name('roles.update');
 Route::delete('roles/{roles}/destroy',[RolesController::class,'destroy'])->name('roles.destroy');
+});
+require __DIR__.'/auth.php';
+
 

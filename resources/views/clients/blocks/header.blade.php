@@ -56,15 +56,36 @@
                 </td>
                 <td width="7%">
                     <div>
-
-                        <ul class="navbar-nav ms-auto" style="display: -webkit-box;">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Register</a>
-                            </li>
-                        </ul>
+                        @if (Route::has('login'))
+                        @auth
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ Auth::user()->name }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="{{route('profile.edit')}}">{{ __('Profile') }}</a></li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                <li>
+                                    <button type="submit" class="dropdown-item">{{ __('Log Out') }}</button>
+                                </li>
+                            </form>
+                            </ul>
+                        </div>
+                        @else
+                            <ul class="navbar-nav ms-auto" style="display: -webkit-box;">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                                </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">Register</a>
+                                </li>
+                            </ul>
+                            @endif
+                        @endauth
+                    </nav>
+                @endif
 {{-- if ifelse--}}
                         {{-- <div class="dropdown">
                             <a class="dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" >
