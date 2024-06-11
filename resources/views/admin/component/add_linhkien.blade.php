@@ -2,19 +2,17 @@
 @section('title')
    {{$title}}
 @endsection
-
 @section('content')
    <section>
     @if($errors->any())
 	@foreach ($errors->all() as $errors)
 		<div>{{$errors}}</div>
 	@endforeach
-	@endif
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row"  style="margin-top: -20px;">
+	@endif			
+		<div class="row"  >
 			<ol class="breadcrumb">
         <li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-        <li><a href="/nhasanxuatController/list_nhasanxuat">Quản lý linh kiện</a></li>
+        <li><a href="{{route('component.index')}}">Quản lý linh kiện</a></li>
 				<li class="active">Thêm linh kiện</li>
 			</ol>
 		</div><!--/.row-->
@@ -45,8 +43,6 @@
                     </div>
                 </div><!-- /.col-->
             </div><!-- /.row -->
-		
-	</div>	<!--/.main-->	
 </section>
 @endsection
 

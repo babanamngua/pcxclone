@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="{{route('dashboard')}}"><span>BaBaNaMnGuA</span>Admin</a>
-        <ul class="user-menu">
+        {{-- <ul class="user-menu">
             <li class="dropdown pull-right">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -25,7 +25,7 @@
 
                 </ul>
             </li>
-        </ul>
+        </ul> --}}
     </div>
 
 </div><!-- /.container-fluid -->

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-// use App\Models\Img;
-// use App\Models\Color;
+use App\Models\Img;
+use App\Models\Color;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductController extends Controller
         // $img1 = Img::all();
         // $color1 = Color::all();
         $category1 = Category::all();
-        $brand1 = Brand::all();
+        $brand1 = Brand::whereNull('category_id')->get();
         $product1 = Product::all();
         return view('admin.product.list_sanpham',$this->data,compact('category1','brand1','product1'));
     }
@@ -29,7 +30,7 @@ class ProductController extends Controller
         // $img1 = Img::all();
         // $color1 = Color::all();
         $category1 = Category::all();
-        $brand1 = Brand::all();
+        $brand1 = Brand::whereNull('category_id')->get();
         $product1 = Product::all();
         return view('admin.product.add_sanpham',$this->data,compact('category1','brand1','product1'));
     }
@@ -46,26 +47,6 @@ class ProductController extends Controller
             'quantity'=>'required',
             ]);
         $product = new Product();
-        // $img = new Img();
-        // $color = new Color();
-        // url_img cho table img
-        // if ($request->hasFile('url_img')) {
-        //     $image = $request->file('url_img');
-        //     $name = date('d-m-y-H-i').'.'.$image->getClientOriginalExtension();
-        //     $destinationPath = public_path('/storage/product'); // Thư mục đích
-        //     $image->move($destinationPath, $name);
-        //     $img->url_img = $name;
-        // }
-
-        //  if ($request->hasFile('url_img')) {
-        //     foreach ($request->file('url_img') as $image) {
-        //         $path = $image->store('url_img', 'public');
-        //         Img::create([
-        //             'url_img' => $path
-        //         ]);
-        //     }
-        // } 
-
         $product->product_name = $request->input('product_name');  
         $product->brand_id = $request->input('brand_id');
         $product->category_id = $request->input('category_id'); 
@@ -73,54 +54,19 @@ class ProductController extends Controller
         $product->description = $request->input('description'); 
         $product->quantity = $request->input('quantity');
         $product->save();
- 
-        
+
+        $productFolder = public_path('storage/products/' . $product->product_name.'/'.'img');
+        if (!File::exists($productFolder)) {
+            File::makeDirectory($productFolder, 0755, true);
+        }
+
         return redirect()->route('product.index',$this->data)->with('success', 'Product created successfully.');
-        // $color = new Color();
-        // $img = new Img();
-        // $product = Product::create($request->only([
-        //     'product_name', 'category_id', 'brand_id', 'price', 'description', 'quantity'
-        // ]));
-// $category->brand_id = $request->input('brand_id'); 
-
-
-        // if ($request->hasFile('url_img')) {
-        //     foreach ($request->file('url_img') as $image) {
-        //         $path = $image->store('url_img', 'public');
-        //         Img::create([
-        //             'product_id' => $product->id,
-        //             'url_img' => $path
-        //         ]);
-        //     }
-        // }
-
-        // foreach ($request->img as $img) {
-        //     if ($request->hasFile('url_name')) {
-        //         $image = $request->file('url_name');
-        //         $name = date('d-m-y-H-i').'.'.$image->getClientOriginalExtension();
-        //         $destinationPath = public_path('/storage/product'); // Thư mục đích
-        //         $image->move($destinationPath, $name);
-        //         $img->url_name = $name;
-        //     }
-        //     $img->product_id = $request->input('product_id'); 
-        //     $img->save();
-            // Img::create([
-            // 'product_id' => $product->product_id,
-            // ]);
-        // }
-
-        // foreach ($request->color as $color) {
-        //     Color::create([
-        //         'product_id' => $product->product_id,
-        //         'color_name' => $color
-        //     ]);
-        // }
     }
     public function edit($id)
     {
     $this->data['title'] = 'trang sửa sản phẩm';
     $category1 = Category::all();
-    $brand1 = Brand::all();
+    $brand1 = Brand::whereNull('category_id')->get();
     $product = Product::findOrFail($id);
      return view('admin.product.edit_sanpham',$this->data, compact('product','brand1','category1'));
   
@@ -152,8 +98,34 @@ class ProductController extends Controller
    {
     $this->data['title'] = 'trang sản phẩm';
        $product = Product::findOrFail($id);
-       $product->delete();
+       $images = Img::where('product_id', $id)->get();
+       if($images){
+       foreach ($images as $image) {
+           // Đường dẫn tới tệp ảnh
+           $imagePath = public_path('storage/products/' . $product->product_name .'/'.'img'.'/'. $image->url_img);
+           if (File::exists($imagePath)) {
+               File::delete($imagePath);
+           }
+           // Xóa bản ghi ảnh từ cơ sở dữ liệu
+           $image->delete();
+       }}
+
+       // Xóa màu liên quan
+       $colors = Color::where('product_id', $id)->get();
+       if($colors){
+       foreach ($colors as $color) {
+           // Xóa bản ghi màu từ cơ sở dữ liệu
+           $color->delete();
+       }}
+
+       $productFolder = public_path('storage/products/' . $product->product_name);          
+            // Kiểm tra và xóa thư mục nếu tồn tại
+            if (File::exists($productFolder)) {
+                File::deleteDirectory($productFolder);
+            }
+            $product->delete();
        return redirect()->route('product.index')->with('success', 'sản phẩm đã xóa thành công.');
    }
+   
 
 }

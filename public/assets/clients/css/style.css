@@ -848,24 +848,33 @@ padding: 4px;
    /* form trang chu (bộ siêu tập) (các thương hiệu phân phối) 18h30 21/12/2022 */
 .sanphamtrangchu1
 {
-        display: contents;
     float: left;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: var(--flickity-arrow-color);
+    margin: 1px 1px;
+    height: 90px;
+    border: 1px solid;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+.sanphamtrangchu1:hover
+{
+    background-color: #606060;
 }
 .anhtrongsanphamtrangchu1
 {
-    border: 1px solid;
-    width: 368px;
-    height: 113px;
-    margin: -5px -3px;
-    padding: 25px 89px;
+    width: 237px;
+    padding: 0px 65px;
     cursor: pointer;
-    background-color: var(--mautrang-color);
+    /* background-color: var(--flickity-arrow-color); */
     transition: all 0.3s ease-in-out;
-    border: 1px solid var(--flickity-arrow-color);
+    /* border: 0px solid var(--flickity-arrow-color); */
 }
 .anhtrongsanphamtrangchu1:hover
 {
-    padding: 23px 77px;
+    /* padding: 0px 13px; */
 }
 #tencacthuonghieuphanthoi
 {
@@ -1708,7 +1717,7 @@ img.hinhanhchitietsanpham1 {
     align-items: center;
 }
 img.hinhanhchitietsanpham2 {
-    height: 65px;
+    width: 120px;
 }
 .tenmotachitietsanpham {
     font-size: 2rem;

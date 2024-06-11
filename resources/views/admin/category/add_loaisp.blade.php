@@ -11,12 +11,11 @@
 	@foreach ($errors->all() as $errors)
 		<div>{{$errors}}</div>
 	@endforeach
-	@endif
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row"  style="margin-top: -20px;">
+	@endif		
+		<div class="row" >
 			<ol class="breadcrumb">
         <li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-        <li><a href="/loaisanphamController/list_loaisp">Quản lý loại sản phẩm</a></li>
+        <li><a href="{{route('category.index')}}">Quản lý loại sản phẩm</a></li>
 				<li class="active">Thêm sản phẩm</li>
 			</ol>
 		</div><!--/.row-->
@@ -50,7 +49,7 @@
                                 </div> --}}
                                 </div>
                                 <div class="form-group">
-                                    <label>Component:</label>
+                                    <label>Linh kiện:</label>
                                     <select name="component_id">
                                         <option value="">không chọn</option>
                                         @foreach($component as $component)
@@ -65,9 +64,7 @@
                         </div>
                     </div>
                 </div><!-- /.col-->
-            </div><!-- /.row -->
-		
-	</div>	<!--/.main-->	
+            </div><!-- /.row -->	
 </section>
 @endsection
 

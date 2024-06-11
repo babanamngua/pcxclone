@@ -4,10 +4,8 @@
 @endsection
 
 @section('content')
-   <section>
-
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row" style="margin-top: -20px;">
+   <section>	
+		<div class="row" >
 			<ol class="breadcrumb">
 				<li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
 				<li class="active">Quản lý nhà sản xuất</li>
@@ -26,29 +24,29 @@
             </a>
 			<br>
         </div>
-		@if(session()->has('success'))
-		<div>
-			{{session('success')}}
-		</div>
+		@if(session()->has('status'))
+			<div class="alert alert-info" role="alert">
+				{{ session('status') }}
+			</div>
 	@endif
 		<div class="row">
 			<div class="col-md-12">
 					<div class="panel panel-default">
 							<div class="panel-body">
-							<table data-toolbar="#toolbar" data-toggle="table" id="table_id" class="table table-striped">
+							<table id="table_id" class="table table-striped table-bordered">
 									<thead>
 									<tr>
-										<th data-field="id" data-sortable="true">stt</th>
-										<th>Tên nhà sản xuất </th>
-										<th>Hình ảnh</th>
-										<th>Loại sản phẩm</th>
-										<th>Chức năng</th>
+										<th style="text-align: center; vertical-align: middle;width:10px;">stt</th>
+										<th style="text-align: center; vertical-align: middle;">Tên nhà sản xuất </th>
+										<th style="text-align: center; vertical-align: middle;">Hình ảnh</th>
+										<th style="text-align: center; vertical-align: middle;">Loại sản phẩm</th>
+										<th style="text-align: center; vertical-align: middle;width:80px;">Chức năng</th>
 									</tr>
 									</thead>
 								<tbody>
-								{{$i = 0;}}
+								 @php $i = 0; @endphp
 									@foreach($brand1 as $brand)
-								{{$i++;}}
+							@php $i++; @endphp
 									<tr>
 										<td>{{ $i }}</td>
 										<td>{{$brand->brand_name}}</td>
@@ -60,14 +58,16 @@
 											 @endif
 											 @endforeach
 										</td>
-										<td class="form-group">
+										<td >
+											<div class="form-group" style="display: -webkit-inline-box;">
 											<a href="{{ route('brand.edit', $brand->brand_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
 											<form method="POST" action="{{ route('brand.destroy', $brand->brand_id) }}">
 												@csrf
 												@method('delete')
 												<button type="submit"class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
-												<a><i class="glyphicon glyphicon-remove"></i></a></button>
+												<a><i class="glyphicon glyphicon-remove" style="color: white;"></i></a></button>
 											</form>
+										</div>
 										</td>
 									</tr>
 									@endforeach
@@ -76,8 +76,6 @@
 							</div>						
 			</div>
 		</div><!--/.row-->
-         
-        </div>	<!--/.main-->
 		</section>
 @endsection
 

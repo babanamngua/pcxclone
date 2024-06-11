@@ -31,8 +31,8 @@ class ImgController extends Controller
                 foreach($files as $key => $file)
                 {
                     
-                    $name =$product->product_id.'-'.  $timestamp . '.' . $file->getClientOriginalExtension();
-                    $destinationPath = public_path('storage/img'); // Thư mục đích
+                    $name =$product->product_id.'-'.$key.'-'.  $timestamp . '.' . $file->getClientOriginalExtension();
+                    $destinationPath = public_path('storage/products/'.$product->product_name.'/'.'img'); // Thư mục đích
                     $file->move($destinationPath, $name);
 
                     $imgData[] = [
@@ -47,14 +47,13 @@ class ImgController extends Controller
     }
     public function destroy($id)
    {
-    $this->data['title'] = 'trang nhà sản xuất';
-       $img = Img::findOrFail($id);
+       
+        $img = Img::findOrFail($id);
+        $product = Product::findOrFail($img->product_id);
        // Xóa ảnh nếu có
-       if ($img->url_img && file_exists(public_path('storage/img/' . $img->url_img)))
-        { unlink(public_path('storage/img/' . $img->url_img));}
-   
-       $img->delete();
-   
-       return redirect()->back()->with('status', 'Xóa ảnh thành công.');
+        if ($img->url_img && file_exists(public_path('storage/products/'. $product->product_name.'/'.'img'.'/'. $img->url_img)))
+        { unlink(public_path('storage/products/'. $product->product_name.'/'.'img'.'/'. $img->url_img));}
+        $img->delete();
+        return redirect()->back()->with('status', 'Xóa ảnh thành công.');
    }
 }

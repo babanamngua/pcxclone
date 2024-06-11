@@ -4,9 +4,8 @@
 @endsection
 
 @section('content')
-   <section>
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row"  style="margin-top: -20px;">
+   <section>		
+		<div class="row">
 			<ol class="breadcrumb">
         <li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
         <li><a href="{{route('product.index')}}">Quản lý sản phẩm</a></li>
@@ -67,7 +66,7 @@
                                 <select id="brand-select" name="brand_id" class="form-control">
                                 <option value="">không chọn</option>
                                 @foreach($brand1 as $brand)
-                                    <option value="{{ $brand->brand_id }}" data-image="{{ asset('storage/brand/' . $brand->url_name) }}">
+                                    <option value="{{ $brand->brand_id }}" data-image="{{ asset('storage/block/thuonghieu/' . $brand->url_name) }}">
                                         {{ $brand->brand_name }}
                                     </option>
                                 @endforeach
@@ -89,8 +88,6 @@
                     </div>
                 </div><!-- /.col-->
             </div><!-- /.row -->
-		
-	</div>	<!--/.main-->	
 </section>
 @endsection
 

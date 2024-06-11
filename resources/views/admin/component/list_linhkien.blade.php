@@ -4,10 +4,8 @@
 @endsection
 
 @section('content')
-   <section>
-
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row" style="margin-top: -20px;">
+   <section>		
+		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
 				<li class="active">Quản lý linh kiện</li>
@@ -36,28 +34,30 @@
 			<div class="col-md-12">
 					<div class="panel panel-default">
 							<div class="panel-body">
-							<table data-toolbar="#toolbar" data-toggle="table" id="table_id" class="table table-striped">
+							<table  id="table_id" class="table table-striped table-bordered">
 									<thead>
 									<tr>
-										<th data-field="id" data-sortable="true">stt</th>
-										<th>Tên linh kiện </th>
-										<th>Chức năng</th>
+										<th style="text-align: center; vertical-align: middle;width: 10px;">stt</th>
+										<th style="text-align: center; vertical-align: middle;">Tên linh kiện </th>
+										<th style="text-align: center; vertical-align: middle;width:80px;">Chức năng</th>
 									</tr>
 									</thead>
 								<tbody>
-								{{$i = 0;}}
+								@php $i = 0; @endphp
 									@foreach($component as $component)
-								{{$i++;}}
+								@php $i++; @endphp
 									<tr>
 										<td>{{ $i }}</td>
 										<td>{{$component->component_name}}</td>
-										<td class="form-group">
+										<td>
+											<div class="form-group" style="display: -webkit-inline-box;">
 											<a href="{{ route('component.edit', $component->component_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
 											 <form method="POST" action="{{ route('component.destroy', $component->component_id) }}">
 												@csrf
 												@method('delete')
-												<button type="submit"class="btn btn-danger"><a><i class="glyphicon glyphicon-remove"></i></a></button>
+												<button type="submit"class="btn btn-danger"><a><i class="glyphicon glyphicon-remove" style="color: white;"></i></a></button>
 											</form>
+											</div>
 										</td>
 									</tr>
 									@endforeach
@@ -66,8 +66,6 @@
 							</div>						
 			</div>
 		</div><!--/.row-->
-         
-        </div>	<!--/.main-->
 		</section>
 @endsection
 

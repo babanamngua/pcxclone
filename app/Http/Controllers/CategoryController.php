@@ -13,7 +13,6 @@ class CategoryController extends Controller
     public function index()
     {
         $this->data['title'] = 'trang loại sản phẩm';
-        // $category = Category::with('children')->whereNull('parent_id')->get();
         $category = Category::with('brand','component')->get();
         return view('admin.category.list_loaisp',$this->data, compact('category'));
     }
@@ -37,7 +36,7 @@ class CategoryController extends Controller
         // Lưu các thuộc tính khác
         if ($request->hasFile('url_name')) {
             $image = $request->file('url_name');
-            $name = date('d-m-y-H-i').'.'.$image->getClientOriginalExtension();
+            $name = date('d-m-y-H-i-s').'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/storage/category'); // Thư mục đích
             $image->move($destinationPath, $name);
             $category->url_name = $name;
@@ -70,7 +69,7 @@ class CategoryController extends Controller
         }
         // thêm mới
         $image = $request->file('url_name');
-        $name =$category->category_id .'-' . time() . '.' . $image->getClientOriginalExtension();
+        $name =$category->category_id .'-' . date('d-m-y-H-i-s') . '.' . $image->getClientOriginalExtension();
         $destinationPath = public_path('storage/category'); // Thư mục đích
         $image->move($destinationPath, $name);
         $category->url_name = $name; // Cập nhật tên tệp vào cơ sở dữ liệu

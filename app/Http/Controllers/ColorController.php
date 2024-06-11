@@ -28,7 +28,8 @@ class ColorController extends Controller
     {
         $this->data['title'] = 'trang thêm màu sản phẩm';
         $product = Product::findOrFail($id);
-        $colors1 = Color::all();
+        // $colors1 = Color::all();
+        $colors1 = Color::whereNull('product_id')->get();
         $colors2 = Color::where('product_id',$id)->get();
         return view('admin.color.add_color',$this->data,compact('colors1','colors2','product'));
     }
@@ -45,7 +46,7 @@ class ColorController extends Controller
         foreach ($request->color_name as $index => $colorName)
         {
             $colorsData[] = [
-                'product_id' => $product->product_id,
+                'product_id'=> $product->product_id,
                 'color_name' => $colorName,
                 'color_code' => $request->color_code[$index]
             ];
@@ -59,7 +60,12 @@ class ColorController extends Controller
     }
     public function destroy($id)
    {
-    $this->data['title'] = 'trang màu sản phẩm';
+       $color = Color::findOrFail($id);
+       $color->delete();
+       return redirect()->back()->with('status', 'Xóa màu thành công.');
+   }
+   public function destroy1($id)
+   {
        $color = Color::findOrFail($id);
        $color->delete();
        return redirect()->back()->with('status', 'Xóa màu thành công.');

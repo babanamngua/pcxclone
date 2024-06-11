@@ -7,22 +7,27 @@
    <section>
 <div class="container8">
     <div class="contain4">
+    {{-- /////////// --}}
         <table >
             <tr>
               <th>
                     <!-- left -->
+                    @if($img2)
                     <div class="chitietsanphamleft">
-                        <img class="hinhanhchitietsanpham1" src="../../../storage/product/lamzu/mouse/lamzu_mouse_white.png">
+                        <img class="hinhanhchitietsanpham1" src="{{ asset('storage/products/'. $product->product_name.'/'.'img'.'/'. $img2->url_img) }}">
                     </div>
+                    @endif
               </th>
                <th>
        <!-- right -->
        <div class="chitietsanphamright">
-
         <img class="hinhanhchitietsanpham2"
-            src="../../../storage/block/thuonghieu/Lamzu-logo.png">
+        @php
+         $brandImage = $brand2->firstWhere('brand_id', $product->brand_id) ?? 'default-image.png';
+        @endphp
+            src="{{ asset('storage/block/thuonghieu/' . $brandImage->url_name) }}">
         <div class="tenmotachitietsanpham">
-            Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz
+            {{$product->product_name}}
         </div>
         <table border="0" class="bangchitietsanpham">
             <tr>
@@ -81,122 +86,49 @@
             </tr>
         </table>
         <div class="giachitietsanphamold"></div>
-        <!-- <div class="giachitietsanphamnew">1040000d</div> -->
+ <div class="giachitietsanphamnew">{{number_format($product->price,0,',','.').'đ'}}</div> 
         <div class="chonmua" onclick="return giohang(371);">
             <input type="submit" value="CHỌN MUA">
         </div>
     </div>
+    {{-- /////////// --}}
 
                </th>
             </tr>
         </table>
-            
-
-        <div class="container6">
+        <div class="container6" style="display: flex;">
             <div class="container4">
         
            
             <a id="tencacthuonghieuphanthoi">Sản phẩm cùng nhà sản xuất</a>  <a id="xemthem" href="#">Xem thêm<i class="bi bi-arrow-right-short"></i></a>
             <div class="container8">
-        
-        <!-- the real one -->
-            <div class="theloaidanhmuc11">
-                    {{-- <div class="bocbestsellers">/ --}}
+                
+            @foreach ($product12 as $prod)
+            @if($brandImage->brand_id == $prod->brand_id)
+            @if($product->product_id !== $prod->product_id)
+            @php
+                // Lấy ảnh đầu tiên cho mỗi sản phẩm
+                $firstImg = $img1[$prod->product_id]->first();
+            @endphp
+            @if($firstImg)
+                <div class="theloaidanhmuc11">
                     <div class="iconbestsalers">sale</div> 
-                <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-                {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-                <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz</a></div>
-                <div><a class="sobestsellersold">2.000.000 d</a></div>
-                {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-            {{-- </div>      --}}
-            </div>
-        
-        <!-- /////////// -->
-        <div class="theloaidanhmuc11">
-            {{-- <div class="bocbestsellers"> --}}
-            <div class="iconbestsalers">sale</div> 
-        <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-        {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-        <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis</a></div>
-        <div><a class="sobestsellersold">2.000.000 d</a></div>
-        {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-        {{-- </div>      --}}
-        </div>
-        
-        <!-- /////////// -->
-        <div class="theloaidanhmuc11">
-            {{-- <div class="bocbestsellers"> --}}
-            <div class="iconbestsalers">sale</div> 
-        <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-        {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-        <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz</a></div>
-        <div><a class="sobestsellersold">2.000.000 d</a></div>
-        {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-        {{-- </div>      --}}
-        </div>
-        
-        <!-- /////////// -->
-        <div class="theloaidanhmuc11">
-            {{-- <div class="bocbestsellers"> --}}
-            <div class="iconbestsalers">sale</div> 
-        <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-        {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-        <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz</a></div>
-        <div><a class="sobestsellersold">2.000.000 d</a></div>
-        {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-        {{-- </div>      --}}
-        </div>
-        
-        <!-- /////////// -->
-        <div class="theloaidanhmuc11">
-            {{-- <div class="bocbestsellers"> --}}
-            <div class="iconbestsalers">sale</div> 
-        <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-        {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-        <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz</a></div>
-        <div><a class="sobestsellersold">2.000.000 d</a></div>
-        {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-        {{-- </div>      --}}
-        </div>
-        
-        <!-- /////////// -->
-        <div class="theloaidanhmuc11">
-            {{-- <div class="bocbestsellers"> --}}
-            <div class="iconbestsalers">sale</div> 
-        <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-        {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-        <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz</a></div>
-        <div><a class="sobestsellersold">2.000.000 d</a></div>
-        {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-        {{-- </div>      --}}
-        </div>
-        
-        <!-- /////////// -->
-        <div class="theloaidanhmuc11">
-            {{-- <div class="bocbestsellers"> --}}
-            <div class="iconbestsalers">sale</div> 
-        <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-        {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-        <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz</a></div>
-        <div><a class="sobestsellersold">2.000.000 d</a></div>
-        {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-        {{-- </div>      --}}
-        </div>
-        
-        <!-- /////////// -->
-        <div class="theloaidanhmuc11">
-            {{-- <div class="bocbestsellers"> --}}
-            <div class="iconbestsalers">sale</div> 
-        <div class="anhbestsellers"><a href="/product/chitietsanpham/"><img src="../../../storage/product/lamzu/mouse/lamzu_mouse_atlantis.png" class="anhtrongbestsellers"></a></div>
-        {{-- <div><a href="/product/chitietsanpham/" class="theloaibestsellers">Chuột</a></div> --}}
-        <div><a href="/product/chitietsanpham/" class="tenbestsellers">Chuột không dây siêu nhẹ Lamzu Atlantis OG V2 Pro - Hỗ trợ 4KHz</a></div>
-        <div><a class="sobestsellersold">2.000.000 d</a></div>
-        {{-- <div><a class="sobestsellerssale">1.820.000 d</a></div> --}}
-        {{-- </div>      --}}
-        </div>
-        
-        <!-- /////////// -->
-        
+                    <div class="anhbestsellers">
+                        <a href="{{route('products.detail',$prod->product_id)}}">
+                            <img src="{{ asset('storage/products/'. $prod->product_name .'/img/'. $firstImg->url_img) }}" class="anhtrongbestsellers">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/product/chitietsanpham/" class="tenbestsellers">{{$prod->product_name}}</a>
+                    </div>
+                    <div>
+                        <a class="sobestsellersold">{{number_format($prod->price,0,',','.').'đ'}}</a>
+                    </div>
+                </div>
+            @endif
+            @endif
+            @endif
+        @endforeach
         
             </div>
          </div>

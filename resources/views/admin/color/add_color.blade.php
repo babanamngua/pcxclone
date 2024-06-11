@@ -3,9 +3,8 @@
    {{-- {{$title}} --}}
 @endsection
 @section('content')
-   <section>
-	<div class="col-sm-9 col-sm-offset-3 col-lg-12 col-lg-offset-0 main">			
-		<div class="row"  style="margin-top: -20px;">
+   <section>		
+		<div class="row" >
 			<ol class="breadcrumb">
         <li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
         <li><a href="{{ route('product.index') }}">Quản lý sản phẩm</a></li>
@@ -43,7 +42,7 @@
                                     <select class="form-control custom-select2" id='colors' name="colors[]" multiple="multiple" data-placeholder="Tìm tên màu ...">
                                         @foreach ($colors1 as $color)
                                         <option value="{{ $color->color_id }}" data-color-name="{{ $color->color_name }}" data-color-code="{{ $color->color_code }}">
-                                            {{ $color->color_name }}
+                                            {{ $color->color_name }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -70,6 +69,18 @@
                                                 <button name="sbm" type="submit" class="btn btn-success">Thêm</button>
                                             </div> 
                                             </form>
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="colors">Xóa màu (Hiện có)</label>
+                                                    @foreach ($colors1 as $color)
+                                                    <form action="{{ route('color.destroy1', $color->color_id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <li style="margin: 5px;background-color: aliceblue;"><button type="submit">Xóa</button>{{ $color->color_name }} - <span class="color-box" style="background-color:{{$color->color_code}}; width: 25px;height: 22px;box-shadow: 1px 1px 5px 1px black;"></li>
+                                                </form>
+                                                @endforeach
+                                                </div> 
+                                            </div>
                                         </div> 
                                     </div>  
                                 </div>                          
@@ -83,7 +94,7 @@
                         <div style="display: inline-block; position: relative;background-color: #e5e5e5;padding: 10px;border-radius: 6%;">
                             <a href="{{route('color.destroy', $color->color_id)}}" onclick="return confirm('Are you sure you want to delete this item?');">Xóa</a>
                             <span>
-                                <span class="color-box" style="background-color:{{$color->color_code}}; width: 25px;height: 22px;">
+                                <span class="color-box" style="background-color:{{$color->color_code}}; width: 25px;height: 22px;box-shadow: 1px 1px 5px 1px black;">
                                 </span>{{$color->color_name}}
                             </span>
                         </div>
@@ -92,8 +103,6 @@
                 </div>
                 </div>
             </div><!-- /.row -->
-		
-	</div>	<!--/.main-->	
 </section>
 @endsection
 

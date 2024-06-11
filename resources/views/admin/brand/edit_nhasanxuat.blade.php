@@ -3,9 +3,8 @@
    {{$title}}
 @endsection
 @section('content')
-   <section>			
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row"  style="margin-top: -20px;">
+   <section>					
+		<div class="row" >
 			<ol class="breadcrumb">
 				<li><a href="/login/dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
 				<li><a href="{{ route('brand.index') }}">Quản lý nhà sản xuất</a></li>
@@ -28,13 +27,19 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-8">
-                        {{-- //////////// --}}
                             <form action="{{ route('brand.update', $brand->brand_id) }}" method="POST" enctype="multipart/form-data" >
                                 @csrf
                                 @method('PUT')
                             <div class="form-group" >
                                 <label>Tên nhà sản xuất</label>
-                                <input type="text" value="{{$brand->brand_name}}" name= "brand_name" class="form-control" placeholder="Tên nhà sản xuất...">
+                                {{-- <input type="text" value="{{$brand->brand_name}}" name= "brand_name" class="form-control" placeholder="Tên nhà sản xuất..."> --}}
+                                <select name="brand_name">
+                                    @foreach($brand10 as $brand1)
+                                        <option value="{{ $brand1->brand_name }}"@if($brand1->brand_name == $brand->brand_name) selected @endif>
+                                            {{ $brand1->brand_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <br>
                                 <div class="form-group">
                                     <label>Hình ảnh</label>
@@ -59,11 +64,9 @@
                             <button type="reset" class="btn btn-default">Làm mới</button>
                         </div>
                     	</form>
-                        {{-- //////////// --}}
                     </div>
                 </div>
-            </div>
-	</div>		
+            </div>	
 </section>
 @endsection
 

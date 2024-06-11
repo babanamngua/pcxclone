@@ -16,7 +16,7 @@
         <title>@yield('title')</title>
 </head>
 {{-- style="overflow-x: hidden;" --}}
-<body >
+<body style="overflow-x: hidden;">
     {{-- <div id="preloader"></div> --}}
     {{-- header --}}
     @include('clients.blocks.header')

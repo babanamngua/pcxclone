@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->integer('sdt');
             $table->string('address', 255);
-            $table->boolean('QuanLyorNot')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

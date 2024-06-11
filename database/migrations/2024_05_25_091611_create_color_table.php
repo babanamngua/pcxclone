@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('color', function (Blueprint $table) {
             $table->integer('color_id', true);
-            $table->integer('product_id');
+            $table->integer('product_id')->nullable(); // Cho phép product_id chứa giá trị null
             $table->string('color_name', 100);
             $table->string('color_code',100);
             $table->timestamps();

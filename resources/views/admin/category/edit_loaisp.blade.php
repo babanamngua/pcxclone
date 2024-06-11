@@ -5,9 +5,8 @@
 @endsection
 
 @section('content')
-   <section>		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
-		<div class="row"  style="margin-top: -20px;">
+   <section>				
+		<div class="row" >
 			<ol class="breadcrumb">
 				<li><a href=""><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
 				<li><a href="">Quản lý loại sản phẩm</a></li>
@@ -30,7 +29,6 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-8">
-{{-- ////////////////////// --}}
                             <form action="{{ route('category.update', $category->category_id) }}" method="POST"  enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -48,19 +46,7 @@
                                     <div>ảnh cũ: 
                                         <img src="{{ asset('storage/category/' . $category->url_name) }}" style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));" width="100px" height="100px" >
                                     </div>
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label>Brand:</label>
-                                    <select name="brand_id">
-                                    @foreach($brand as $brand)
-                                    <option value="{{ $brand->brand_id }}" 
-                                        @if($brand->brand_id == $category->brand_id) 
-                                        selected 
-                                        @endif>
-                                        {{ $brand->brand_name }}</option>
-                                    @endforeach
-                                    </select>
-                                </div> --}}
+                                </di>
                                 <div class="form-group">
                                     <label>Component:</label>
                                     <select name="component_id">
@@ -74,11 +60,10 @@
                             <button type="reset" class="btn btn-default">Làm mới</button>
                         </div>
                     	</form>
-{{-- ////////////////////// --}}
+
                     </div>
                 </div>
             </div>
-	</div>		
 </section>
 @endsection
 
