@@ -106,8 +106,8 @@
     $total = 0;
 
      ?>
-                        <a id="form-giohang" href="/giohang/giohang">
-                            <p class="giohangbienhinh"><?php echo $total;?></p>
+                        <a id="form-giohang" href="{{route('cart.index')}}">
+                            <p class="giohangbienhinh">{{ count((array) session('cart')) }}</p>
                             <i class="bi bi-cart" ></i>
                         </a>
                             

@@ -5,9 +5,9 @@
 
 @section('content')
    <section>
-    @include('clients.blocks.main-home.banner')
-    @include('clients.blocks.main-home.bosieutap')
-    @include('clients.blocks.main-home.cacnhaphanphoi')
+    {{-- @include('clients.blocks.main-home.banner') --}}
+    {{-- @include('clients.blocks.main-home.bosieutap') --}}
+    {{-- @include('clients.blocks.main-home.cacnhaphanphoi') --}}
     @include('clients.blocks.main-home.bestsellers')
     @include('clients.blocks.main-home.tintuc')
    </section>

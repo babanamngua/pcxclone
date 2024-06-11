@@ -17,6 +17,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use Spatie\Permission\Contracts\Permission;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
 
 
 Route::get('/',[HomeController::class,'index'])->name('home');
@@ -100,6 +101,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('color/{id}/destroy1',[ColorController::class,'destroy1'])->name('color.destroy1');
     Route::post('color/add',[ColorController::class,'add'])->name('color.add');
 
+
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 // });
 require __DIR__.'/auth.php';
 

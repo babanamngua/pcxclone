@@ -87,9 +87,14 @@
         </table>
         <div class="giachitietsanphamold"></div>
  <div class="giachitietsanphamnew">{{number_format($product->price,0,',','.').'đ'}}</div> 
-        <div class="chonmua" onclick="return giohang(371);">
-            <input type="submit" value="CHỌN MUA">
+
+<form action="{{ route('cart.add') }}" method="POST">
+    @csrf
+        <div class="chonmua">
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <button type="submit" class="btn btn-primary" value="CHỌN MUA">Thêm vào giỏ hàng</button>
         </div>
+    </form>
     </div>
     {{-- /////////// --}}
 

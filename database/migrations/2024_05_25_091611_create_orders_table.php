@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('order_id', true);
             $table->integer('user_id')->nullable()->index('user_id');
             $table->dateTime('order_date')->nullable();
-            $table->decimal('total_price', 10)->nullable();
+            $table->decimal('total_price', 10,0)->nullable();
         });
     }
 
