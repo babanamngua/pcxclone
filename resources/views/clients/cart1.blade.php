@@ -21,7 +21,7 @@
         </div>
         <form action="{{ route('cart.clear') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-danger"onclick="return confirm('Bạn có muốn xóa toàn bộ sản phẩm trong giỏ hàng không?');">Xóa toàn bộ sản phẩm trong giỏ hàng</button>
+            <button style="float: right;" type="submit" class="btn btn-danger"onclick="return confirm('Bạn có muốn xóa toàn bộ sản phẩm trong giỏ hàng không?');">Xóa toàn bộ sản phẩm trong giỏ hàng</button>
         </form>
             <table class="table">
                 <thead>
@@ -108,7 +108,7 @@
             <!-- Hiển thị tổng cộng -->
             <div class="text-right">
                 <button class="btn btn-primary">Đặt hàng ngay</button>
-                <strong>Tổng cộng: {{ number_format($total, 0, ',', '.') }}đ</strong>
+                <strong style="float: right;">Tổng cộng: {{ number_format($total, 0, ',', '.') }}đ</strong>
 
             </div>
         @else
