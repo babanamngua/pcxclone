@@ -1032,11 +1032,14 @@ a.tendanhmuc123 {
     height: 300px;
     padding: 15px 10px 15px 10px;
     transition: transform 0.2s; 
+    position: relative; /* Đặt position là relative */
+    z-index: 1; /* Đảm bảo ảnh có z-index thấp hơn div .iconbestsalers */
 }
 .anhtrongbestsellers:hover
 {
     transform: scale(1.04);
     transform-origin: 50% 50%;
+    z-index: 2; /* Khi hover, đặt z-index cao hơn để ảnh hiển thị phía trên */
 }
 .anhbestsellers {
     /* background-color: #000; */
@@ -1089,7 +1092,7 @@ a.sobestsellerssale
     opacity: 1;
     transition: all 0.25s;
     animation-delay: 2s;
-    z-index: 1;
+    z-index: 3;
     cursor: pointer;
 }
 .iconbestsalers:hover{
@@ -1973,4 +1976,104 @@ ul.top_header {
     /* transform: translateY(-50%); */
     /* color: #6c757d;  */
     /* Màu biểu tượng */
+}
+.searchno1
+{
+    position: fixed;
+    /* float: left; */
+    width: 500px;
+    background-color: antiquewhite;
+    height: 96%;
+    margin-top: -127px;
+    border-radius: 10px;
+}
+#search-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1;
+    overflow: hidden;
+    overflow-y: hidden;
+    /* opacity: 0; */
+    /* transition: opacity 0.2s;  */
+}
+.overlay.show {
+    /* opacity: 1; */
+    display: block;
+}
+
+.overlay-content {
+    border-radius: 10px;
+    top: 50%;
+    width: 530px;
+    /* text-align: center; */
+    /* margin: 0 auto; */
+    /* transform: translateY(-50%); */
+    margin-top: 30px;
+    height: 95%;
+    background-color: white;
+    float: right;
+    /* opacity: 0; */
+    /* transition: opacity 0.5s; */
+}
+.overlay-contentt
+{
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2); 
+    padding: 5px 0px 8px 0px;
+    margin: 28px;
+     transition: border-color 0.3s; 
+}
+.overlay-contentt:focus-within
+{
+    border-bottom: 2px solid black; 
+}
+
+
+.overlay-content input {
+    font-size: 20px;
+    border: none;
+    width: 87%;
+    outline: none;
+    font-size: larger;
+    font-weight: 600;
+}
+
+.clear-btn {
+    position: absolute;
+    cursor: pointer;
+    color: #a7a7a7;
+    font-size: 14px;
+    background-color: #ffffff;
+    padding: 6px 7px 3px 7px;
+    opacity: 0; /* Bắt đầu với opacity 0 */
+    transition: opacity 0.2s;      
+}
+.clear-btn.show {
+    opacity: 1;
+}
+.closebtn {
+    position: absolute;
+    right: 28px;
+    font-size: 24px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    background-color: white;
+    margin-top: -3px;
+    padding: 0px 0px 0px 0px;
+}
+
+.overlay.exit-cursor {
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48bGluZSB4MT0iMCIgeTE9IjAiIHgyPSI1MCIgeTI9IjUwIiBzdHJva2U9InJlZCIgc3Ryb2tlLXdpZHRoPSI1Ii8+PGxpbmUgeDE9IjUwIiB5MT0iMCIgeDI9IjAiIHkyPSI1MCIgc3Ryb2tlPSJyZWQiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==') 16 16, auto;
 }

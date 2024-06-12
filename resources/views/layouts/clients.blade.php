@@ -28,5 +28,61 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    const searchButton = document.getElementById('search-button');
+    const closeButton = document.getElementById('close-button');
+    const searchOverlay = document.getElementById('search-overlay');
+    const overlayContent = document.querySelector('.overlay-content');
+    const clearBtn = document.getElementById('clear-btn');
+    const searchInput = document.getElementById('search-input');
 
+    searchButton.onclick = function() 
+    {
+        searchOverlay.style.display = 'block';
+        searchOverlay.style.zIndex = '4';
+        document.body.style.overflowY = 'hidden'; // Đặt overflow-y: hidden cho body
+    // searchOverlay.classList.add('show'); 
+    }
+
+
+    closeButton.onclick = function() 
+    {
+        searchOverlay.style.display = 'none';
+        document.body.style.overflowY = 'auto';
+        document.body.style.overflowY = 'hidden';
+        // searchOverlay.classList.remove('show');
+    }
+
+    clearBtn.onclick = function() {
+        searchInput.value = '';
+        clearBtn.classList.remove('show');
+        document.body.style.overflowY = 'auto';
+    }
+
+    searchInput.oninput = function() {
+        if (searchInput.value) {
+            clearBtn.classList.add('show');
+        } else {
+            clearBtn.classList.remove('show');
+        }
+    }
+
+    searchOverlay.addEventListener('mousemove', function(event) {
+        const rect = overlayContent.getBoundingClientRect();
+        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+            searchOverlay.classList.add('exit-cursor');
+        } else {
+            searchOverlay.classList.remove('exit-cursor');
+
+        }
+    });
+
+    searchOverlay.addEventListener('click', function(event) {
+        const rect = overlayContent.getBoundingClientRect();
+        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+            searchOverlay.style.display = 'none';
+            document.body.style.overflowY = 'auto';
+        }
+    });
+</script>
 </html>

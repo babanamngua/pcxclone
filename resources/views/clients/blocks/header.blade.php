@@ -22,14 +22,7 @@
                             </li>
                 
         </ul>
-        {{-- <div class="bg_in1"> --}}
-            {{-- <p class="p_infor"> --}}
 
-                {{-- <span><i class="fa fa-envelope" aria-hidden="true"></i>Mu Sa Sa Liêm </span>
-                <span><i class="fa fa-phone" aria-hidden="true"></i> DH51902901</span> --}}
-              
-            {{-- </p> --}}
-        {{-- </div> --}}
     </div>
 </div>
 <div class="container1">
@@ -44,13 +37,13 @@
                     </div>
                 </td>
                 <td width="45%">
-                    <div style="margin-right:28px; cursor:pointer; padding:5px;">
+                    <div style="margin-right:18px; cursor:pointer; padding:0px;">
                         {{-- <form action="" id="search-box">
                             <input type="text" id="search-text" placeholder="Tìm kiếm . . .">
                             <button id="search-btn"><i class="bi bi-search"></i></i></button>
                         </form> --}}
 
-                        <a id="form-giohang"> <i class="bi bi-search"></i></a>
+                        <button id="search-button" style="padding: 0px 10px;"><a id="form-giohang"><i class="bi bi-search"></i></a></button>
 
                     </div>
                 </td>
@@ -102,10 +95,6 @@
                 </td>
                 <td width="3%">
                     <div>
-                        <?php 
-    $total = 0;
-
-     ?>
                         <a id="form-giohang" href="{{route('cart.index')}}">
                             <p class="giohangbienhinh">{{ count((array) session('cart')) }}</p>
                             <i class="bi bi-cart" ></i>
@@ -164,4 +153,13 @@
         </div>
     </div>
 
+</div>
+<div id="search-overlay" class="overlay">
+    <div class="overlay-content">
+        <div class="overlay-contentt">
+        <input type="text" placeholder="Tìm..." id="search-input">
+        <span class="clear-btn" id="clear-btn">xóa</span>
+        <span class="closebtn" id="close-button">&times;</span>
+    </div>
+    </div>
 </div>
