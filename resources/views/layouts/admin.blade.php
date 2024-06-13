@@ -91,7 +91,7 @@
             }
             var baseUrl = state.element.getAttribute('data-image');
             var $state = $(
-                '<span><img src="' + baseUrl + '" class="img-flag" style="height: 50px; width: 50px; margin-right: 10px; object-fit: cover; vertical-align: middle;" /> ' + state.text + '</span>'
+                '<span><img src="' + baseUrl + '" class="img-flag" style="height: 50px; width: auto; margin-right: 10px; object-fit: cover; vertical-align: middle;" /> ' + state.text + '</span>'
             );
             return $state;
         }
@@ -142,5 +142,11 @@
         });
     });
 </script>
-
+<script>
+    $(document).ready(function() {
+        $('#show-add-color-form').click(function() {
+            $('#add-color-form').toggle();
+        });
+    });
+</script>
 </html>

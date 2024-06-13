@@ -8,19 +8,19 @@
 		<div class="row" >
 			<ol class="breadcrumb">
 				<li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Quản lý nhà sản xuất</li>
+				<li class="active">Quản lý danh mục</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row" >
 			<div class="col-lg-5" >
-				<h1 class="page-header" style="font-size: 40px;" >Danh sách nhà sản xuất</h1>
+				<h1 class="page-header" style="font-size: 40px;" >Danh sách danh mục</h1>
 			</div>
       
 		</div><!--/.row-->
 		<div id="toolbar" class="btn-group">
             <a href="{{ route('brand.create') }}" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i> Thêm nhà sản xuất
+                <i class="glyphicon glyphicon-plus"></i> Thêm danh mục
             </a>
 			<br>
         </div>
@@ -37,9 +37,9 @@
 									<thead>
 									<tr>
 										<th style="text-align: center; vertical-align: middle;width:10px;">stt</th>
-										<th style="text-align: center; vertical-align: middle;">Tên nhà sản xuất </th>
-										<th style="text-align: center; vertical-align: middle;">Hình ảnh</th>
-										<th style="text-align: center; vertical-align: middle;">Loại sản phẩm</th>
+										<th style="text-align: center; vertical-align: middle;">Tên danh mục </th>
+										<th style="text-align: center; vertical-align: middle;">thẻ loại</th>
+										<th style="text-align: center; vertical-align: middle;">Hình ảnh đại diện</th>
 										<th style="text-align: center; vertical-align: middle;width:80px;">Chức năng</th>
 									</tr>
 									</thead>
@@ -50,15 +50,16 @@
 									<tr>
 										<td>{{ $i }}</td>
 										<td>{{$brand->brand_name}}</td>
-										<td><img src="{{ asset('storage/brand/' . $brand->url_name) }} " height="100" > </td>
 										<td>
 											@foreach( $category1 as $category)
 											@if($category->category_id == $brand->category_id) 
-											<img src="{{ asset('storage/category/' . $category->url_name) }}" height="100" width="100">
+											{{-- <img src="{{ asset('storage/category/' . $category->url_name) }}" height="100" width="100"> --}}
+											{{$category->category_name}}
 											 @endif
 											 @endforeach
 										</td>
-										<td >
+										<td><img style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));" src="{{asset('storage/brand/'.$brand->url_name)}}" height="100"></td>
+										<td>
 											<div class="form-group" style="display: -webkit-inline-box;">
 											<a href="{{ route('brand.edit', $brand->brand_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>
 											<form method="POST" action="{{ route('brand.destroy', $brand->brand_id) }}">

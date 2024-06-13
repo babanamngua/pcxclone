@@ -20,6 +20,7 @@ class Product extends Model
         'price',
         'description',
         'quantity',
+        'url_name',
         ];
     public $timestamps = true; // Đảm bảo timestamps được bật
 }

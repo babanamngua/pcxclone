@@ -53,7 +53,9 @@
                         </div>
                     </div>
                 </div><!-- /.col-->
-                                <div class="col-lg-6">
+                {{-- ////////////////////////////////////////// --}}
+                <button id="show-add-color-form" class="btn btn-primary">Thêm màu khác</button>
+                                <div id="add-color-form" style="display: none;" class="col-lg-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <form action="{{route('color.add')}}" method="POST" enctype="multipart/form-data">
@@ -84,7 +86,7 @@
                                         </div> 
                                     </div>  
                                 </div>                          
-                     
+                     {{-- ////////////////////////////////////// --}}
 
                 <div class="col-md-12 mt-4">
                     <div class="panel panel-default">
@@ -110,5 +112,12 @@
 
 @endsection
 @section('js')
-
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<script>
+    $(document).ready(function() {
+        $('#show-add-color-form').click(function() {
+            $('#add-color-form').toggle();
+        });
+    });
+</script>
 @endsection        

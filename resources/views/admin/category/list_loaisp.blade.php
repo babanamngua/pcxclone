@@ -57,7 +57,7 @@
 										<tr>
 											<td >{{$i}}</td>
 											<td>{{$category->category_name}}</td>
-											<td><img src="{{ asset('storage/category/' . $category->url_name) }}" height="100" width="100"></td>
+											<td><img style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));" src="{{ asset('storage/category/' . $category->url_name) }}" height="100" width="100"></td>
 											
 											<td>
 												<div class="form-group" style="display: -webkit-inline-box;">

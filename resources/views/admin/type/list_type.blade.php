@@ -49,7 +49,7 @@
 									<tr>
 										<td>{{ $i }}</td>
 										<td>{{$brand->brand_name}}</td>
-										<td><img src="{{ asset('storage/block/thuonghieu/' . $brand->url_name) }} " width="130"  > </td>
+										<td><img style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));" src="{{ asset('storage/block/thuonghieu/' . $brand->url_name) }} " width="130"  > </td>
 										<td>
 											<div class="form-group" style="display: -webkit-inline-box;">
 											<a href="{{ route('type.edit', $brand->brand_id) }}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i></a>

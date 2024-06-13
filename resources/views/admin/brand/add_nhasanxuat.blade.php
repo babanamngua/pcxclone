@@ -7,14 +7,14 @@
 		<div class="row">
 			<ol class="breadcrumb">
         <li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-        <li><a href="{{ route('brand.index') }}">Quản lý nhà sản xuất</a></li>
-				<li class="active">Thêm nhà sản xuất</li>
+        <li><a href="{{ route('brand.index') }}">Quản lý danh mục</a></li>
+				<li class="active">Thêm danh mục</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header" style="font-size: 40px;">Thêm nhà sản xuất</h1>
+				<h1 class="page-header" style="font-size: 40px;">Thêm danh mục</h1>
 			</div>
             @if($errors->any())
             @foreach ($errors->all() as $errors)
@@ -31,8 +31,8 @@
                                 @csrf
                                 @method('post')
                                 <div class="form-group">
-                                    <label>Tên nhà sản xuất</label>
-                                    {{-- <input required name="brand_name" class="form-control" placeholder="Tên nhà sản xuất..."> --}}
+                                    <label>Tên danh mục</label>
+                                    {{-- <input required name="brand_name" class="form-control" placeholder="Tên danh mục..."> --}}
                                     <select name="brand_name">
                                         @foreach($brand10 as $brand)
                                             <option value="{{ $brand->brand_name }}">
@@ -42,7 +42,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Ảnh nhà sản xuất</label>                              
+                                    <label>Ảnh danh mục</label>                              
                                     <input required name="url_name" type="file" class="form-control"> 
                                 </div>
                                 <div class="form-group">

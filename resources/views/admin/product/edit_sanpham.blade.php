@@ -75,6 +75,9 @@
                             </div>
                             </div>
                             <div class="col-md-6">
+                                <label>Ảnh đại diện (1 ảnh)</label>                              
+                                <input name="url_name" type="file" class="form-control" >
+                                ảnh cũ: <img src="{{ asset('storage/products/'. $product->product_name.'/'.$product->url_name) }}" class="border p-2 m-3" style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));height: 140px; margin:5px;" alt="img"> 
                                 <div class="form-group">
                                       <label for="pwd">Mô tả sản phẩm</label>
                                       

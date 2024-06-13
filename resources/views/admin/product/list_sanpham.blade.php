@@ -24,13 +24,13 @@
             </a>
 			<br>
         </div>
-		@if(session()->has('status'))
+		@if(session()->has('success'))
 		<div class="alert alert-info" role="alert">
-			{{ session('status') }}
+			{{ session('success') }}
 		</div>
 		@endif
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-13">
 					<div class="panel panel-default">
 							<div class="panel-body">
 								<table id="table_id" class="table table-striped table-bordered">
@@ -38,6 +38,7 @@
 									<tr>
 										<th style="text-align: center; vertical-align: middle;width:10px;">stt</th>
 										<th style="text-align: center; vertical-align: middle;">Tên sản phẩm </th>
+										<th style="text-align: center; vertical-align: middle;">Hình đại diện </th>
 										<th style="text-align: center; vertical-align: middle;">Mô tả </th> 
 										<th style="text-align: center; vertical-align: middle;">Số lượng</th>
 										<th style="text-align: center; vertical-align: middle;">Giá</th>
@@ -56,10 +57,11 @@
 										<tr>
 											 <td>{{$i}}</td> {{--stt--}}
 											<td>{{$product->product_name}}</td> {{--ten--}}
+											<td> <img src="{{ asset('storage/products/'. $product->product_name.'/'.$product->url_name) }}" class="border p-2 m-3" style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));height: 140px; margin:5px;" alt="img"></td> {{--ten--}}
 											<td><div style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;line-height: 1.6rem;">
 												{{$product->description}}</div></td> {{--mo ta--}}
 											<td>{{$product->quantity}}</td> {{--so luong--}}
-											<td>{{number_format($product->price,0,',','.').'đ'}}</td> {{--gia--}}
+											<td>{{ \App\Helpers\NumberHelper::formatCurrency($product->price) }}</td> {{--gia--}}
 											{{-- loai san pham --}}
 											<td> 
 												@foreach($category1 as $category)

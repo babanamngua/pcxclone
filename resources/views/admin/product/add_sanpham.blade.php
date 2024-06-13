@@ -73,7 +73,10 @@
                                 </select>
                             </div>
                             </div>
+                            
                             <div class="col-md-6">
+                                <label>Ảnh đại diện (1 ảnh)</label>                              
+                                <input name="url_name" type="file" class="form-control" > 
                                 <div class="form-group">
                                       <label for="pwd">Mô tả sản phẩm</label>
                                       

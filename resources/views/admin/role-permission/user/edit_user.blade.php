@@ -13,7 +13,7 @@
     <div class="row"  style="position: fixed; width: 82%; z-index: 1000;">
         <ol class="breadcrumb" style="background-color: aliceblue;">
         <li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-        <li><a href="{{url('roles')}}">Quản lý nhân sự</a></li>
+        <li><a href="{{url('users')}}">Quản lý nhân sự</a></li>
 				<li class="active" >Sửa users</li>
 			</ol>
 		</div>

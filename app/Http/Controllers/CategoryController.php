@@ -84,7 +84,7 @@ class CategoryController extends Controller
     {
      $this->data['title'] = 'trang nhà sản xuất';
         // Xóa ảnh nếu có
-        if ($category->url_name && file_exists(public_path('storage/category/' . $category->url_namme))) { 
+        if ($category->url_name && file_exists(public_path('storage/category/' . $category->url_name))) { 
             unlink(public_path('storage/category/' . $category->url_name));
         }
         $category->delete();

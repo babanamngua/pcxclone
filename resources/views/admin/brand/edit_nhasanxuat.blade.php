@@ -7,14 +7,14 @@
 		<div class="row" >
 			<ol class="breadcrumb">
 				<li><a href="/login/dashboard"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li><a href="{{ route('brand.index') }}">Quản lý nhà sản xuất</a></li>
-				<li class="active">Sửa nhà sản xuất </li>
+				<li><a href="{{ route('brand.index') }}">Quản lý danh mục</a></li>
+				<li class="active">Sửa danh mục </li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header" style="font-size: 40px;"  >Sửa nhà sản xuất</h1>
+				<h1 class="page-header" style="font-size: 40px;"  >Sửa danh mục</h1>
 			</div>
             @if($errors->any())
             @foreach ($errors->all() as $errors)
@@ -31,8 +31,8 @@
                                 @csrf
                                 @method('PUT')
                             <div class="form-group" >
-                                <label>Tên nhà sản xuất</label>
-                                {{-- <input type="text" value="{{$brand->brand_name}}" name= "brand_name" class="form-control" placeholder="Tên nhà sản xuất..."> --}}
+                                <label>Tên danh mục</label>
+                                {{-- <input type="text" value="{{$brand->brand_name}}" name= "brand_name" class="form-control" placeholder="Tên danh mục..."> --}}
                                 <select name="brand_name">
                                     @foreach($brand10 as $brand1)
                                         <option value="{{ $brand1->brand_name }}"@if($brand1->brand_name == $brand->brand_name) selected @endif>

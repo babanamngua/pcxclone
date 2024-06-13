@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('price', 10, 0);
             $table->text('description');
             $table->integer('quantity');
+            $table->string('url_name', 191);
             $table->timestamps();
         });
     }

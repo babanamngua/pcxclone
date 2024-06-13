@@ -93,6 +93,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('img/{id}/upload',[ImgController::class,'upload'])->name('img.upload');
     Route::post('img/{id}/upload',[ImgController::class,'store'])->name('img.store');
+    Route::get('img/{id}/fixcolor',[ImgController::class,'Getfixcolor'])->name('img.Getfixcolor');
+    Route::post('img/{id}/fixcolor',[ImgController::class,'fixcolor'])->name('img.fixcolor');
     Route::get('img/{id}/destroy',[ImgController::class,'destroy'])->name('img.destroy');
 
     Route::get('color/{id}/upload',[ColorController::class,'upload'])->name('color.upload');

@@ -52,11 +52,11 @@
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $item->product_id }}">
                                         <input type="number" name="quantity" value="{{ $item->quantity }}" min="1">
-                                        <button type="submit" class="btn btn-primary btn-sm">Cấp nhật</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
                                     </form>
                                 </td>
-                                <td>${{ $item->product->price }}</td>
-                                <td>${{ $subtotal }}</td> <!-- Hiển thị subtotal -->
+                                <td>{{ \App\Helpers\NumberHelper::formatCurrency($item->product->price) }}</td>
+                                <td>{{ \App\Helpers\NumberHelper::formatCurrency($subtotal) }}</td> <!-- Hiển thị subtotal -->
                                 <td>
                                     <form action="{{ route('cart.remove') }}" method="POST">
                                         @csrf
@@ -91,8 +91,8 @@
                                         <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
                                     </form>
                                 </td>
-                                <td>{{ number_format($details['price'], 0, ',', '.') }}đ</td>
-                                <td>{{ number_format($subtotal, 0, ',', '.') }}đ</td> <!-- Hiển thị subtotal -->
+                                <td>{{ \App\Helpers\NumberHelper::formatCurrency($details['price']) }}</td>
+                                <td>{{ \App\Helpers\NumberHelper::formatCurrency($subtotal) }}</td> <!-- Hiển thị subtotal -->
                                 <td>
                                     <form action="{{ route('cart.remove') }}" method="POST">
                                         @csrf
@@ -108,8 +108,7 @@
             <!-- Hiển thị tổng cộng -->
             <div class="text-right">
                 <button class="btn btn-primary">Đặt hàng ngay</button>
-                <strong style="float: right;">Tổng cộng: {{ number_format($total, 0, ',', '.') }}đ</strong>
-
+                <strong style="float: right;">Tổng cộng: {{ \App\Helpers\NumberHelper::formatCurrency($total) }}</strong>
             </div>
         @else
             <div class="alert alert-info">Không có sản phẩm nào trong giỏ hàng</div>

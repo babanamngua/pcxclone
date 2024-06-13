@@ -26,7 +26,8 @@
                 <a href="/product/chitietsanpham/" class="tenbestsellers">{{$product->product_name}}</a>
             </div>
             <div>
-                <a class="sobestsellersold">{{number_format($product->price,0,',','.').'đ'}}</a>
+                <a class="sobestsellersold">{{ \App\Helpers\NumberHelper::formatCurrency($product->price) }}
+                </a>
             </div>
             
 <form action="{{ route('cart.add')}}" method="POST">

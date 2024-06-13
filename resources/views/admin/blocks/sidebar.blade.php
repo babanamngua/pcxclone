@@ -22,22 +22,22 @@
         <li class="parent">
             <a href="{{ route('brand.index')}}">
                 <span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down">
-                    </use></svg></span> Quản lý category
+                    </use></svg></span> Quản lý - Danh mục
             </a>
             <ul class="children collapse" id="sub-item-2">
                 <li>
                     <a class="" href="{{ route('category.index')}}">
-                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý type
+                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý - Thể loại
                     </a>
                 </li>
                 <li>
                     <a class="" href="{{ route('type.index')}}">
-                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý brand
+                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý - Nhà sản xuất
                     </a>
                 </li>
                 <li>
                     <a class="" href="{{ route('component.index')}}">
-                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý linh kiện
+                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý - Linh kiện
                     </a>
                 </li>
             </ul>		    

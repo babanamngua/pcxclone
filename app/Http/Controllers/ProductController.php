@@ -42,9 +42,11 @@ class ProductController extends Controller
             'product_name'=> 'required|string|max:255',
             'category_id' => 'nullable|exists:category,category_id',
             'brand_id' => 'nullable|exists:brand,brand_id',
-            'price' =>'required|decimal:2',
+            'price' =>'required|numeric',
             'description'=>'nullable',
-            'quantity'=>'required',
+            'quantity'=>'required|integer',
+            // 'url_name' => 'nullable|image|file',
+            'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
         $product = new Product();
         $product->product_name = $request->input('product_name');  
@@ -53,13 +55,19 @@ class ProductController extends Controller
         $product->price = $request->input('price'); 
         $product->description = $request->input('description'); 
         $product->quantity = $request->input('quantity');
-        $product->save();
-
         $productFolder = public_path('storage/products/' . $product->product_name.'/'.'img');
-        if (!File::exists($productFolder)) {
-            File::makeDirectory($productFolder, 0755, true);
-        }
-
+        if (!File::exists($productFolder)) 
+            {
+                File::makeDirectory($productFolder, 0755, true);
+            }
+            if ($request->hasFile('url_name')) {
+                $image = $request->file('url_name');
+                $name = date('d-m-y-H-i-s') . '.' . $image->getClientOriginalExtension();
+                $destinationPath =public_path('storage/products/' . $product->product_name); // Corrected path to save image in img folder
+                $image->move($destinationPath, $name);
+                $product->url_name = $name; // Save relative path in database
+            }
+        $product->save();
         return redirect()->route('product.index',$this->data)->with('success', 'Product created successfully.');
     }
     public function edit($id)
@@ -71,34 +79,70 @@ class ProductController extends Controller
      return view('admin.product.edit_sanpham',$this->data, compact('product','brand1','category1'));
   
     }
-    public function update(Request $request, $id)
-    { 
-        $this->data['title'] = 'Trang sản phẩm';
-        $request->validate([
-            'product_name'=> 'required|string|max:255',
-            'category_id' => 'nullable|exists:category,category_id',
-            'brand_id' => 'nullable|exists:brand,brand_id',
-            'price' =>'required|numberic',
-            'description'=>'nullable',
-            'quantity'=>'required',
-            ]);
-        $product = Product::findOrFail($id);
-        // dd($brand);
-       
-        $product->product_name = $request->input('product_name');  
-        $product->brand_id = $request->input('brand_id');
-        $product->category_id = $request->input('category_id'); 
-        $product->price = $request->input('price'); 
-        $product->description = $request->input('description'); 
-        $product->quantity = $request->input('quantity');
-        $product->save();
-        return redirect()->route('product.index',$this->data)->with('success', 'Product updated successfully.');
+
+public function update(Request $request, $id)
+{
+    $this->data['title'] = 'Trang sản phẩm';
+
+    $request->validate([
+        'product_name' => 'required|string|max:255',
+        'category_id' => 'nullable|exists:category,category_id',
+        'brand_id' => 'nullable|exists:brand,brand_id',
+        'price' => 'required|numeric',
+        'description' => 'nullable',
+        'quantity' => 'required',
+        // 'url_name' => 'nullable|image|file',
+        'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $oldProductName = $product->product_name; // Lưu tên cũ của sản phẩm
+
+    // Cập nhật thông tin sản phẩm
+    $product->product_name = $request->input('product_name');
+    $product->brand_id = $request->input('brand_id');
+    $product->category_id = $request->input('category_id');
+    $product->price = $request->input('price');
+    $product->description = $request->input('description');
+    $product->quantity = $request->input('quantity');
+
+    $newProductFolder = public_path('storage/products/' . $product->product_name . '/' . 'img');
+    $oldProductFolder = public_path('storage/products/' . $oldProductName . '/' . 'img');
+
+    // Đổi tên thư mục nếu tên sản phẩm đã thay đổi
+    if ($oldProductName !== $product->product_name) {
+        if (File::exists($oldProductFolder)) {
+            File::moveDirectory(public_path('storage/products/' . $oldProductName), public_path('storage/products/' . $product->product_name));
+        }
     }
+
+    // Tạo thư mục nếu chưa tồn tại
+    if (!File::exists($newProductFolder)) {
+        File::makeDirectory($newProductFolder, 0755, true);
+    }
+
+    // Xử lý ảnh
+    if ($request->hasFile('url_name')) {
+        if ($product->url_name && file_exists(public_path('storage/products/'. $product->product_name . '/' . $product->url_name))) { unlink(public_path('storage/products/'. $product->product_name . '/' . $product->url_name));
+            // if ($brand->image && file_exists('storage/img/brand/' . $brand->image)) { unlink('storage/img/brand/' . $brand->image);
+        }
+        $image = $request->file('url_name');
+        $name = date('d-m-y-H-i-s') . '.' . $image->getClientOriginalExtension();
+        $destinationPath = public_path('storage/products/' . $product->product_name); // Thư mục đích
+        $image->move($destinationPath, $name);
+        $product->url_name = $name;
+    }
+
+    $product->save();
+    return redirect()->route('product.index', $this->data)->with('success', 'Product updated successfully.');
+}
+
     public function destroy($id)
    {
     $this->data['title'] = 'trang sản phẩm';
        $product = Product::findOrFail($id);
        $images = Img::where('product_id', $id)->get();
+       $colors = Color::where('product_id', $id)->get();
        if($images){
        foreach ($images as $image) {
            // Đường dẫn tới tệp ảnh
@@ -109,15 +153,12 @@ class ProductController extends Controller
            // Xóa bản ghi ảnh từ cơ sở dữ liệu
            $image->delete();
        }}
-
        // Xóa màu liên quan
-       $colors = Color::where('product_id', $id)->get();
        if($colors){
        foreach ($colors as $color) {
            // Xóa bản ghi màu từ cơ sở dữ liệu
            $color->delete();
        }}
-
        $productFolder = public_path('storage/products/' . $product->product_name);          
             // Kiểm tra và xóa thư mục nếu tồn tại
             if (File::exists($productFolder)) {
