@@ -95,11 +95,14 @@
                 </td>
                 <td width="3%">
                     <div>
-                        <a id="form-giohang" href="{{route('cart.index')}}">
-                            <p class="giohangbienhinh">{{ count((array) session('cart')) }}</p>
-                            <i class="bi bi-cart" ></i>
-                        </a>
-                            
+                        <a id="form-giohang" href="{{ route('cart.index') }}">
+                            @if($cartCount > 0)
+                                <p class="giohangbienhinh">{{ $cartCount }}</p>
+                                 {{-- <p class="gio hangbienhinh">{{ count((array) session('cart')) }}</p> --}}
+                            @else
+                                <p class="giohangbienhinh">0</p>
+                            @endif
+                            <i class="bi bi-cart"></i>
                         </a>
                     </div>
                 </td>

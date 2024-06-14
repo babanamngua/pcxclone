@@ -5,18 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order_items extends Model
+class Orders extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'order_item_id'; // Tên cột khóa chính của bạn là 'brand_id'
-    protected $table = 'order_items';
+    protected $primaryKey = 'order_id'; // Tên cột khóa chính của bạn là 'brand_id'
+    protected $table = 'orders';
     protected $fillable = [
-        'order_id',
         'user_id',
-        'product_id',
-        'color_id',
-        'quantity',
-        'price',
+        'total_price'
         ];
         public $timestamps = true; // Đảm bảo timestamps được bật
 }

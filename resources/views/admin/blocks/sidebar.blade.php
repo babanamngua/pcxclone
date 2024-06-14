@@ -9,12 +9,12 @@
             <ul class="children collapse" id="sub-item-1">
                 <li>
                     <a class="" href="{{url('roles')}}">
-                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý vai trò
+                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý - Sự chấp thuận - Vai trò
                     </a>
                 </li>
                 <li>
                     <a class="" href="{{url('permissions')}}">
-                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý permission
+                        <svg class="glyph stroked plus sign"><use xlink:href="#stroked-plus-sign"/></svg> Quản lý - Vai trò
                     </a>
                 </li>
             </ul>		    

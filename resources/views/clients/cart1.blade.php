@@ -12,7 +12,8 @@
                 {{ session('success') }}
             </div>
         @endif
-        @if(Auth::check() ? $cart->count() > 0 : count($cart) > 0)
+        @if(Auth::check() ? ($cart ?? null) ? $cart->count() > 0 : false : count($cart) > 0)
+
         <div class="cart-steps">
             <div class="step active">Giỏ hàng</div>
             <div class="step">Thông tin đặt hàng</div>
@@ -27,6 +28,7 @@
                 <thead>
                     <tr>
                         <th>Sản phẩm</th>
+                        <th>Màu</th>
                         <th>Số lượng</th>
                         <th>Giá</th>
                         <th>Tổng</th>
@@ -37,36 +39,47 @@
                     @php $total = 0; @endphp <!-- Khởi tạo biến tổng cộng -->
 
                     @if(Auth::check())
-                        @foreach($cart as $item)
-                            @php
-                                $subtotal = $item->product->price * $item->quantity;
-                                $total += $subtotal;
-                            @endphp
-                            <tr>
-                                <td>
-                                    <img src="{{ $item->product->image }}" width="50" height="50" class="img-responsive"/>
-                                    {{ $item->product->name }}
-                                </td>
-                                <td>
-                                    <form action="{{ route('cart.update') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $item->product_id }}">
-                                        <input type="number" name="quantity" value="{{ $item->quantity }}" min="1">
-                                        <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
-                                    </form>
-                                </td>
-                                <td>{{ \App\Helpers\NumberHelper::formatCurrency($item->product->price) }}</td>
-                                <td>{{ \App\Helpers\NumberHelper::formatCurrency($subtotal) }}</td> <!-- Hiển thị subtotal -->
-                                <td>
-                                    <form action="{{ route('cart.remove') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $item->product_id }}">
-                                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                    {{-- xong dưới r copy lên đây nha, này login mối thấy --}}
+                    @foreach($cart as $id => $details)
+                    @php
+                        $subtotal = $details['price'] * $details['quantity'];
+                        $total += $subtotal;
+                    @endphp
+                    <tr>
+                        <td>
+
+                            <img src="{{ asset('storage/products/'. $details['name'] .'/'.$details['image']) }}" width="50" height="50" class="img-responsive"/>
+
+                            {{ $details['name'] }} 
+                            {{-- @if(isset($color2[$id])) --}}
+                            {{-- <div class="color-box" style="background-color:{{$color2[$id]->color_code}};margin-left: 10px; width: 25px;height: 22px;box-shadow: 1px 1px 5px 1px black;"> --}}
+                            {{-- </div> --}}
+                            {{-- @endif   --}}
+                        </td>
+                        <td>{{ $details['color_name'] }}</td>
+                        <td>
+                            <form action="{{ route('cart.update') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ explode('_', $id)[0] }}">
+                                <input type="hidden" name="color_id" value="{{ explode('_', $id)[1] }}">
+                                <input type="number" name="quantity" value="{{ $details['quantity'] }}" min="1">
+                                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            </form>
+                        </td>
+                        <td>{{ \App\Helpers\NumberHelper::formatCurrency($details['price']) }}</td>
+                        <td>{{ \App\Helpers\NumberHelper::formatCurrency($subtotal) }}</td> <!-- Hiển thị subtotal -->
+                        <td>
+                            <form action="{{ route('cart.remove') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ explode('_', $id)[0] }}">
+                                <input type="hidden" name="color_id" value="{{ explode('_', $id)[1] }}">
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
                     @else
+                    {{-- copy hết cái foreach này lên trên --}}
                         @foreach($cart as $id => $details)
                             @php
                                 $subtotal = $details['price'] * $details['quantity'];
@@ -74,21 +87,23 @@
                             @endphp
                             <tr>
                                 <td>
-                                    @if(isset($img2[$id]))
-                                    <img src="{{ asset('storage/products/'. $details['name'] .'/'.'img'.'/'. $img2[$id]->url_img) }}" width="50" height="50" class="img-responsive"/>
-                                    @endif  
+
+                                    <img src="{{ asset('storage/products/'. $details['name'] .'/'.$details['image']) }}" width="50" height="50" class="img-responsive"/>
+
                                     {{ $details['name'] }} 
-                                    @if(isset($color2[$id]))
-                                    <div class="color-box" style="background-color:{{$color2[$id]->color_code}};margin-left: 10px; width: 25px;height: 22px;box-shadow: 1px 1px 5px 1px black;">
-                                    </div>
-                                    @endif  
+                                    {{-- @if(isset($color2[$id])) --}}
+                                    {{-- <div class="color-box" style="background-color:{{$color2[$id]->color_code}};margin-left: 10px; width: 25px;height: 22px;box-shadow: 1px 1px 5px 1px black;"> --}}
+                                    {{-- </div> --}}
+                                    {{-- @endif   --}}
                                 </td>
+                                <td>{{ $details['color_name'] }}</td>
                                 <td>
                                     <form action="{{ route('cart.update') }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="product_id" value="{{ $id }}">
+                                        <input type="hidden" name="product_id" value="{{ explode('_', $id)[0] }}">
+                                        <input type="hidden" name="color_id" value="{{ explode('_', $id)[1] }}">
                                         <input type="number" name="quantity" value="{{ $details['quantity'] }}" min="1">
-                                        <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+                                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                                     </form>
                                 </td>
                                 <td>{{ \App\Helpers\NumberHelper::formatCurrency($details['price']) }}</td>
@@ -96,8 +111,9 @@
                                 <td>
                                     <form action="{{ route('cart.remove') }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="product_id" value="{{ $id }}">
-                                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                        <input type="hidden" name="product_id" value="{{ explode('_', $id)[0] }}">
+                                        <input type="hidden" name="color_id" value="{{ explode('_', $id)[1] }}">
+                                        <button type="submit" class="btn btn-danger">Xóa</button>
                                     </form>
                                 </td>
                             </tr>

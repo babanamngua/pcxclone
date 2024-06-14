@@ -6,10 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     public $data =[];
+
+
     public function index()
     {
         $users = User::get();
@@ -39,6 +42,9 @@ class UserController extends Controller
                     ]);
 
         $user->syncRoles($request->roles);
+
+        Log::info('User created and roles assigned', ['user' => $user, 'roles' => $user->roles]);
+
 
         return redirect('/users')->with('status','User created successfully with roles');
     }

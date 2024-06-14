@@ -46,7 +46,7 @@ class ProductController extends Controller
             'description'=>'nullable',
             'quantity'=>'required|integer',
             // 'url_name' => 'nullable|image|file',
-            'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ]);
         $product = new Product();
         $product->product_name = $request->input('product_name');  
@@ -92,7 +92,7 @@ public function update(Request $request, $id)
         'description' => 'nullable',
         'quantity' => 'required',
         // 'url_name' => 'nullable|image|file',
-        'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
     ]);
 
     $product = Product::findOrFail($id);

@@ -1176,7 +1176,7 @@ a.sobestsellerssale
 .form-group1 input
 {
     height: 50px;
-    width: 387px;
+    width: 98%;
     outline: none;
     border: 1px solid #dadce0;
     padding: 10px;
@@ -1191,7 +1191,7 @@ a.sobestsellerssale
     position: absolute;
     padding: 0px 5px 0px 5px;
     margin-top: 10px;
-    margin-left: -381px;
+    margin-left: -30.8%;
     /* left: 881px; */
     /* background-color: var(--mautrang-color); */
     pointer-events: none;

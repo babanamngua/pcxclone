@@ -8,6 +8,8 @@ use App\Models\Img;
 use App\Models\Color;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Order_items;
 
 
 
@@ -20,16 +22,26 @@ class HomeController extends Controller
         $product1 = Product::all();
         $img1 = [];
         $color1 = [];
-    
+        $cartCount = 0;
+        
+
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
+            $cartCount = count($cartItems);
+        } else {
+            $cart = session()->get('cart', []);
+            $cartCount = count($cart);
+        }
         // Lặp qua từng sản phẩm và lấy các ảnh và màu tương ứng
         foreach ($product1 as $product) {
-            $img1[$product->product_id] = Img::where('product_id', $product->product_id)->get();
+            // $img1[$product->product_id] = Img::where('product_id', $product->product_id)->get();
             $color1[$product->product_id] = Color::where('product_id', $product->product_id)->get();
         } 
         $category1 = Category::all();
         $brand1 = Brand::whereNotNull('category_id')->get();
         $brand2 = Brand::whereNull('category_id')->get();
-        return view('clients.home',$this->data,compact('category1','brand1','brand2','product1','img1','color1'));
+        return view('clients.home',$this->data,compact('category1','brand1','brand2','product1','img1','color1','cartCount'));
     }
     public function detail($id)
     {   
