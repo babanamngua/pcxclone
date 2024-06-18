@@ -44,7 +44,6 @@ class ProductController extends Controller
             'brand_id' => 'nullable|exists:brand,brand_id',
             'price' =>'required|numeric',
             'description'=>'nullable',
-            'quantity'=>'required|integer',
             // 'url_name' => 'nullable|image|file',
             'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ]);
@@ -54,7 +53,6 @@ class ProductController extends Controller
         $product->category_id = $request->input('category_id'); 
         $product->price = $request->input('price'); 
         $product->description = $request->input('description'); 
-        $product->quantity = $request->input('quantity');
         $productFolder = public_path('storage/products/' . $product->product_name.'/'.'img');
         if (!File::exists($productFolder)) 
             {
@@ -90,7 +88,6 @@ public function update(Request $request, $id)
         'brand_id' => 'nullable|exists:brand,brand_id',
         'price' => 'required|numeric',
         'description' => 'nullable',
-        'quantity' => 'required',
         // 'url_name' => 'nullable|image|file',
         'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
     ]);
@@ -104,7 +101,6 @@ public function update(Request $request, $id)
     $product->category_id = $request->input('category_id');
     $product->price = $request->input('price');
     $product->description = $request->input('description');
-    $product->quantity = $request->input('quantity');
 
     $newProductFolder = public_path('storage/products/' . $product->product_name . '/' . 'img');
     $oldProductFolder = public_path('storage/products/' . $oldProductName . '/' . 'img');

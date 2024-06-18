@@ -37,12 +37,7 @@
                                 {{-- tên sản phẩm --}}
                                     <label>Tên sản phẩm</label>
                                     <input required name="product_name" class="form-control" placeholder="Tên sản phẩm...">
-                                </div>
-                                <div class="form-group">
-                                    {{-- số lượng sản phẩm --}}
-                                <label >Số lượng sản phẩm</label>
-                                <input type="number" name= "quantity" min="0" class="form-control" placeholder="Số lượng sản phẩm...">
-                            </div>                                                            
+                                </div>                                                            
                             <div class="form-group">
                                 {{-- giá sản phẩm --}}
                               <label>Giá sản phẩm</label>

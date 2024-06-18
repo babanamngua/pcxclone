@@ -12,11 +12,11 @@
             <tr>
               <th>
                     <!-- left -->
-                    @if($img2)
+                    {{-- @if($img2) --}}
                     <div class="chitietsanphamleft">
-                        <img class="hinhanhchitietsanpham1" src="{{ asset('storage/products/'. $product->product_name.'/'.'img'.'/'. $img2->url_img) }}">
+                        <img style="width:800px;" src="{{ asset('storage/products/' . $product->product_name . '/' . $product->url_name) }}" class="hinhanhchitietsanpham1">
                     </div>
-                    @endif
+                    {{-- @endif --}}
               </th>
                <th>
        <!-- right -->
@@ -90,8 +90,18 @@
 
 <form action="{{ route('cart.add') }}" method="POST">
     @csrf
+    <div>
+        @if(!empty($color[$product->product_id]) && $color[$product->product_id]->isNotEmpty())
+        <label for="color">Chọn màu:</label>
+        <select name="color_id" required>
+            @foreach ($color[$product->product_id] as $color)
+                <option value="{{ $color->color_id }}">{{ $color->color_name }}</option>
+            @endforeach
+        </select>
+        @endif
+    </div>
         <div class="chonmua">
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="product_id" value="{{ $product->product_id }}">
             <button type="submit" class="btn btn-primary" value="CHỌN MUA">Thêm vào giỏ hàng</button>
         </div>
     </form>

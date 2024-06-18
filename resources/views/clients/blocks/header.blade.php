@@ -42,9 +42,7 @@
                             <input type="text" id="search-text" placeholder="Tìm kiếm . . .">
                             <button id="search-btn"><i class="bi bi-search"></i></i></button>
                         </form> --}}
-
                         <button id="search-button" style="padding: 0px 10px;"><a id="form-giohang"><i class="bi bi-search"></i></a></button>
-
                     </div>
                 </td>
                 <td width="7%">
@@ -115,54 +113,100 @@
         <div class="menu__bar">
             <ul class="no-bullets">
                 <li><a class="form-danhmuc1" href="/">Trang chủ</a></li>
-                <li><a class="form-danhmuc1" href="/product/danhmuc/">Danh mục&nbsp;<i
+                <li><a class="form-danhmuc1" href="">Danh mục&nbsp;<i
                             class="bi bi-chevron-down"></i></a>
                     <div class="dropdown__menu dropdown_menu-7">
                         <ul>
-                            <?php
-   
-    ?>
+                            <?php?>
+                            @foreach($category2 as $category)
                             <li><a class="nameonmenu-1"
-                                    href="/product/listtheloai/"></a>
+                                    href="">{{$category->category_name}}</a>
 
                                 <div class="dropdown__menu2 dropdown_menu-6">
                                     <ul>
-                                        <?php
-               
-            ?>
+                                        <?php?>
+                                        @foreach($brand1 as $brand)
+                                        @if($category->category_id == $brand->category_id)
                                         <li><a class="nameonmenu-2"
-                                                href="/product/listnhasanxuat/"></a>
+                                                href="{{route('collections.category',['category' => $category->category_name,'brand' => $brand->brand_name])}}">{{$brand->brand_name}}</a>
                                         </li>
+                                        @endif
+                                        @endforeach
+                                        <?php?>
                                         <!-- /////////// -->
-                                        <?php
-         
-            ?>
-
                                     </ul>
                                 </div>
                             </li>
-                            <?php
-    
-    ?>
+                            @endforeach
+                            
+                            <li><a class="nameonmenu-1"
+                                    href="">Linh kiện</a>
+
+                                <div class="dropdown__menu2 dropdown_menu-6">
+                                    <ul>
+                                        <?php?>
+                                        @foreach($category1 as $category)
+                            <li><a class="nameonmenu-1"
+                                    href="">{{$category->category_name}}</a>
+
+                                <div class="dropdown__menu2 dropdown_menu-6">
+                                    <ul>
+                                        <?php?>
+                                        @foreach($brand1 as $brand)
+                                        @if($category->category_id == $brand->category_id)
+                                        <li><a class="nameonmenu-2"
+                                                href="{{route('collections.category',['category' => $category->category_name,'brand' => $brand->brand_name])}}">{{$brand->brand_name}}</a>
+                                        </li>
+                                        @endif
+                                        @endforeach
+                                        <?php?>
+                                        <!-- /////////// -->
+                                    </ul>
+                                </div>
+                            </li>
+                            @endforeach
+                                        <?php?>
+                                        <!-- /////////// -->
+                                    </ul>
+                                </div>
+                            </li>
+                            
+                            <?php?>
                             <!-- /////////// -->
 
 
                         </ul>
                     </div>
                 </li>
-                <li><a class="form-danhmuc1" href="/tintuc/tatca">Tin tức</a></li>
-                <li><a class="form-danhmuc1" href="/index/lienhe">Liên hệ</a></li>
+                
+                <li><a class="form-danhmuc1" href="{{route('tintuc')}}">Tin tức</a></li>
+                <li><a class="form-danhmuc1" href="{{route('lienhe')}}">Liên hệ</a></li>
             </ul>
         </div>
     </div>
 
 </div>
 <div id="search-overlay" class="overlay">
-    <div class="overlay-content">
+    {{-- @foreach($category2 as $category) --}}
+    {{-- @foreach($brand1 as $brand) --}}
+    {{-- @if($category->category_id == $brand->category_id) --}}
+{{-- <a class="nameonmenu-2" href="{{route('collections.category',['category' => $category->category_name,'brand' => $brand->brand_name])}}">{{$brand->brand_name}}</a> --}}          
+   
+    <div class="overlay-content"> 
+    <form action="{{route('collections.category',['category' => $category->category_name,'brand' => $brand->brand_name])}}" method="GET" id="search-form">
         <div class="overlay-contentt">
         <input type="text" placeholder="Tìm..." id="search-input">
         <span class="clear-btn" id="clear-btn">xóa</span>
         <span class="closebtn" id="close-button">&times;</span>
+        </div>    
+        <button type="submit" id="search-button" style="padding: 0px 10px;"><i class="bi bi-search"></i></button>
+    </form>
+    <div class="items mb-4" id="search-results">
+        
     </div>
     </div>
+   
+     {{-- @endif --}}
+    {{-- @endforeach --}}
+    {{-- @endforeach --}}
 </div>

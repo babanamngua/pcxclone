@@ -60,7 +60,9 @@
 											<td> <img src="{{ asset('storage/products/'. $product->product_name.'/'.$product->url_name) }}" class="border p-2 m-3" style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));width: 140px; margin:5px;" alt="img"></td> {{--ten--}}
 											<td><div style="display: -webkit-box;max-height: 3.2rem;-webkit-box-orient: vertical;overflow: hidden;text-overflow: ellipsis;white-space: normal;-webkit-line-clamp: 2;line-height: 1.6rem;">
 												{{$product->description}}</div></td> {{--mo ta--}}
-											<td>{{$product->quantity}}</td> {{--so luong--}}
+												<td>
+													<a href="{{ route('quantity.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem</a>
+												</td> {{--so luong--}}
 											<td>{{ \App\Helpers\NumberHelper::formatCurrency($product->price) }}</td> {{--gia--}}
 											{{-- loai san pham --}}
 											<td> 
@@ -79,10 +81,10 @@
 												@endforeach	
 											</td>
 											<td>
-												<a href="{{ route('img.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem ảnh</a>
+												<a href="{{ route('img.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem</a>
 											</td>
 											<td>
-												<a href="{{ route('color.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem màu</a>
+												<a href="{{ route('color.upload', $product->product_id) }}" class="btn btn-info">Thêm / Xem</a>
 											</td>
 											<td>
 												<div class="form-group" style="display: -webkit-inline-box;">

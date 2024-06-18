@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Img;
 use App\Models\Color;
+use App\Models\Quantity;
 use App\Models\Orders;
 use App\Models\Order_items;
+use App\Models\Category;
+use App\Models\Brand;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; // Thêm use statement cho DB facade
 
@@ -46,9 +49,11 @@ class CartController extends Controller
             $cart = session()->get('cart', []);
             $cartCount = count($cart);
         }
-    
+        $category1 = Category::whereNotNull('component_id')->get();
+        $category2 = Category::whereNull('component_id')->get();
+        $brand1 = Brand::whereNotNull('category_id')->get();
         // Truyền các biến tới view
-        return view('clients.cart2', $this->data, compact('cart', 'cartCount'));
+        return view('clients.cart2', $this->data, compact('cart', 'cartCount','category2','brand1','category1'));
     }
     
 
@@ -63,13 +68,20 @@ class CartController extends Controller
         $product = Product::find($request->input('product_id'));
         $colorId = $request->input('color_id');
         $color = $colorId ? Color::find($colorId) : null;
-    
+        $quantity = Quantity::where('product_id',$request->input('product_id'))->first();
+
+          // Kiểm tra nếu số lượng sản phẩm là 0 hoặc hết hàng
+          if (!$quantity || $quantity->quantity_product <= 0) 
+          {
+            return redirect()->back()->with('error', 'Sản phẩm đã hết hàng!');
+            }
         if (Auth::check()) {
             $cartItemQuery = Order_items::where('user_id', Auth::id())
                 ->whereNull('order_id')
                 ->where('product_id', $product->product_id);
     
-            if ($color) {
+            if($color) 
+            {
                 $cartItemQuery->where('color_id', $color->color_id);
             } else {
                 $cartItemQuery->whereNull('color_id');
@@ -77,10 +89,12 @@ class CartController extends Controller
     
             $cartItem = $cartItemQuery->first();
     
-            if ($cartItem) {
+            if ($cartItem)
+            {
                 $cartItem->quantity++;
                 $cartItem->save();
-            } else {
+            }else
+            {
                 Order_items::create([
                     'user_id' => Auth::id(),
                     'product_id' => $product->product_id,
@@ -255,64 +269,82 @@ class CartController extends Controller
             }
             $cartCount = count($cart);  // Set cart count for guest users
         }
-    
-        return view('clients.order', array_merge($this->data, compact('cartItems', 'totalPrice', 'cartCount', 'user')));
+        $category1 = Category::whereNotNull('component_id')->get();
+        $category2 = Category::whereNull('component_id')->get();
+        $brand1 = Brand::whereNotNull('category_id')->get();
+        return view('clients.order', array_merge($this->data, compact('cartItems', 'totalPrice', 'cartCount', 'user','category1','category2','brand1')));
     }
     
     
 
 
-public function placeOrder(Request $request)
-{
-    if (Auth::check()) {
-        $userId = Auth::id();
-        $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
-        $totalPrice = 0;
-
-        // Tạo một mảng để lưu thông tin chi tiết đơn hàng với màu
-        $orderDetails = [];
-
-        foreach ($cartItems as $item) {
-            $product = Product::find($item->product_id);
-            // Tính tổng giá của đơn hàng
-            $totalPrice += $item->quantity * $product->price;
-        }
-
-        // Bắt đầu một giao dịch
-        DB::beginTransaction();
-        try {
-
-            // Tạo đơn hàng mới
-            $order = Orders::create([
-                'user_id' => $userId,
-                'total_price' => $totalPrice,
-                // Các trường khác như created_at, updated_at sẽ tự động được điền
-            ]);
-
-           // Cập nhật các mục giỏ hàng để thêm order_id
-            foreach ($cartItems as $item) {
-                $item->order_id = $order->order_id;
-                $item->save();
-
-                // Giảm số lượng sản phẩm trong bảng Product
-                $product = Product::find($item->product_id);
-                $product->quantity -= $item->quantity;
-                $product->save();
+    public function placeOrder(Request $request)
+    {
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
+            $totalPrice = 0;
+    
+            // Bắt đầu một giao dịch
+            DB::beginTransaction();
+            try {
+                // Tạo đơn hàng mới
+                $order = Orders::create([
+                    'user_id' => $userId,
+                    'total_price' => $totalPrice,
+                    // Các trường khác như created_at, updated_at sẽ tự động được điền
+                ]);
+    
+                // Duyệt qua từng sản phẩm trong giỏ hàng
+                foreach ($cartItems as $item) {
+                    // Tìm số lượng đúng với product_id và color_id từ bảng Quantity
+                    $quantity = Quantity::where('product_id', $item->product_id)
+                        ->where('color_id', $item->color_id)
+                        ->first();
+    
+                    // Nếu có số lượng trong bảng Quantity, cập nhật số lượng
+                    if ($quantity) {
+                        // Kiểm tra xem số lượng còn đủ để đặt hàng hay không
+                        if ($quantity->quantity_product >= $item->quantity) {
+                            $quantity->quantity_product -= $item->quantity;
+                            $quantity->save();
+                        } else {
+                            // Nếu số lượng không đủ, rollback giao dịch và thông báo lỗi
+                            DB::rollback();
+                            return redirect()->route('order.index')->with('error', 'Sản phẩm ' . $item->product->product_name . ' màu ' . $item->color->color_name . ' hiện tại đã hết hàng!');
+                        }
+                    } else {
+                        // Nếu không tìm thấy số lượng, rollback giao dịch và thông báo lỗi
+                        DB::rollback();
+                        return redirect()->route('order.index')->with('error', 'Sản phẩm ' . $item->product->product_name . ' màu ' . $item->color->color_name . ' hiện tại đã hết hàng!');
+                    }
+                    // Cập nhật order_id trong Order_items
+                    $item->order_id = $order->order_id;
+                    $item->save();
+                    
+                    // Tính tổng giá của đơn hàng
+                    $product = Product::find($item->product_id);
+                    $totalPrice += $item->quantity * $product->price;
+                }
+    
+                // Cập nhật tổng giá cho đơn hàng
+                $order->total_price = $totalPrice;
+                $order->save();
+    
+                // Commit giao dịch
+                DB::commit();
+    
+                return redirect()->route('order.index')->with('success', 'Đặt hàng thành công!');
+            } catch (\Exception $e) {
+                // Nếu có lỗi xảy ra, rollback giao dịch
+                DB::rollback();
+                return redirect()->route('order.index')->with('error', 'Đã xảy ra lỗi, vui lòng thử lại sau.');
             }
-
-            // Commit giao dịch
-            DB::commit();
-
-            return redirect()->route('order.index')->with('success', 'Đặt hàng thành công!');
-        } catch (\Exception $e) {
-            // Nếu có lỗi xảy ra, rollback giao dịch
-            DB::rollback();
-            return redirect()->route('order.index')->with('error', 'Đã xảy ra lỗi, vui lòng thử lại sau.');
+        } else {
+            // Xử lý khi người dùng chưa đăng nhập
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để đặt hàng.');
         }
-    } else {
-        // Xử lý khi người dùng chưa đăng nhập
-        return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để đặt hàng.');
     }
-}
+    
 
 }

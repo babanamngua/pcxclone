@@ -1,8 +1,3 @@
-@if(session()->has('status'))
-<div class="alert alert-info" role="alert">
-    {{ session('status') }}
-</div>
-@endif
 <div class="container6" style="display: flex;">
     <div class="container4">
         <a id="tencacthuonghieuphanthoi">Best Sellers</a>  
@@ -17,7 +12,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="/product/chitietsanpham/" class="tenbestsellers">{{ $product->product_name }}</a>
+                    <a  class="tenbestsellers">{{ $product->product_name }}</a>
                 </div>
                 <div>
                     <a class="sobestsellersold">{{ \App\Helpers\NumberHelper::formatCurrency($product->price) }}</a>

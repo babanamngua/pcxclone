@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ImgController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\QuantityController;
 
 
 use App\Http\Controllers\ProfileController;
@@ -19,12 +20,19 @@ use Spatie\Permission\Contracts\Permission;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 
+Route::get('/searching', [HomeController::class, 'search']);
+// Route::get('/search', [HomeController::class, 'searchBlade'])->name('products.search');
+
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/products',[HomeController::class,'index'])->name('products.home');
 Route::get('/products/{id}',[HomeController::class,'detail'])->name('products.detail');
-// Route::get('products/{id}',[HomeController::class,'detail'])->name('products.detail');
+Route::get('/tintuc',[HomeController::class,'tintuc'])->name('tintuc');
+Route::get('/lienhe',[HomeController::class,'lienhe'])->name('lienhe');
 
+Route::prefix('collections')->name('collections.')->group(function(){
+    Route::get('/{category}-{brand}', [HomeController::class, 'category'])->name('category');
+});
 
 // Route::group(['middleware' => ['role:auth']], function() {
 // Route::group(['middleware' => ['role:auth|super-admin|admin|isAdmin']], function() {
@@ -113,6 +121,13 @@ Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard')
     Route::get('color/{id}/destroy',[ColorController::class,'destroy'])->name('color.destroy');
     Route::delete('color/{id}/destroy1',[ColorController::class,'destroy1'])->name('color.destroy1');
     Route::post('color/add',[ColorController::class,'add'])->name('color.add');
+
+    // Routes for QuantityController
+Route::get('/quantity/upload/{id}', [QuantityController::class, 'upload'])->name('quantity.upload');
+Route::put('update/{id}', [QuantityController::class, 'update'])->name('quantity.update');
+Route::post('/quantity/add', [QuantityController::class, 'add'])->name('quantity.add');
+Route::post('/quantity/store/{id}', [QuantityController::class, 'store'])->name('quantity.store');
+Route::delete('/quantity/destroy/{id}', [QuantityController::class, 'destroy'])->name('quantity.destroy');
 // });
 require __DIR__.'/auth.php';
 

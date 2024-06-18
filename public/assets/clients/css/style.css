@@ -83,7 +83,9 @@ body{
     /* font-family: Roboto; */
     font-family: var(--text-font-family);
     /* background-color: var(--mauxamkhoi-color); */
+
 }
+
 .info_top {
     /* padding: 6px 0; */
     text-align: right;
@@ -1014,9 +1016,9 @@ a.tendanhmuc123 {
 
 }
 .theloaidanhmuc11 {
-    /* display: inline-block; */
-    /* float: left; */
-    /* margin: 0px -1px; */
+    display: inline-block;
+    float: left;
+    margin: 0px -1px;
     margin-right: 10px;
     background: var(--mautrang-color);
 }
@@ -1029,7 +1031,7 @@ a.tendanhmuc123 {
 }
 .anhtrongbestsellers {
     width: 300px;
-    height: 300px;
+    /* height: 300px; */
     padding: 15px 10px 15px 10px;
     transition: transform 0.2s; 
     position: relative; /* Đặt position là relative */
@@ -1061,6 +1063,7 @@ a.tenbestsellers {
     text-decoration: none;
     /* font-size: 18px; */
     font-weight: bold;
+    width: 300px;
 }
 a.tenbestsellers:hover
  {
@@ -2002,7 +2005,7 @@ ul.top_header {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgb(0 0 0 / 72%);
     z-index: 1;
     overflow: hidden;
     overflow-y: hidden;
@@ -2017,7 +2020,7 @@ ul.top_header {
 .overlay-content {
     border-radius: 10px;
     top: 50%;
-    width: 530px;
+    width: 620px;
     /* text-align: center; */
     /* margin: 0 auto; */
     /* transform: translateY(-50%); */
@@ -2027,6 +2030,9 @@ ul.top_header {
     float: right;
     /* opacity: 0; */
     /* transition: opacity 0.5s; */
+    overflow-y: auto; /* Cuộn dọc */
+    scrollbar-width: thin; /* Kích thước thanh cuộn */
+    scrollbar-color: #888 transparent; /* Màu thanh cuộn */
 }
 .overlay-contentt
 {
@@ -2075,5 +2081,42 @@ ul.top_header {
 }
 
 .overlay.exit-cursor {
-    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48bGluZSB4MT0iMCIgeTE9IjAiIHgyPSI1MCIgeTI9IjUwIiBzdHJva2U9InJlZCIgc3Ryb2tlLXdpZHRoPSI1Ii8+PGxpbmUgeDE9IjUwIiB5MT0iMCIgeDI9IjAiIHkyPSI1MCIgc3Ryb2tlPSJyZWQiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==') 16 16, auto;
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJ3aGl0ZSIvPgogIDxsaW5lIHgxPSIyMCIgeTE9IjIwIiB4Mj0iMzAiIHkyPSIzMCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjMwIiB5MT0iMjAiIHgyPSIyMCIgeTI9IjMwIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+') 16 16, auto;
+}
+/* Đặt lại thuộc tính mặc định của thẻ <a> */
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Cài đặt lại các thuộc tính cho các thẻ con */
+.product-link .product-img {
+    width: 100px;
+    border: 0;
+}
+
+.product-link .product-name {
+    margin: 0;
+    margin-top: -73px;
+    margin-left: 115px;
+    font-weight: 700;
+}
+.product-link:hover .product-name-under{
+    text-decoration: underline;
+}
+.product-link .product-price {
+    margin: 0;
+    margin-top: 1px;
+    margin-left: 115px;
+    color: var(--bs-gray-700);
+}
+.overlay-content::-webkit-scrollbar {
+    width: 8px; /* Chiều rộng thanh cuộn trên trình duyệt Chrome/Safari/Opera */
+}
+
+.overlay-content::-webkit-scrollbar-thumb {
+    background-color: #888; /* Màu của thanh cuộn */
+    border-radius: 4px; /* Độ cong viền của thanh cuộn */
+
 }

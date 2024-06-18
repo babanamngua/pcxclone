@@ -15,7 +15,7 @@
         @yield('css') 
         <title>@yield('title')</title>
 </head>
-{{-- style="overflow-x: hidden;" --}}
+
 <body style="overflow-x: hidden;">
     {{-- <div id="preloader"></div> --}}
     {{-- header --}}
@@ -55,8 +55,11 @@
 
     clearBtn.onclick = function() {
         searchInput.value = '';
+        document.getElementById('search-input').value = '';
+        document.getElementById('search-results').innerHTML = '';
         clearBtn.classList.remove('show');
         document.body.style.overflowY = 'auto';
+        
     }
 
     searchInput.oninput = function() {
@@ -66,7 +69,12 @@
             clearBtn.classList.remove('show');
         }
     }
-
+    document.getElementById('search-input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('search-form').submit();
+    }
+});
     searchOverlay.addEventListener('mousemove', function(event) {
         const rect = overlayContent.getBoundingClientRect();
         if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
@@ -84,5 +92,41 @@
             document.body.style.overflowY = 'auto';
         }
     });
+    // Hàm định dạng tiền tệ
+function formatCurrency(value) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+}
+    document.getElementById('search-input').addEventListener('input', function() {
+            var query = this.value;
+            if (query.length > 0) {
+                fetch('/searching?query=' + query)
+                    .then(response => response.json())
+                    .then(data => {
+                        var itemsDiv = document.getElementById('search-results');
+                        itemsDiv.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(function(item) {
+                                var itemDiv = document.createElement('div');
+                                itemDiv.className = 'item mb-2';
+                                itemDiv.style.padding = '10px';
+                                itemDiv.innerHTML = `
+                                 <a href="/products/${item.product_id}" class="product-link">
+                                    <img src="/storage/products/${item.product_name}/${item.url_name}" class="product-img" alt="${item.product_name}">
+                                    <div class="product-name-under">
+                                    <div class="product-name">${item.product_name}</div>
+                                    </div>
+                                   <div class="product-price">${formatCurrency(item.price)}</div>
+                                </a>
+                                `;
+                                itemsDiv.appendChild(itemDiv);
+                            });
+                        } else {
+                            itemsDiv.innerHTML = '<p style="text-align: center;">No results found</p>';
+                        }
+                    });
+            } else {
+                document.getElementById('search-results').innerHTML = '';
+            }
+        });
 </script>
 </html>
