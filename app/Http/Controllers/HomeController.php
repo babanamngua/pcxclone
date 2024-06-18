@@ -212,8 +212,37 @@ class HomeController extends Controller
 }
 public function search(Request $request)
     {
+        
         $query = $request->input('query');
         $products = Product::where('product_name', 'LIKE', "%{$query}%")->get();
         return response()->json($products);
+    }
+
+
+    public function searchBlade(Request $request)
+    {
+        $this->data['title'] = 'trang tìm kiếm';
+        $cartCount = 0;
+        
+
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
+            $cartCount = count($cartItems);
+        } else {
+            $cart = session()->get('cart', []);
+            $cartCount = count($cart);
+        }
+        $category1 = Category::whereNotNull('component_id')->get();
+        $category2 = Category::whereNull('component_id')->get();
+        $brand1 = Brand::whereNotNull('category_id')->get();
+        $brand2 = Brand::whereNull('category_id')->get();
+        $searchTerm = $request->input('q');
+        $products = Product::where('product_name', 'LIKE', '%' . $searchTerm . '%')->get();
+        foreach ($products as $product) {
+            $color1[$product->product_id] = Color::where('product_id', $product->product_id)->get();
+        }
+
+        return view('clients.search-product',$this->data, compact('products','color1', 'searchTerm','cartCount','category1','category2','brand1','brand2'));
     }
 }

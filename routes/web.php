@@ -21,7 +21,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 
 Route::get('/searching', [HomeController::class, 'search']);
-// Route::get('/search', [HomeController::class, 'searchBlade'])->name('products.search');
+Route::get('/search', [HomeController::class, 'searchBlade'])->name('products.search');
 
 
 Route::get('/',[HomeController::class,'index'])->name('home');

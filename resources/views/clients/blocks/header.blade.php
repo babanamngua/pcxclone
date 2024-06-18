@@ -121,7 +121,6 @@
                             @foreach($category2 as $category)
                             <li><a class="nameonmenu-1"
                                     href="">{{$category->category_name}}</a>
-
                                 <div class="dropdown__menu2 dropdown_menu-6">
                                     <ul>
                                         <?php?>
@@ -138,7 +137,6 @@
                                 </div>
                             </li>
                             @endforeach
-                            
                             <li><a class="nameonmenu-1"
                                     href="">Linh kiện</a>
 
@@ -193,12 +191,12 @@
 {{-- <a class="nameonmenu-2" href="{{route('collections.category',['category' => $category->category_name,'brand' => $brand->brand_name])}}">{{$brand->brand_name}}</a> --}}          
    
     <div class="overlay-content"> 
-    <form action="{{route('collections.category',['category' => $category->category_name,'brand' => $brand->brand_name])}}" method="GET" id="search-form">
+    <form action="{{ route('products.search') }}" method="GET" id="search-form">
         <div class="overlay-contentt">
-        <input type="text" placeholder="Tìm..." id="search-input">
+        <input type="text" name="q" placeholder="Tìm..." id="search-input" value="{{ request('q') }}">
         <span class="clear-btn" id="clear-btn">xóa</span>
         <span class="closebtn" id="close-button">&times;</span>
-        </div>    
+        </div>
         <button type="submit" id="search-button" style="padding: 0px 10px;"><i class="bi bi-search"></i></button>
     </form>
     <div class="items mb-4" id="search-results">
