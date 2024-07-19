@@ -11,10 +11,15 @@ class Order_items extends Model
     protected $primaryKey = 'order_item_id'; // Tên cột khóa chính của bạn là 'brand_id'
     protected $table = 'order_items';
     protected $fillable = [
-        'order_id',
         'user_id',
+        'order_id',
         'product_id',
+        'product_name',
         'quantity',
+        'color_id',
+        'color_name',
+        'capacity',
+        'size',
         'price',
         ];
         public $timestamps = true; // Đảm bảo timestamps được bật

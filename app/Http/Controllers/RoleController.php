@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 class RoleController extends Controller
 {
     public $data =[];
+
     public function index()
     {
         $this->data['title'] = 'trang role';
@@ -42,7 +43,8 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
-        return view('admin.role-permission.role.edit_role',[
+        $this->data['title'] = 'trang sửa role';
+        return view('admin.role-permission.role.edit_role',$this->data,[
             'role' => $role
         ]);
     }

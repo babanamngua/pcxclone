@@ -64,10 +64,5 @@ class ColorController extends Controller
        $color->delete();
        return redirect()->back()->with('status', 'Xóa màu thành công.');
    }
-   public function destroy1($id)
-   {
-       $color = Color::findOrFail($id);
-       $color->delete();
-       return redirect()->back()->with('status', 'Xóa màu thành công.');
-   }
+
 }

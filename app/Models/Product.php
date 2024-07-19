@@ -15,12 +15,18 @@ class Product extends Model
         'product_name',
         'category_id',
         'brand_id',
-        'img_id',
-        'color_id',
         'price',
         'description',
-        'quantity',
         'url_name',
         ];
     public $timestamps = true; // Đảm bảo timestamps được bật
+    public function colors()
+    {
+        return $this->hasMany(Color::class, 'product_id', 'product_id');
+    }
+
+    public function quantities()
+    {
+        return $this->hasMany(Quantity::class, 'product_id', 'product_id');
+    }
 }

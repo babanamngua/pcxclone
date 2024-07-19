@@ -1,5 +1,5 @@
 <footer>
-    <section class="footer__top4">
+    {{-- <section class="footer__top4">
                 <div class="container5">
     <table border="0" style="border-spacing: 44px 30px;">
         <tr>
@@ -24,7 +24,7 @@
         </tr>
     </table>
     </div>         
-            </section>
+            </section> --}}
     
     <section class="footer__top2">
                 <div class="container3">

@@ -24,16 +24,27 @@
     --flickity-arrow-color: #abb1b4;
     --maudo-color:#ff0303;
 }
-#preloader
-{
-    background: var(--mautrang-color) url(../../../storage/block/header/loading.gif) no-repeat center center;
-    background-size: 7%;
-    height: 100vh;
+#preloader {
+    background: rgba(255, 254, 254, 0.3);
+    height: 100%;
     width: 100%;
     position: fixed;
-    z-index:100;
-   transform: opacity 0.75s, visibility 0.75s;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.75s, visibility 0.75s;
 }
+
+#preloader img {
+    width: 4%; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
 .fhgksvfjsa{
     width: 100%;
     background-color: var(--mauchudao1-color);
@@ -43,7 +54,7 @@
 .container1{
     width: 100%;
     background-color: var(--mauchudao-color);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+    transition: top 0.3s;
 }
 .container2{
     width: 100%;
@@ -83,7 +94,9 @@ body{
     /* font-family: Roboto; */
     font-family: var(--text-font-family);
     /* background-color: var(--mauxamkhoi-color); */
+
 }
+
 .info_top {
     /* padding: 6px 0; */
     text-align: right;
@@ -1014,9 +1027,9 @@ a.tendanhmuc123 {
 
 }
 .theloaidanhmuc11 {
-    /* display: inline-block; */
-    /* float: left; */
-    /* margin: 0px -1px; */
+    display: inline-block;
+    float: left;
+    margin: 0px -1px;
     margin-right: 10px;
     background: var(--mautrang-color);
 }
@@ -1029,7 +1042,7 @@ a.tendanhmuc123 {
 }
 .anhtrongbestsellers {
     width: 300px;
-    height: 300px;
+    /* height: 300px; */
     padding: 15px 10px 15px 10px;
     transition: transform 0.2s; 
     position: relative; /* Đặt position là relative */
@@ -1061,6 +1074,7 @@ a.tenbestsellers {
     text-decoration: none;
     /* font-size: 18px; */
     font-weight: bold;
+    width: 300px;
 }
 a.tenbestsellers:hover
  {
@@ -1176,22 +1190,21 @@ a.sobestsellerssale
 .form-group1 input
 {
     height: 50px;
-    width: 387px;
+    width: 98%;
     outline: none;
     border: 1px solid #dadce0;
     padding: 10px;
     color: #202124;
-    font-size: 1.3rem;
+    /* font-size: 1.3rem; */
     border-radius: 3px;
     transition: all 0.2s ease-in-out;
-    
 }
 .form-group1 label
 {
     position: absolute;
     padding: 0px 5px 0px 5px;
     margin-top: 10px;
-    margin-left: -381px;
+    margin-left: -29.8%;
     /* left: 881px; */
     /* background-color: var(--mautrang-color); */
     pointer-events: none;
@@ -1203,8 +1216,8 @@ a.sobestsellerssale
 {
     /* padding:0px 0px 0px 47px; */
     margin-top: 1px;
-    font-size: 0.6rem;
-    color: var(--mauchudao1-color);
+    font-size: 0.7rem;
+    /* color: var(--mauchudao1-color); */
       /* background: rgb(140, 0, 255);    */
 }
 .form-group1 input:focus
@@ -2002,8 +2015,8 @@ ul.top_header {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 1;
+    background-color: rgb(0 0 0 / 72%);
+    z-index: 999;
     overflow: hidden;
     overflow-y: hidden;
     /* opacity: 0; */
@@ -2013,11 +2026,10 @@ ul.top_header {
     /* opacity: 1; */
     display: block;
 }
-
 .overlay-content {
     border-radius: 10px;
     top: 50%;
-    width: 530px;
+    width: 620px;
     /* text-align: center; */
     /* margin: 0 auto; */
     /* transform: translateY(-50%); */
@@ -2027,6 +2039,26 @@ ul.top_header {
     float: right;
     /* opacity: 0; */
     /* transition: opacity 0.5s; */
+    overflow-y: auto; /* Cuộn dọc */
+    scrollbar-width: thin; /* Kích thước thanh cuộn */
+    scrollbar-color: #888 transparent; /* Màu thanh cuộn */
+}
+.overlay-content1 {
+    border-radius: 10px;
+    top: 50%;
+    width: 620px;
+    /* text-align: center; */
+    /* margin: 0 auto; */
+    /* transform: translateY(-50%); */
+    margin-top: 30px;
+    height: 95%;
+    background-color: white;
+    float: left;
+    /* opacity: 0; */
+    /* transition: opacity 0.5s; */
+    overflow-y: auto; /* Cuộn dọc */
+    scrollbar-width: thin; /* Kích thước thanh cuộn */
+    scrollbar-color: #888 transparent; /* Màu thanh cuộn */
 }
 .overlay-contentt
 {
@@ -2051,7 +2083,7 @@ ul.top_header {
 }
 
 .clear-btn {
-    position: absolute;
+    /* position: absolute; */
     cursor: pointer;
     color: #a7a7a7;
     font-size: 14px;
@@ -2064,7 +2096,7 @@ ul.top_header {
     opacity: 1;
 }
 .closebtn {
-    position: absolute;
+    /* position: absolute; */
     right: 28px;
     font-size: 24px;
     color: rgb(0, 0, 0);
@@ -2075,5 +2107,42 @@ ul.top_header {
 }
 
 .overlay.exit-cursor {
-    cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48bGluZSB4MT0iMCIgeTE9IjAiIHgyPSI1MCIgeTI9IjUwIiBzdHJva2U9InJlZCIgc3Ryb2tlLXdpZHRoPSI1Ii8+PGxpbmUgeDE9IjUwIiB5MT0iMCIgeDI9IjAiIHkyPSI1MCIgc3Ryb2tlPSJyZWQiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==') 16 16, auto;
+    cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJ3aGl0ZSIvPgogIDxsaW5lIHgxPSIyMCIgeTE9IjIwIiB4Mj0iMzAiIHkyPSIzMCIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjMwIiB5MT0iMjAiIHgyPSIyMCIgeTI9IjMwIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+') 16 16, auto;
+}
+/* Đặt lại thuộc tính mặc định của thẻ <a> */
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Cài đặt lại các thuộc tính cho các thẻ con */
+.product-link .product-img {
+    width: 100px;
+    border: 0;
+}
+
+.product-link .product-name {
+    margin: 0;
+    margin-top: -73px;
+    margin-left: 115px;
+    font-weight: 700;
+}
+.product-link:hover .product-name-under{
+    text-decoration: underline;
+}
+.product-link .product-price {
+    margin: 0;
+    margin-top: 1px;
+    margin-left: 115px;
+    color: var(--bs-gray-700);
+}
+.overlay-content::-webkit-scrollbar {
+    width: 8px; /* Chiều rộng thanh cuộn trên trình duyệt Chrome/Safari/Opera */
+}
+
+.overlay-content::-webkit-scrollbar-thumb {
+    background-color: #888; /* Màu của thanh cuộn */
+    border-radius: 4px; /* Độ cong viền của thanh cuộn */
+
 }

@@ -16,4 +16,13 @@ class Color extends Model
         'color_code'
         ];
         public $timestamps = true; // Đảm bảo timestamps được bật
+        public function product()
+        {
+            return $this->belongsTo(Product::class, 'product_id', 'product_id');
+        }
+    
+        public function quantities()
+        {
+            return $this->hasMany(Quantity::class, 'color_id', 'color_id');
+        }
 }

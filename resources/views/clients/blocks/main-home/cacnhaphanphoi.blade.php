@@ -1,7 +1,5 @@
 <div class="container6">
     <div class="container4">
-
-   
     <a id="tencacthuonghieuphanthoi">Các thương hiệu phân phối</a>
     <div class="container4">
 @foreach ($brand2 as $brand)

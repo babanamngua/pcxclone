@@ -1,12 +1,17 @@
 <?php
 
-
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ImgController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\QuantityController;
+use App\Http\Controllers\CapacityController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\OrderItemController;
+use App\Http\Controllers\ShippingMethodsController;
+use App\Http\Controllers\AuthController;
 
 
 use App\Http\Controllers\ProfileController;
@@ -18,44 +23,69 @@ use App\Http\Controllers\RoleController;
 use Spatie\Permission\Contracts\Permission;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\PaymentController;
 
 
+//giỏ hàng
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+Route::get('/cart/order', [CartController::class, 'CartOrder'])->name('cartorder.index');
+Route::post('/cart/order', [CartController::class, 'placeOrder'])->name('placeorder.infor');
+
+
+//home
+Route::get('/cart/count', [HomeController::class, 'count'])->name('cart.count');
 Route::get('/',[HomeController::class,'index'])->name('home');
-Route::get('/products',[HomeController::class,'index'])->name('home');
-Route::get('products/{id}',[HomeController::class,'detail'])->name('products.detail');
-Route::get('products/{id}',[HomeController::class,'detail'])->name('products.detail');
+Route::get('/products',[HomeController::class,'index'])->name('products.home');
+Route::get('/products/{id}',[HomeController::class,'detail'])->name('products.detail');
+Route::get('/get-price-by-color', [HomeController::class, 'getPriceByColor']);
+Route::get('/tintuc',[HomeController::class,'tintuc'])->name('tintuc');
+Route::get('/lienhe',[HomeController::class,'lienhe'])->name('lienhe');
 
+    //collections
+Route::prefix('collections')->name('collections.')->group(function(){
+    Route::get('/{category}-{brand}', [HomeController::class, 'category'])->name('category');
+    Route::get('/{category}', [HomeController::class, 'category1'])->name('category1');
+});
 
+//search
 
-// Route::group(['middleware' => ['role:super-admin|admin']], function() {
+Route::get('/searching', [HomeController::class, 'search']);
+Route::get('/search', [HomeController::class, 'searchBlade'])->name('products.search');
 
-Route::resource('permissions',PermissionController::class);
-Route::get('permissions/{permissionId}/delete', [PermissionController::class, 'destroy']);
-
-Route::resource('roles', RoleController::class);
-Route::get('roles/{roleId}/delete', [RoleController::class, 'destroy']);
-Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
-Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
-
-Route::resource('users', UserController::class);
-Route::get('users/{userId}/delete', [UserController::class, 'destroy']);
-
-// });
+// Route::group(['middleware' => ['role:auth']], function() {
+Route::group(['middleware' => ['role:auth|super-admin|admincheck']], function() {
+// Route::middleware(['auth','admincheck'])->group(function () {
+    //permissions
+    Route::resource('permissions',PermissionController::class);
+    Route::get('permissions/{permissionId}/delete', [PermissionController::class, 'destroy']);
+    //roles
+    Route::resource('roles', RoleController::class);
+    Route::get('roles/{roleId}/delete', [RoleController::class, 'destroy']);
+    Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
+    Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
+    //users
+    Route::resource('users', UserController::class);
+    Route::get('users/{userId}/delete', [UserController::class, 'destroy']);
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/orderclients', [OrdersController::class, 'orderclients'])->name('profile.orderclients');
 });
-
-// Route::middleware(['auth'])->group(function () {
+//dashboard
+Route::middleware(['auth','admincheck'])->group(function () {
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
     Route::get('brand',[BrandController::class,'index'])->name('brand.index');
     Route::get('brand/create',[brandController::class,'create'])->name('brand.create');
     Route::post('brand/',[brandController::class,'store'])->name('brand.store');
@@ -103,13 +133,46 @@ Route::middleware('auth')->group(function () {
     Route::delete('color/{id}/destroy1',[ColorController::class,'destroy1'])->name('color.destroy1');
     Route::post('color/add',[ColorController::class,'add'])->name('color.add');
 
+    // Routes for QuantityController
+    Route::get('/quantity/upload/{id}', [QuantityController::class, 'upload'])->name('quantity.upload');
+    Route::put('/quantity/update/{id}', [QuantityController::class, 'update'])->name('quantity.update');
+    Route::post('/quantity/add', [QuantityController::class, 'add'])->name('quantity.add');
+    Route::delete('/quantity/destroy/{id}', [QuantityController::class, 'destroy'])->name('quantity.destroy');
 
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
-// });
+    Route::get('/capacity/upload/{id}', [CapacityController::class, 'upload'])->name('capacity.upload');
+    Route::put('/capacity/update/{id}', [CapacityController::class, 'update'])->name('capacity.update');
+    Route::post('/capacity/add', [CapacityController::class, 'add'])->name('capacity.add');
+    Route::delete('/capacity/destroy/{id}', [CapacityController::class, 'destroy'])->name('capacity.destroy');
+
+    Route::get('orders',[OrdersController::class,'index'])->name('orders.index');
+    Route::get('orders/{id}/edit',[OrdersController::class,'edit'])->name('orders.edit');
+    Route::put('orders/{id}/update',[OrdersController::class,'update'])->name('orders.update');
+    Route::delete('orders/{id}/destroy',[OrdersController::class,'destroy'])->name('orders.destroy');
+
+    Route::get('orderitem/{id}',[OrderItemController::class,'index'])->name('orderitem.index');
+    Route::get('orderitem/{id}/edit',[OrderItemController::class,'edit'])->name('orderitem.edit');
+    // Route::put('orderitem/{id}/update',[OrderItemController::class,'update'])->name('orderitem.update');
+    // Route::delete('orderitem/{id}/destroy',[OrderItemController::class,'destroy'])->name('orderitem.destroy');
+
+    Route::get('shippingmethods',[ShippingMethodsController::class,'index'])->name('shippingmethods.index');
+    Route::get('shippingmethods/create',[ShippingMethodsController::class,'create'])->name('shippingmethods.create');
+    Route::post('shippingmethods/',[ShippingMethodsController::class,'store'])->name('shippingmethods.store');
+    Route::get('shippingmethods/{shippingmethods}/edit',[ShippingMethodsController::class,'edit'])->name('shippingmethods.edit');
+    Route::put('shippingmethods/{shippingmethods}/update',[ShippingMethodsController::class,'update'])->name('shippingmethods.update');
+    Route::delete('shippingmethods/{shippingmethods}/destroy',[ShippingMethodsController::class,'destroy'])->name('shippingmethods.destroy');
+
+    Route::get('clients',[ClientsController::class,'index'])->name('clients.index');
+    Route::get('clients/create',[ClientsController::class,'create'])->name('clients.create');
+    Route::post('clients/',[ClientsController::class,'store'])->name('clients.store');
+    Route::get('clients/{userId}/edit',[ClientsController::class,'edit'])->name('clients.edit');
+    Route::put('clients/{userId}/update',[ClientsController::class,'update'])->name('clients.update');
+    Route::get('clients/{userId}/destroy',[ClientsController::class,'destroy'])->name('clients.destroy');
+});
+
+Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
+
 require __DIR__.'/auth.php';
+
 
 

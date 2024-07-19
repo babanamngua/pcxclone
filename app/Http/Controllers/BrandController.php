@@ -114,6 +114,7 @@ public function  typestore(Request $request)
     $request->validate([
         'brand_name'=>'required|string|max:255',
         'url_name'=>'nullable|image|file',
+        // 'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
     ]);
 
     $brand = new Brand();
@@ -137,6 +138,7 @@ $this->data['title'] = 'trang nhà sản xuất';
 $request->validate([
     'brand_name' => 'required|string|max:255',
     'url_name' => 'nullable|image|file',
+    // 'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
 ]);
 $brand = Brand::findOrFail($id);
 // dd($brand);

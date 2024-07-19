@@ -14,6 +14,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    public $data =[];
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -57,4 +58,9 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    // public function profileclients()
+    // {
+    //     $this->data['title'] = "Thông tin khách hàng";
+    //     return view('clients.profile_clients', $this->data);
+    // }
 }

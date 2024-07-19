@@ -37,12 +37,7 @@
                                 {{-- tên sản phẩm --}}
                                     <label>Tên sản phẩm</label>
                                     <input required name="product_name" class="form-control" placeholder="Tên sản phẩm..." value="{{$product->product_name}}">
-                                </div>
-                                <div class="form-group">
-                                    {{-- số lượng sản phẩm --}}
-                                <label >Số lượng sản phẩm</label>
-                                <input type="number" name= "quantity" min="0" class="form-control" placeholder="Số lượng sản phẩm..." value="{{$product->quantity}}">
-                            </div>                                                            
+                                </div>                                                           
                             <div class="form-group">
                                 {{-- giá sản phẩm --}}
                               <label>Giá sản phẩm</label>
@@ -85,8 +80,7 @@
                                     </div> 
                                 </div>
                                 <button name="sbm" type="submit" class="btn btn-success">Cập nhật</button>
-                                <button type="reset" class="btn btn-default">Làm mới</button>                             
-                              
+                                <button type="reset" class="btn btn-default">Làm mới</button>                                              
                         </form>
                         </div>
                     </div>

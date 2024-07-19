@@ -8,7 +8,7 @@ use App\Models\Component;
 class ComponentController extends Controller
 {
     public $data =[];
-    public function index()
+       public function index()
     {        
         $component = Component::all();
         $this->data['title'] = 'trang linh kiện';

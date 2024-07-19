@@ -8,6 +8,8 @@ use App\Models\Img;
 use App\Models\Color;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Quantity;
+use App\Models\Capacity;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
@@ -44,9 +46,8 @@ class ProductController extends Controller
             'brand_id' => 'nullable|exists:brand,brand_id',
             'price' =>'required|numeric',
             'description'=>'nullable',
-            'quantity'=>'required|integer',
             // 'url_name' => 'nullable|image|file',
-            'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ]);
         $product = new Product();
         $product->product_name = $request->input('product_name');  
@@ -54,7 +55,6 @@ class ProductController extends Controller
         $product->category_id = $request->input('category_id'); 
         $product->price = $request->input('price'); 
         $product->description = $request->input('description'); 
-        $product->quantity = $request->input('quantity');
         $productFolder = public_path('storage/products/' . $product->product_name.'/'.'img');
         if (!File::exists($productFolder)) 
             {
@@ -90,9 +90,8 @@ public function update(Request $request, $id)
         'brand_id' => 'nullable|exists:brand,brand_id',
         'price' => 'required|numeric',
         'description' => 'nullable',
-        'quantity' => 'required',
         // 'url_name' => 'nullable|image|file',
-        'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
     ]);
 
     $product = Product::findOrFail($id);
@@ -104,7 +103,6 @@ public function update(Request $request, $id)
     $product->category_id = $request->input('category_id');
     $product->price = $request->input('price');
     $product->description = $request->input('description');
-    $product->quantity = $request->input('quantity');
 
     $newProductFolder = public_path('storage/products/' . $product->product_name . '/' . 'img');
     $oldProductFolder = public_path('storage/products/' . $oldProductName . '/' . 'img');
@@ -143,6 +141,8 @@ public function update(Request $request, $id)
        $product = Product::findOrFail($id);
        $images = Img::where('product_id', $id)->get();
        $colors = Color::where('product_id', $id)->get();
+       $quantitys = Quantity::where('product_id', $id)->get();
+
        if($images){
        foreach ($images as $image) {
            // Đường dẫn tới tệp ảnh
@@ -153,6 +153,11 @@ public function update(Request $request, $id)
            // Xóa bản ghi ảnh từ cơ sở dữ liệu
            $image->delete();
        }}
+        if($quantitys){
+        foreach ($quantitys as $quantity) {
+            // Xóa bản ghi màu từ cơ sở dữ liệu
+            $quantity->delete();
+        }}
        // Xóa màu liên quan
        if($colors){
        foreach ($colors as $color) {

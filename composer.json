@@ -7,10 +7,14 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-permission": "^6.7"
+        "php-open-source-saver/jwt-auth": "^2.3",
+        "spatie/laravel-permission": "^6.7",
+        "stripe/stripe-php": "^15.2"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.23",
         "kitloong/laravel-migrations-generator": "^7.0",
         "laravel/breeze": "^2.0",

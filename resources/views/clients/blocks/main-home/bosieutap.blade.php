@@ -1,7 +1,5 @@
 <div class="container6">
     <div class="container4">
-
-   
     <a id="tencacthuonghieuphanthoi">Bộ siêu tập</a>
     <div class="container4">
     <div class="theloaidanhmuc1">
