@@ -7,7 +7,6 @@
 <section>
     <div class="row" style="margin: 10px 40px;">
         <div class="col-md-1">
-       
             <div class="dropsadowmen">
                 <div id="image-container" class="scrollable-images">
                     @if($images->isNotEmpty())
@@ -19,7 +18,6 @@
                     @endif
                 </div>
             </div>
-            
         </div>
         <div class="col-md-5">
             @if($images->isNotEmpty())
@@ -39,7 +37,7 @@
             <p>{!! $html_decoded_text !!}</p>
             <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">
                 @csrf
-                <div>
+                <div  style="    margin-bottom: 15px;">
                     @if($colors->isNotEmpty())
                         <label for="color">Chọn màu:</label>
                         <select name="color_id" id="color-select">
@@ -52,23 +50,27 @@
                     @endif
                 </div>
 
-                <div class="capacity-container hidden">
+                <div class="capacity-container hidden"  style="    margin-bottom: 15px;">
                     <label for="capacity">Chọn dung lượng:</label>
                     <select name="capacity" id="capacity-select">
                     </select>
                 </div>
 
-                <div class="size-container hidden">
+                <div class="size-container hidden"  style="    margin-bottom: 15px;">
                     <label for="size">Chọn kích thước:</label>
                     <select name="size" id="size-select">
                     </select>
                 </div>
-
-                <div>
-                    <label for="quantity">Chọn số lượng:</label>
-                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="100">
+                <div class="quantity-container"  style="    margin-bottom: 15px;">
+                    <label for="quantity_product">Chọn số lượng:</label>
+                    <button type="button" class="quantity-btn minus-btn">
+                        -
+                    </button>
+                    <input type="number" name="quantity_product" id="quantity_product" value="1" min="1" max="100">
+                    <button type="button" class="quantity-btn plus-btn">
+                        +
+                    </button>
                 </div>
-
                 <div class="chonmua">
                     <input type="hidden" name="product_id" value="{{ $product->product_id }}">
                     <button type="submit" class="btn btn-primary">Giỏ hàng</button>
@@ -131,6 +133,55 @@
     margin-top: 90px; /* Add margin to space out alerts */
     display: none;
 }
+.quantity-container {
+    display: -webkit-inline-box;
+    align-items: center;
+    justify-content: flex-start; /* Căn sang trái */
+    gap: 10px;
+}
+
+.quantity-container label {
+    margin-right: 10px;
+}
+
+.quantity-container input[type="number"] {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.quantity-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background-color: #0056b3;
+}
+
+.quantity-btn i {
+    font-size: 16px;
+}
+
+.minus-btn {
+    margin-right: -4px;
+}
+
+.plus-btn {
+    margin-left: -4px;
+}
+
 </style>
 @endsection
 
@@ -253,8 +304,27 @@ $(document).ready(function() {
     var initialSize = $('#size-select').find('option:selected').data('size-id') || "";
     updatePrice(initialColorId, initialCapacity, initialSize);
 
-     // Update cart count
-     function updateCartCount() {
+    // Điều chỉnh số lượng khi nhấn nút trừ
+$('.minus-btn').click(function() {
+    var input = $('#quantity_product');
+    var currentValue = parseInt(input.val());
+    if (currentValue > 1) {
+        input.val(currentValue - 1);
+    }
+});
+
+// Điều chỉnh số lượng khi nhấn nút cộng
+$('.plus-btn').click(function() {
+    var input = $('#quantity_product');
+    var currentValue = parseInt(input.val());
+    if (currentValue < 100) {
+        input.val(currentValue + 1);
+    }
+});
+
+
+    // Update cart count
+    function updateCartCount() {
         $.ajax({
             url: "{{ route('cart.count') }}",
             method: 'GET',
@@ -272,7 +342,14 @@ $(document).ready(function() {
             }
         });
     }
-
+    $('#quantity_product').on('input', function() {
+        var value = $(this).val();
+        if (value < 1) {
+            $(this).val(1);
+        } else if (value > 100) {
+            $(this).val(100);
+        }
+    });
     // Event handler for form submission
     $('#add-to-cart-form').on('submit', function(event) {
         event.preventDefault(); // Prevent default form submission
@@ -295,6 +372,8 @@ $(document).ready(function() {
             }
         });
     });
+
+
 });
 </script>
 @endsection

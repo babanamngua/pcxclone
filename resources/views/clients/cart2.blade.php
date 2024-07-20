@@ -23,7 +23,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Sản phẩm</th>
+                            <th>Sản phẩm ({{ $cartCount }})</th>
                             <th>Số lượng</th>
                             <th>Giá</th>
                             <th>Tổng</th>
@@ -39,6 +39,7 @@
                             @endphp
                             <tr>
                                 <td>
+                                    <a href="{{ route('products.detail', $item['id']) }}" style="color: black;text-decoration: none;padding: 20px 10px;">
                                     <img src="{{ asset('storage/products/' . $item['name'] . '/' . $item['image']) }}" width="50" class="img-responsive" />
                                     <div style="display: contents;">
                                         {{ $item['name'] }}
@@ -52,6 +53,7 @@
                                             <span class="badge badge-secondary" style="margin: 0;background-color: black;">{{ $item['size'] }}</span>
                                         @endif
                                     </div>
+                                </a>
                                 </td>
                                 <td>
                                     <form class="update-cart-form" action="{{ route('cart.update') }}" method="POST">
@@ -60,8 +62,17 @@
                                         <input type="hidden" name="color_id" value="{{ $item['color_id'] }}">
                                         <input type="hidden" name="capacity" value="{{ $item['capacity'] }}">
                                         <input type="hidden" name="size" value="{{ $item['size'] }}">
-                                        <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1">
-                                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                        {{-- <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1"> --}}
+                                        <div class="quantity-container">
+                                            <button type="submit" class="quantity-btn minus-btn">
+                                                -
+                                            </button>
+                                            <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1">
+                                            <button type="submit" class="quantity-btn plus-btn">
+                                                +
+                                            </button>
+                                        </div>
+                                        {{-- <button type="submit" class="btn btn-primary">Cập nhật</button> --}}
                                     </form>
                                 </td>
                                 <td>{{ \App\Helpers\NumberHelper::formatCurrency($item['price']) }}</td>
@@ -134,6 +145,53 @@
     border-radius: 5px;
     margin-top: 90px; /* Add margin to space out alerts */
     display: none;
+}
+.quantity-container {
+    display: -webkit-inline-box;
+    align-items: center;
+    justify-content: flex-start; /* Căn sang trái */
+    gap: 10px;
+}
+
+.quantity-container label {
+    margin-right: 10px;
+}
+
+.quantity-container input[type="number"] {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+}
+.quantity-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background-color: #0056b3;
+}
+
+.quantity-btn i {
+    font-size: 16px;
+}
+
+.minus-btn {
+    margin-right: -4px;
+}
+
+.plus-btn {
+    margin-left: -4px;
 }
 
     </style>

@@ -69,7 +69,8 @@ class CartController extends Controller
             'product_id' => 'required|exists:product,product_id',
             'color_id' => 'nullable|exists:color,color_id',
             'capacity' => 'nullable',
-            'size' => 'nullable'
+            'size' => 'nullable',
+            'quantity_product' => 'required|integer|min:1|max:100' // Validate quantity_product
         ]);
     
         $product = Product::find($request->input('product_id'));
@@ -77,6 +78,7 @@ class CartController extends Controller
         $capacities = $request->input('capacity') ?? null;
         $size = $request->input('size') ?? null;
         $color = $colorId ? Color::find($colorId) : null;
+        $quantity_product = $request->input('quantity_product'); // Get the quantity_product from the request
     
         $quantityQuery = Quantity::where('product_id', $product->product_id);
     
@@ -132,7 +134,7 @@ class CartController extends Controller
             $cartItem = $cartItemQuery->first();
     
             if ($cartItem) {
-                $cartItem->quantity++;
+                $cartItem->quantity += $quantity_product; // Increment by the quantity_product
                 $cartItem->save();
                 $alreadyInCart = true;
             } else {
@@ -140,7 +142,7 @@ class CartController extends Controller
                     'user_id' => Auth::id(),
                     'product_id' => $product->product_id,
                     'product_name' => $product->product_name,
-                    'quantity' => 1,
+                    'quantity' => $quantity_product,
                     'color_id' => $color ? $color->color_id : null,
                     'color_name' => $color ? $color->color_name : null,
                     'capacity' => $capacities,
@@ -156,13 +158,13 @@ class CartController extends Controller
                     . ($size ? '_' . $size : '');
     
             if (isset($cart[$cartKey])) {
-                $cart[$cartKey]['quantity']++;
+                $cart[$cartKey]['quantity'] += $quantity_product; // Increment by the quantity_product
                 $alreadyInCart = true;
             } else {
                 $cart[$cartKey] = [
                     "id" => $product->product_id,
                     "name" => $product->product_name,
-                    "quantity" => 1,
+                    'quantity' => $quantity_product,
                     "price" => $quantity->price,
                     "image" => $product->url_name,
                     "color_id" => $color ? $color->color_id : null,
@@ -176,6 +178,7 @@ class CartController extends Controller
     
         return response()->json(['success' => true, 'already_in_cart' => $alreadyInCart]);
     }
+    
     
     public function update(Request $request)
     {

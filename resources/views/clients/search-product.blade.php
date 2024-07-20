@@ -11,12 +11,15 @@
                 <h5>Không tìm thấy sản phẩm.</h5>
               </div>
         @else
-        @foreach($products as $product)
+        @foreach($products as $product)           
         <div style="width: 249px; margin:0;margin-top: 20px;" id="cart-item" data-product-id="{{ $product->product_id }}">
-            <img src="{{ asset('storage/products/' . $product->product_name . '/' . $product->url_name) }}" class="card-img-top" alt="{{ $product->product_name }}">
+            <a href="{{ route('products.detail', $product->product_id) }}" style="text-decoration: none; color:black;" >
+                <div style="height: 225px; width: 225px; display: flex; align-items: center; justify-content: center;">
+                    <img src="{{ asset('storage/products/' . $product->product_name . '/' . $product->url_name) }}" class="card-img-top" alt="{{ $product->product_name }}">
+                </div>
             <div class="card-body">
                 <h5 class="card-title">{{ $product->product_name }}</h5>
-
+                        </a>
                 {{-- Hiển thị giá sản phẩm --}}
                 <p class="card-text product-price" id="product-price-{{ $product->product_id }}">
                     {{ \App\Helpers\NumberHelper::formatCurrency(0) }}
@@ -49,11 +52,11 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="chonmua">
+                    <input hidden type="number" name="quantity_product" id="quantity_product" value="1" >
+                    <div class="chonmua">                         
                         <input type="hidden" name="product_id" value="{{ $product->product_id }}">
                         <button type="submit" class="btn btn-primary">Giỏ hàng</button>
-                        <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary">View Details</a>
+                        {{-- <a href="{{ route('products.detail', $product->product_id) }}" class="btn btn-primary">Xem chi tiết</a> --}}
                     </div>
                 </form>
             </div>

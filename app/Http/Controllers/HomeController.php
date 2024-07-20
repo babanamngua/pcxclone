@@ -11,19 +11,19 @@ use App\Models\Brand;
 use App\Models\Quantity;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order_items;
+use App\Models\Component;
 
 
 
 class HomeController extends Controller
 {
     public $data =[];
-    public function index()
+    public function index(Request $request)
     {
         $this->data['title'] = 'Trang sản phẩm';
         $product1 = Product::all();
         $color1 = [];
         $quantitiesData = [];
-    
         $cartCount = 0;
     
         if (Auth::check()) {
@@ -45,9 +45,7 @@ class HomeController extends Controller
     
             foreach ($quantities as $quantity) {
                 $colorId = $quantity->color_id ?? null;
-                // $colorId = $quantity->color_id;
                 $capacity = $quantity->capacity ?? null;
-                // $capacity = $quantity->capacity;
                 $size = $quantity->size ?? null;
     
                 if (!isset($quantitiesData[$product->product_id][$colorId])) {
@@ -57,29 +55,33 @@ class HomeController extends Controller
                 if (!isset($quantitiesData[$product->product_id][$colorId][$capacity])) {
                     $quantitiesData[$product->product_id][$colorId][$capacity] = [];
                 }
-                
+    
                 $quantitiesData[$product->product_id][$colorId][$capacity][$size] = $quantity->price;
             }
         }
     
         $category1 = Category::whereNotNull('component_id')->get();
+        $categorycomponent = Category::whereNotNull('component_id')->get();
         $category2 = Category::whereNull('component_id')->get();
         $brand1 = Brand::whereNotNull('category_id')->get();
         $brand2 = Brand::whereNull('category_id')->get();
-    
+        $c0mponent = Component::all();
+   
         return view('clients.home', $this->data, compact(
             'category1',
             'category2',
+            'categorycomponent',
             'brand1',
-            'brand2',           
+            'c0mponent',
+            'brand2',
             'cartCount',
-
             'product1',
             'color1',
             'quantities',
             'quantitiesData'
         ));
     }
+    
     public function count()
     {
         $cartCount = 0;
@@ -442,4 +444,5 @@ public function search(Request $request)
                  'brand1',
                   'brand2')));
     }
+
 }

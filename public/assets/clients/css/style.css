@@ -2046,12 +2046,12 @@ ul.top_header {
 .overlay-content1 {
     border-radius: 10px;
     top: 50%;
-    width: 620px;
+    width: 340px;
     /* text-align: center; */
     /* margin: 0 auto; */
     /* transform: translateY(-50%); */
     margin-top: 30px;
-    height: 95%;
+    height: 930px;
     background-color: white;
     float: left;
     /* opacity: 0; */
@@ -2059,6 +2059,26 @@ ul.top_header {
     overflow-y: auto; /* Cuộn dọc */
     scrollbar-width: thin; /* Kích thước thanh cuộn */
     scrollbar-color: #888 transparent; /* Màu thanh cuộn */
+}
+.overlay-content2{
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    /* width: auto; */
+    width: 340px;
+    /* text-align: center; */
+    /* margin: 0 auto; */
+    /* transform: translateY(-50%); */
+    margin-top: 30px;
+    height: 930px;
+    background-color: white;
+    float: left;
+    /* opacity: 0; */
+    transition: opacity 0.5s;
+    overflow-y: auto; /* Cuộn dọc */
+    scrollbar-width: thin; /* Kích thước thanh cuộn */
+    scrollbar-color: #888 transparent; /* Màu thanh cuộn */
+    margin-left: 1px;
 }
 .overlay-contentt
 {

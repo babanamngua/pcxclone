@@ -45,6 +45,7 @@ Route::get('/products/{id}',[HomeController::class,'detail'])->name('products.de
 Route::get('/get-price-by-color', [HomeController::class, 'getPriceByColor']);
 Route::get('/tintuc',[HomeController::class,'tintuc'])->name('tintuc');
 Route::get('/lienhe',[HomeController::class,'lienhe'])->name('lienhe');
+Route::get('/get-brands/{category_id}', [HomeController::class, 'getBrandsByCategory']);
 
     //collections
 Route::prefix('collections')->name('collections.')->group(function(){
@@ -92,6 +93,7 @@ Route::middleware(['auth','admincheck'])->group(function () {
     Route::get('brand/{id}/edit',[brandController::class,'edit'])->name('brand.edit');
     Route::put('brand/{id}/update',[brandController::class,'update'])->name('brand.update');
     Route::delete('brand/{id}/destroy',[brandController::class,'destroy'])->name('brand.destroy');
+
 
     Route::get('type',[BrandController::class,'typeindex'])->name('type.index');
     Route::get('type/create',[brandController::class,'typecreate'])->name('type.create');
