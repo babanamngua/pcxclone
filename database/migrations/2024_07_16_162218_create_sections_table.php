@@ -18,7 +18,7 @@ class CreateSectionsTable extends Migration
             $table->foreignId('article_id')->constrained()->onDelete('cascade');
             $table->text('content1')->nullable();
             $table->text('content2')->nullable();
-            $table->foreignId('image_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('url_img');
             $table->timestamps();
         });
         }

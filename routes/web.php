@@ -12,6 +12,8 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ShippingMethodsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\SectionsController;
 
 
 use App\Http\Controllers\ProfileController;
@@ -169,6 +171,13 @@ Route::middleware(['auth','admincheck'])->group(function () {
     Route::get('clients/{userId}/edit',[ClientsController::class,'edit'])->name('clients.edit');
     Route::put('clients/{userId}/update',[ClientsController::class,'update'])->name('clients.update');
     Route::get('clients/{userId}/destroy',[ClientsController::class,'destroy'])->name('clients.destroy');
+
+    Route::get('articles',[ArticlesController::class,'index'])->name('articles.index');
+    Route::get('articles/create',[ArticlesController::class,'create'])->name('articles.create');
+    Route::post('articles/',[ArticlesController::class,'store'])->name('articles.store');
+    Route::get('articles/{id}/edit',[ArticlesController::class,'edit'])->name('articles.edit');
+    Route::put('articles/{id}/update',[ArticlesController::class,'update'])->name('articles.update');
+    Route::delete('articles/{id}/destroy',[ArticlesController::class,'destroy'])->name('articles.destroy');
 });
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');

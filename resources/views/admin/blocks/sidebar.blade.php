@@ -63,7 +63,7 @@
             </a>
         </li>
         <li class="parent ">
-            <a href="{{ route('product.index')}}" style="padding-left: 45px;">
+            <a href="{{ route('articles.index')}}" style="padding-left: 45px;">
                 <span data-toggle="collapse" href="#sub-item-7"></span> Quản lý bài viết
             </a>
         </li> 

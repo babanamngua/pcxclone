@@ -9,7 +9,6 @@ use App\Models\Color;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Quantity;
-use App\Models\Capacity;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
@@ -110,7 +109,8 @@ public function update(Request $request, $id)
     // Đổi tên thư mục nếu tên sản phẩm đã thay đổi
     if ($oldProductName !== $product->product_name) {
         if (File::exists($oldProductFolder)) {
-            File::moveDirectory(public_path('storage/products/' . $oldProductName), public_path('storage/products/' . $product->product_name));
+            File::moveDirectory(public_path('storage/products/' . $oldProductName),
+             public_path('storage/products/' . $product->product_name));
         }
     }
 
@@ -121,7 +121,8 @@ public function update(Request $request, $id)
 
     // Xử lý ảnh
     if ($request->hasFile('url_name')) {
-        if ($product->url_name && file_exists(public_path('storage/products/'. $product->product_name . '/' . $product->url_name))) { unlink(public_path('storage/products/'. $product->product_name . '/' . $product->url_name));
+        if ($product->url_name && file_exists(public_path('storage/products/'. $product->product_name . '/' . $product->url_name))) {
+             unlink(public_path('storage/products/'. $product->product_name . '/' . $product->url_name));
             // if ($brand->image && file_exists('storage/img/brand/' . $brand->image)) { unlink('storage/img/brand/' . $brand->image);
         }
         $image = $request->file('url_name');

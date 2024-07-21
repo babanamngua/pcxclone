@@ -14,16 +14,11 @@ class Section extends Model
         'article_id',
         'content1',
         'content2',
-        'image_id',
+        'url_img',
         ];
         public function article()
         {
             return $this->belongsTo(Article::class);
         }
-    
-        public function image()
-        {
-            return $this->hasOne(Image::class);
-        }
-    public $timestamps = false; // Đảm bảo timestamps được bật
+    public $timestamps = false; // Đảm bảo timestamps được tắt
 }
