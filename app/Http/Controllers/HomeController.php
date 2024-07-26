@@ -12,6 +12,11 @@ use App\Models\Quantity;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order_items;
 use App\Models\Component;
+use App\Models\Article;
+use App\Models\Section;
+use App\Models\Review;
+use App\Models\CommentImage;
+use App\Models\User;
 
 
 
@@ -60,21 +65,23 @@ class HomeController extends Controller
             }
         }
     
-        $category1 = Category::whereNotNull('component_id')->get();
-        $categorycomponent = Category::whereNotNull('component_id')->get();
+        $category1 = Category::whereNotNull('component_id')->get();      
         $category2 = Category::whereNull('component_id')->get();
         $brand1 = Brand::whereNotNull('category_id')->get();
         $brand2 = Brand::whereNull('category_id')->get();
+
+        $categorycomponent = Category::whereNotNull('component_id')->get();
         $c0mponent = Component::all();
    
+        // Lấy danh sách các bài viết và phân trang
+        $article = Article::orderBy('created_at', 'desc')->take(3)->get(); // 10 là số bài viết mỗi trang
+
         return view('clients.home', $this->data, compact(
-            'category1',
-            'category2',
-            'categorycomponent',
-            'brand1',
+            'cartCount','category1','category2','brand1', 'brand2',
+            'categorycomponent',           
             'c0mponent',
-            'brand2',
-            'cartCount',
+            'article',       
+    
             'product1',
             'color1',
             'quantities',
@@ -102,7 +109,6 @@ class HomeController extends Controller
 {
     $product = Product::findOrFail($id);
     $this->data['title'] = $product->product_name;
-
     $quantitiesData = [];
     $cartCount = 0;
 
@@ -146,7 +152,73 @@ class HomeController extends Controller
     $category2 = Category::whereNull('component_id')->get();
     $brand1 = Brand::whereNotNull('category_id')->get();
     $brand2 = Brand::whereNull('category_id')->get();
+    //////////////////////////////////////////////////////////
+    // Fetch products of the same brand
+    $sameBrandProducts = Product::where('brand_id', $product->brand_id)
+                                ->where('product_id', '!=', $product->product_id)
+                                ->take(6)
+                                ->get();
 
+    $color1 = [];
+    $sameBrandQuantitiesData = [];
+    foreach ($sameBrandProducts as $pro) {
+        $color1[$pro->product_id] = Color::where('product_id', $pro->product_id)->get();
+    }
+
+    foreach ($sameBrandProducts as $pro) {
+        $sameBrandQuantitiesData[$pro->product_id] = [];
+        $sameBrandQuantities = Quantity::where('product_id', $pro->product_id)->get();
+
+        foreach ($sameBrandQuantities as $quantity) {
+            $sameBrandcolorId = $quantity->color_id ?? null;
+            $sameBrandcapacity = $quantity->capacity ?? null;
+            $sameBrandQsize = $quantity->size ?? null;
+
+            if (!isset($sameBrandQuantitiesData[$pro->product_id][$sameBrandcolorId])) {
+                $sameBrandQuantitiesData[$pro->product_id][$sameBrandcolorId] = [];
+            }
+
+            if (!isset($sameBrandQuantitiesData[$pro->product_id][$sameBrandcolorId][$sameBrandcapacity])) {
+                $sameBrandQuantitiesData[$pro->product_id][$sameBrandcolorId][$sameBrandcapacity] = [];
+            }
+
+            $sameBrandQuantitiesData[$pro->product_id][$sameBrandcolorId][$sameBrandcapacity][$sameBrandQsize] = $quantity->price;
+        }
+    }
+    // Initialize $sameBrandQuantities
+    $sameBrandQuantities = [];
+    //////////////////////////////////////////////////////////
+     //////////////////////////////////////////////////////////
+    // Fetch products of the same brand
+    // $sameCategory = Category::all();
+    $sameCategoryProducts = Product::where('category_id', $product->category_id)
+                                ->where('brand_id','!=', $product->brand_id)
+                                ->where('product_id', '!=', $product->product_id)
+                                ->inRandomOrder()
+                                ->take(6)
+                                ->get();
+    //////////////////////////////////////////////////////////
+     //////////////////////////////////////////////////////////
+     //comment
+
+     $startReview = Review::where('product_id', $product->product_id)->get();
+
+     $averageRating = $startReview->avg('rating');
+        
+        // Calculate the count of each rating
+        $ratingCounts = array_fill(1, 5, 0);
+        foreach ($startReview as $rv) {
+            $ratingCounts[$rv->rating]++;
+        }
+        // Total number of ratings
+        $totalRatings = array_sum($ratingCounts);
+
+        $comment = Review::where('product_id', $product->product_id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+        $username  = User::all();
+        $img = CommentImage::all();
+    //////////////////////////////////////////////////////////
     return view('clients.chitietsanpham', $this->data, compact(
         'cartCount',
         'category1',
@@ -160,7 +232,22 @@ class HomeController extends Controller
         'quantitiesData',
         'initialPrice',
         'images',
-        'imagesByColor'
+        'imagesByColor',
+
+        'sameBrandProducts', // Pass the same brand products to the view
+        'color1',
+        'sameBrandQuantities',
+        'sameBrandQuantitiesData',
+
+        'sameCategoryProducts', // Pass the same category products to the view
+
+        'startReview',
+        'averageRating',
+        'ratingCounts',
+        'totalRatings',
+        'comment',
+        'username',
+        'img',
     ));
 }
 
@@ -168,10 +255,8 @@ class HomeController extends Controller
 
     public function tintuc()
     {
-        $this->data['title'] = 'trang tin tức';
+        $this->data['title'] = 'Trang bài viết';
         $cartCount = 0;
-        
-
         if (Auth::check()) {
             $userId = Auth::id();
             $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
@@ -184,12 +269,102 @@ class HomeController extends Controller
         $category2 = Category::whereNull('component_id')->get();
         $brand1 = Brand::whereNotNull('category_id')->get();
         $brand2 = Brand::whereNull('category_id')->get();
+        /////////////////////////////////////////
+        // Lấy danh sách các bài viết và phân trang
+            $article = Article::orderBy('created_at', 'desc')->paginate(10); // 10 là số bài viết mỗi trang
+        /////////////////////////////////////////
         return view('clients.listtintuc',$this->data,compact(
-            'cartCount',
-            'category1',
-            'category2',
-            'brand1',
-            'brand2'
+            'cartCount','category1','category2','brand1','brand2',
+            'article'
+        ));
+    }
+    public function chitiettintuc($id)
+    {
+        $this->data['title'] = 'Trang tin tức';
+        $cartCount = 0;
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
+            $cartCount = count($cartItems);
+        } else {
+            $cart = session()->get('cart', []);
+            $cartCount = count($cart);
+        }
+        $category1 = Category::whereNotNull('component_id')->get();
+        $category2 = Category::whereNull('component_id')->get();
+        $brand1 = Brand::whereNotNull('category_id')->get();
+        $brand2 = Brand::whereNull('category_id')->get();
+        /////////////////////////////////////////
+        // $article = Article::findOrFail($id);
+        $section = Section::where('article_id',$id)->get();
+        /////////////////////////////////////////
+        return view('clients.chitiettintuc',$this->data,compact(
+            'cartCount','category1','category2','brand1','brand2',
+            'section'
+        ));
+    }
+    public function bestsellers()
+    {
+        $this->data['title'] = 'Trang sản phẩm đang giảm giá';
+        $product1 = Product::orderBy('created_at', 'desc')->paginate(6);
+        $color1 = [];
+        $quantitiesData = [];
+        $cartCount = 0;
+    
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
+            $cartCount = count($cartItems);
+        } else {
+            $cart = session()->get('cart', []);
+            $cartCount = count($cart);
+        }
+    
+        foreach ($product1 as $product) {
+            $color1[$product->product_id] = Color::where('product_id', $product->product_id)->get();
+        }
+    
+        foreach ($product1 as $product) {
+            $quantitiesData[$product->product_id] = [];
+            $quantities = Quantity::where('product_id', $product->product_id)->get();
+    
+            foreach ($quantities as $quantity) {
+                $colorId = $quantity->color_id ?? null;
+                $capacity = $quantity->capacity ?? null;
+                $size = $quantity->size ?? null;
+    
+                if (!isset($quantitiesData[$product->product_id][$colorId])) {
+                    $quantitiesData[$product->product_id][$colorId] = [];
+                }
+    
+                if (!isset($quantitiesData[$product->product_id][$colorId][$capacity])) {
+                    $quantitiesData[$product->product_id][$colorId][$capacity] = [];
+                }
+    
+                $quantitiesData[$product->product_id][$colorId][$capacity][$size] = $quantity->price;
+            }
+        }
+    
+        $category1 = Category::whereNotNull('component_id')->get();      
+        $category2 = Category::whereNull('component_id')->get();
+        $brand1 = Brand::whereNotNull('category_id')->get();
+        $brand2 = Brand::whereNull('category_id')->get();
+
+        $categorycomponent = Category::whereNotNull('component_id')->get();
+        $c0mponent = Component::all();
+   
+   
+
+        return view('clients.listbestsellers', $this->data, compact(
+            'cartCount','category1','category2','brand1', 'brand2',
+            'categorycomponent',           
+            'c0mponent',
+      
+    
+            'product1',
+            'color1',
+            'quantities',
+            'quantitiesData'
         ));
     }
     public function lienhe()

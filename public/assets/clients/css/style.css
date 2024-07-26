@@ -661,7 +661,7 @@ ul.no-bullets {
 }
 .menu__bar ul li a:hover
 {
-    color: var(--text4-color);
+    color: var(--mauden-color);
 }
 /* menu chinh */
 .dropdown__menu

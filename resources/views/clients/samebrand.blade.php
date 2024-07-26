@@ -1,7 +1,6 @@
 <div class="container6" style="display: flex;">
     <div class="container4">
-        <a id="tencacthuonghieuphanthoi">Best Sellers</a>
-        <a id="xemthem" href="{{route('bestsellers')}}">Xem thêm<i class="bi bi-arrow-right-short"></i></a>
+        <a id="tencacthuonghieuphanthoi">Cùng sản phẩm</a>
         <div class="row">
             @foreach($product1 as $product)           
             <div style="width: 249px; margin:0;margin-top: 20px;" id="cart-item" data-product-id="{{ $product->product_id }}">
@@ -10,7 +9,7 @@
                         <img src="{{ asset('storage/products/' . $product->product_name . '/' . $product->url_name) }}" class="card-img-top" alt="{{ $product->product_name }}">
                     </div>
                 <div class="card-body">
-                    <h5 class="card-title" style="font-size: unset;">{{ $product->product_name }}</h5>
+                    <h5 class="card-title">{{ $product->product_name }}</h5>
                             </a>
                     {{-- Hiển thị giá sản phẩm --}}
                     <p class="card-text product-price" id="product-price-{{ $product->product_id }}">
@@ -56,13 +55,12 @@
             @endforeach
             <div id="cart-items">
                 <!-- Các sản phẩm trong giỏ hàng sẽ được thêm vào đây -->
-            </div>
-            
+            </div>         
         </div>
     </div>
 </div>
 
-@section('css')
+
 <style>
 .hidden {
 display: none;
@@ -79,13 +77,13 @@ display: none;
     display: none;
 }
 </style>
-@endsection
 
-@section('js')
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-var quantitiesData = @json($quantitiesData);
+var quantitiesData = @json($quantitiesData1);
 
 function updateCapacityOptions(productId, colorId) {
     var capacities = quantitiesData[productId][colorId] || quantitiesData[productId][null] || {};
@@ -263,4 +261,3 @@ function showAlert(type, message) {
 
 });
 </script>
-@endsection

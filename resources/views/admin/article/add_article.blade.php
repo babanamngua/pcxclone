@@ -53,7 +53,7 @@
                                 {{-- loai contnent --}}
                                 <div class="form-group">
                                     <label>Miêu tả</label>
-                                    <input name="content" class="form-control" placeholder="Miêu tả ...">
+                                    <textarea  name="content" style="resize: none;" rows="5" class="form-control"></textarea>
                                 </div>
                         </div>
                         <div class="form-group">

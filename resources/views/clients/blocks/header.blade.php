@@ -137,7 +137,7 @@
                                 }
                             @endphp
                             @if ($hasBrand)
-                                <i class="bi bi-arrow-right-square-fill"></i>
+                            <span class="glyphicon glyphicon-chevron-right icon-circle">></span>
                             @endif
                         </li>
                     @endforeach
@@ -166,7 +166,7 @@
         {{-- </div> --}}
         {{-- <div class="benngoai" style="display: flex;"> --}}
         <div id="overlay-content2" class="overlay-content2" style="display: none;">
-            <div style="margin: 80px 100px 100px 25px;">
+            <div style="margin: 40px 100px 100px 25px;">
                 <ul id="brand-list">
                     @foreach ($brand1 as $brand)
                         @if ($categoryid == $brand->category_id)
@@ -193,7 +193,9 @@
         margin: 8px;
         color: white;
         cursor: pointer;
+        transition: all 0.2s ease-in-out;
     }
+
 
     @keyframes drawSword {
         from {
@@ -238,6 +240,7 @@
 
     .overlay-content1-doubleshock ul li {
         margin: 10px 0px;
+        font-size: x-large;
     }
 
 
@@ -250,17 +253,13 @@
         /* Tạo hiệu ứng chuyển đổi mượt */
     }
 
-    .overlay-content1-doubleshock ul li i {
-        float: right;
-        margin: 0px 25px;
-        color: rgba(0, 0, 0, 0.452);
-        /* Thay đổi màu biểu tượng khi hover */
-    }
 
-    .overlay-content1-doubleshock ul li:hover i {
-        color: rgb(0, 0, 0);
+
+    .overlay-content1-doubleshock ul li:hover .icon-circle {
+        color: rgb(255, 255, 255);
         /* Thay đổi màu biểu tượng khi hover */
-        transition: color 0.8s;
+        transition: color 0.3s;
+        background-color: black;
     }
 
     .benngoai {
@@ -277,6 +276,19 @@
     #brand-list li a {
         color: black;
         text-decoration: unset;
+    }
+    .icon-circle {
+        float: right;
+        margin: 8px 25px;
+        display: inline-block;
+        width: 20px; /* Điều chỉnh kích thước hình tròn */
+        height: 20px; /* Điều chỉnh kích thước hình tròn */
+        line-height: 17px; /* Điều chỉnh độ cao dòng để căn giữa icon */
+        text-align: center; /* Căn giữa icon */
+        border-radius: 50%; /* Tạo hình tròn */
+        border: 1px solid #ccc; /* Đường viền */
+        font-size: 12px; /* Điều chỉnh kích thước biểu tượng */
+        font-weight: 700;
     }
 </style>
 {{-- ---------------------------------------------- script ---------------------------------------------- --}}

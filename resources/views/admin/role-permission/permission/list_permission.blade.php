@@ -8,7 +8,7 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="login/quanly"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Quản lý linh kiện</li>
+				<li class="active">Quản lý permission</li>
 			</ol>
 		</div><!--/.row-->
 		

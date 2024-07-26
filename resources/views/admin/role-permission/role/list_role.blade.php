@@ -39,7 +39,7 @@
 							<thead>
 								<tr>
 									<th  style="text-align: center; vertical-align: middle; width:10px;">stt</th>
-									<th style="text-align: center; vertical-align: middle;">Tên permssion</th>
+									<th style="text-align: center; vertical-align: middle;">Tên role</th>
 									<th style="text-align: center; vertical-align: middle;width:400px;">Chức năng</th>
 								</tr>
 							</thead>

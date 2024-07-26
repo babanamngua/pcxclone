@@ -44,13 +44,12 @@
                                 <div class="form-group">
                                     <label>Ảnh (1 ảnh)</label>
                                     <input name="url_img" type="file" class="form-control">
-                                    ảnh cũ: <img src="{{ asset('storage/articles/'. $article->title.' - '.$article->id.'/'.$article->url_img) }}" class="border p-2 m-3" style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));height: 140px; margin:5px;" alt="img"> 
+                                    ảnh cũ: <img src="{{ asset('storage/articles/'. sanitizeTitle($article->title).' - '.$article->id.'/'.$article->url_img) }}" class="border p-2 m-3" style="filter: drop-shadow(0 0 5px rgb(119, 119, 145));height: 140px; margin:5px;" alt="img"> 
                                 </div>
                                 {{-- loai contnent --}}
                                 <div class="form-group">
                                     <label>Miêu tả</label>
-                                    <input name="content" class="form-control" placeholder="Miêu tả ..." value="{{$article->content}}"> 
-                                </div>
+                                    <textarea  name="content" style="resize: none;" rows="5" class="form-control">{{$article->content}}</textarea>                                </div>
                         </div>
                         <div class="form-group">
                             <button name="sbm" type="submit" class="btn btn-success">Thêm</button>

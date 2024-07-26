@@ -14,6 +14,7 @@ use App\Http\Controllers\ShippingMethodsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\SectionsController;
+use App\Http\Controllers\ReviewController;
 
 
 use App\Http\Controllers\ProfileController;
@@ -45,8 +46,9 @@ Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/products',[HomeController::class,'index'])->name('products.home');
 Route::get('/products/{id}',[HomeController::class,'detail'])->name('products.detail');
 Route::get('/get-price-by-color', [HomeController::class, 'getPriceByColor']);
-Route::get('/tintuc',[HomeController::class,'tintuc'])->name('tintuc');
+Route::get('/baiviet',[HomeController::class,'tintuc'])->name('tintuc');
 Route::get('/lienhe',[HomeController::class,'lienhe'])->name('lienhe');
+Route::get('/bestsellers',[HomeController::class,'bestsellers'])->name('bestsellers');
 Route::get('/get-brands/{category_id}', [HomeController::class, 'getBrandsByCategory']);
 
     //collections
@@ -85,6 +87,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/orderclients', [OrdersController::class, 'orderclients'])->name('profile.orderclients');
+    
+
+    //binh luan
+    Route::post('review/',[ReviewController::class,'store'])->name('review.store');
+    Route::delete('review/{id}/destroy',[ReviewController::class,'destroy'])->name('review.destroy');
 });
 //dashboard
 Route::middleware(['auth','admincheck'])->group(function () {
@@ -178,6 +185,13 @@ Route::middleware(['auth','admincheck'])->group(function () {
     Route::get('articles/{id}/edit',[ArticlesController::class,'edit'])->name('articles.edit');
     Route::put('articles/{id}/update',[ArticlesController::class,'update'])->name('articles.update');
     Route::delete('articles/{id}/destroy',[ArticlesController::class,'destroy'])->name('articles.destroy');
+
+    Route::get('articles/{id}/sections',[sectionsController::class,'index'])->name('sections.index');
+    Route::get('articles/{id}/sections/create',[sectionsController::class,'create'])->name('sections.create');
+    Route::post('sections/',[sectionsController::class,'store'])->name('sections.store');
+    Route::get('sections/{articleId}-{sectionId}/edit',[sectionsController::class,'edit'])->name('sections.edit');
+    Route::put('sections/{articleId}-{sectionId}/update',[sectionsController::class,'update'])->name('sections.update');
+    Route::delete('sections/{articleId}-{sectionId}/destroy',[sectionsController::class,'destroy'])->name('sections.destroy');
 });
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 19, 2024 at 01:08 PM
+-- Generation Time: Jul 24, 2024 at 07:07 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -45,13 +45,26 @@ DROP TABLE IF EXISTS `articles`;
 CREATE TABLE IF NOT EXISTS `articles` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `url_img` varchar(225) DEFAULT NULL,
   `content` text,
+  `author` varchar(191) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `articles`
+--
+
+INSERT INTO `articles` (`id`, `user_id`, `title`, `url_img`, `content`, `author`, `created_at`, `updated_at`) VALUES
+(15, 15, 'Hướng dẫn làm quen khi chuyển sang sử dụng lót chuột kính', '22-07-24-10-50-02.webp', 'Đặc điểm chung của lót chuột kính là nhanh, rất nhanh kể cả khi so sánh với các lót chuột vải dòng speed. Nhưng với các ưu điểm về độ bền và tính thẩm mỹ cao của lót chuột kính, bạn nên biết một số lưu ý nhỏ dưới đây để quá trình làm quen, sử dụng được diễn ra thoải mái nhất.', 'superadmin', '2024-07-22 03:50:02', '2024-07-22 03:50:02'),
+(16, 15, 'Hướng dẫn chọn feet chuột phù hợp cho lót chuột kính cường lực', '22-07-24-10-50-49.webp', 'Khi chọn feet chuột trên lót chuột kính cường lực, chúng không tạo sự khác biệt dễ dàng nhận ra như lót chuột vải nhưng bạn có biết mỗi setup feet chuột, mỗi loại feet chuột khác nhau sẽ cho ra cảm giác di chuyển chuột khác nhau? Cùng nhà Xanh xem qua những kiến thức cơ bản bạn cần biết trước khi chọn feet chuột cho lót chuột kính cũng như những trải nghiệm của nhà xanh về một số dòng feet sử dụng trên lót chuột kính nha.', 'superadmin', '2024-07-22 03:50:49', '2024-07-22 03:50:49'),
+(17, 15, 'Hướng dẫn cách bảo quản lót chuột kính luôn như mới', '22-07-24-10-51-12.webp', 'Khác với lót chuột vải bị bẩn và xuống cấp dần qua thời gian, lót chuột kính được làm từ kính cường lực có khả năng chống chịu mài mòn gần như tuyệt đối so với lót chuột vải. Dù độ bền cao như vậy bạn có biết lót chuột kính cũng cần được chăm sóc nhằm đảm bảo trải nghiệm tốt nhất mỗi khi bạn chơi game không? Cùng Phong Cách Xanh xem qua những điều nên làm và không nên làm giúp lót chuột kính bền và dùng đã hơn nha.', 'superadmin', '2024-07-22 03:51:12', '2024-07-22 03:51:12'),
+(26, 15, 'Tại sao chơi game nên sử dụng chuột với polling rate cao như 8000Hz hoặc 4000Hz?', '22-07-24-11-48-37.webp', 'Khi nói đến việc nâng cao trải nghiệm chơi game, chúng ta thường nghĩ đến cấu hình máy tính, màn hình độ phân giải cao, và tai nghe âm thanh chân thực. Tuy nhiên, một yếu tố không kém phần quan trọng nhưng thường bị bỏ qua chính là chuột chơi game. Đặc biệt, chuột với polling rate cao như 8000Hz hoặc 4000Hz có thể mang lại sự khác biệt lớn cho các game thủ. Trong bài viết này, chúng ta sẽ tìm hiểu vì sao chuột có polling rate cao lại quan trọng và nó ảnh hưởng như thế nào đến hiệu suất chơi game.', 'superadmin', '2024-07-22 04:47:03', '2024-07-22 04:48:37'),
+(27, 15, 'Hướng dẫn sử dụng phần mềm Lamzu Driver (dành cho chuột MCU Nordic)', '22-07-24-12-51-57.webp', 'Trong thế giới của game thủ chuyên nghiệp, việc sở hữu thiết bị tốt nhất có thể tạo nên sự khác biệt giữa chiến thắng và thất bại. Đặc biệt trong các tựa game FPS (First-Person Shooter), nơi mỗi mili giây đều có giá trị, việc chọn đúng bàn phím có thể ảnh hưởng lớn đến hiệu suất của người chơi. Trong bài viết này, chúng ta sẽ khám phá công nghệ Rapid Trigger trên bàn phím HE và tại sao nó được coi là tương lai của các game thủ FPS chuyên nghiệp.', 'superadmin', '2024-07-22 05:47:32', '2024-07-22 05:51:57');
 
 -- --------------------------------------------------------
 
@@ -160,9 +173,7 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 ('E0Bu8WqZi935zwbQ', 'a:1:{s:11:\"valid_until\";i:1721062300;}', 1721082454),
 ('supermin@gmail.com|127.0.0.1:timer', 'i:1719151077;', 1719151077),
 ('supermin@gmail.com|127.0.0.1', 'i:2;', 1719151077),
-('5Mclb3HyflDvBpoz', 'a:1:{s:11:\"valid_until\";i:1721063350;}', 1721083511),
-('user2@gmail.com|127.0.0.1:timer', 'i:1721302435;', 1721302435),
-('user2@gmail.com|127.0.0.1', 'i:1;', 1721302435);
+('5Mclb3HyflDvBpoz', 'a:1:{s:11:\"valid_until\";i:1721063350;}', 1721083511);
 
 -- --------------------------------------------------------
 
@@ -277,6 +288,37 @@ CREATE TABLE IF NOT EXISTS `comment` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comment_images`
+--
+
+DROP TABLE IF EXISTS `comment_images`;
+CREATE TABLE IF NOT EXISTS `comment_images` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `comment_id` bigint UNSIGNED NOT NULL,
+  `image_url` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `comment_id` (`comment_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Dumping data for table `comment_images`
+--
+
+INSERT INTO `comment_images` (`id`, `comment_id`, `image_url`) VALUES
+(7, 19, '-0-175159.webp'),
+(8, 20, '-0-180948.webp'),
+(9, 20, '-1-180948.webp'),
+(10, 21, '-0-181703.webp'),
+(11, 21, '-1-181703.webp'),
+(12, 21, '-2-181703.webp'),
+(13, 21, '-3-181703.jpg'),
+(14, 21, '-4-181703.jpg'),
+(15, 21, '-5-181703.jpg'),
+(16, 21, '-6-181703.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `component`
 --
 
@@ -336,22 +378,6 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `images`
---
-
-DROP TABLE IF EXISTS `images`;
-CREATE TABLE IF NOT EXISTS `images` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `path` varchar(255) NOT NULL,
-  `caption` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `img`
 --
 
@@ -371,32 +397,32 @@ CREATE TABLE IF NOT EXISTS `img` (
 --
 
 INSERT INTO `img` (`img_id`, `product_id`, `color_id`, `url_img`) VALUES
-(86, 11, NULL, '11-0-074709.webp'),
-(87, 11, NULL, '11-1-074709.webp'),
-(88, 12, NULL, '12-0-085119.jpg'),
-(89, 12, NULL, '12-1-085119.jpg'),
-(90, 12, NULL, '12-2-085119.jpg'),
-(91, 12, NULL, '12-3-085119.jpg'),
-(92, 12, NULL, '12-4-085119.jpg'),
-(93, 12, NULL, '12-5-085119.jpg'),
-(94, 12, NULL, '12-6-085119.jpg'),
-(95, 12, NULL, '12-7-085119.jpg'),
-(96, 12, NULL, '12-8-085119.jpg'),
-(97, 12, NULL, '12-9-085119.jpg'),
-(98, 12, NULL, '12-10-085119.jpg'),
-(99, 12, NULL, '12-11-085119.jpg'),
-(100, 12, NULL, '12-12-085119.jpg'),
+(86, 11, 29, '11-0-074709.webp'),
+(87, 11, 29, '11-1-074709.webp'),
+(88, 12, 33, '12-0-085119.jpg'),
+(89, 12, 33, '12-1-085119.jpg'),
+(90, 12, 33, '12-2-085119.jpg'),
+(91, 12, 33, '12-3-085119.jpg'),
+(92, 12, 33, '12-4-085119.jpg'),
+(93, 12, 33, '12-5-085119.jpg'),
+(94, 12, 33, '12-6-085119.jpg'),
+(95, 12, 33, '12-7-085119.jpg'),
+(96, 12, 33, '12-8-085119.jpg'),
+(97, 12, 33, '12-9-085119.jpg'),
+(98, 12, 33, '12-10-085119.jpg'),
+(99, 12, 33, '12-11-085119.jpg'),
+(100, 12, 33, '12-12-085119.jpg'),
 (101, 13, NULL, '13-0-085821.webp'),
 (102, 13, NULL, '13-1-085821.webp'),
-(104, 15, NULL, '15-0-145151.webp'),
-(105, 15, NULL, '15-1-145151.webp'),
-(106, 15, NULL, '15-2-145151.webp'),
-(107, 15, NULL, '15-3-145151.webp'),
-(108, 15, NULL, '15-4-145151.webp'),
-(109, 16, NULL, '16-0-171452.webp'),
-(110, 16, NULL, '16-0-171514.webp'),
-(111, 16, NULL, '16-1-171514.webp'),
-(112, 16, NULL, '16-2-171514.webp'),
+(104, 15, 35, '15-0-145151.webp'),
+(105, 15, 35, '15-1-145151.webp'),
+(106, 15, 35, '15-2-145151.webp'),
+(107, 15, 35, '15-3-145151.webp'),
+(108, 15, 35, '15-4-145151.webp'),
+(109, 16, 36, '16-0-171452.webp'),
+(110, 16, 36, '16-0-171514.webp'),
+(111, 16, 36, '16-1-171514.webp'),
+(112, 16, 36, '16-2-171514.webp'),
 (113, 17, NULL, '17-0-171759.webp'),
 (114, 17, NULL, '17-0-172001.webp'),
 (115, 17, NULL, '17-1-172001.webp'),
@@ -491,7 +517,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -533,7 +559,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (34, '2024_07_16_161042_create_articles_table', 7),
 (35, '2024_07_16_162115_create_images_table', 8),
 (36, '2024_07_16_162218_create_sections_table', 8),
-(37, '2024_07_17_071439_create_transactions_table', 9);
+(37, '2024_07_17_071439_create_transactions_table', 9),
+(38, '2024_07_23_120610_create_review_table', 10),
+(39, '2024_07_24_124042_create_comment_images_table', 11);
 
 -- --------------------------------------------------------
 
@@ -633,7 +661,7 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   KEY `order_id` (`order_id`),
   KEY `product_id` (`product_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=276 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=286 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `order_items`
@@ -648,8 +676,9 @@ INSERT INTO `order_items` (`order_item_id`, `order_id`, `user_id`, `product_id`,
 (264, 74, NULL, 16, NULL, 'Chuột không dây siêu nhẹ CHERRY Xtrfy M8 Wireless', 'Đen', NULL, 36, 1, NULL, 1650000, '2024-07-08 02:56:57', '2024-07-08 02:56:57'),
 (265, 75, NULL, 12, NULL, 'Laptop HP Pavilion 14 dv2073TU i5 1235U/16GB/512GB/Win11 (7C0P2PA)', 'Be, nhạt', NULL, 33, 1, NULL, 17190000, '2024-07-08 03:11:27', '2024-07-08 03:11:27'),
 (266, 77, 10, 11, NULL, 'Chuột không dây siêu nhẹ Pulsar X2H Wireless (Hỗ trợ 4K Polling Rate)', 'Đen', NULL, 29, 1, NULL, 2499000, '2024-07-16 05:45:02', '2024-07-16 05:45:13'),
-(274, NULL, 10, 25, NULL, 'Chuột không dây siêu nhẹ Pwnage StormBreaker', 'Olive', NULL, 41, 1, NULL, 3740000, '2024-07-18 03:49:54', '2024-07-18 03:49:54'),
-(275, NULL, 10, 15, NULL, 'Chuột không dây siêu nhẹ Glorious Model O PRO Forge Limited Edition', 'Vàng', NULL, 35, 1, NULL, 1999000, '2024-07-18 03:50:03', '2024-07-18 03:50:03');
+(274, NULL, 10, 25, NULL, 'Chuột không dây siêu nhẹ Pwnage StormBreaker', 'Olive', NULL, 41, 3, NULL, 3740000, '2024-07-18 03:49:54', '2024-07-20 02:45:50'),
+(284, NULL, 10, 15, NULL, 'Chuột không dây siêu nhẹ Glorious Model O PRO Forge Limited Edition', 'Vàng', NULL, 35, 5, NULL, 1999000, '2024-07-20 02:36:25', '2024-07-20 02:36:30'),
+(285, NULL, 10, 24, NULL, 'Bàn phím từ Lamzu Atlantis Pro Keyboard - Hỗ trợ Rapid Trigger', NULL, NULL, NULL, 1, NULL, 4630000, '2024-07-20 03:05:48', '2024-07-20 03:05:48');
 
 -- --------------------------------------------------------
 
@@ -746,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `category_id`, `brand_id`, `price`, `description`, `url_name`, `created_at`, `updated_at`) VALUES
-(1, 'Chuột không dây siêu nhẹ Lamzu Atlantis Mini Pro - Hỗ trợ 4KHz', 24, 47, 2000000, '<p><strong>Cải tiến tr&ecirc;n phi&ecirc;n bản&nbsp;Mini Pro:</strong></p>\r\n\r\n<ul>\r\n	<li>Hỗ trợ kết nối Wireless 4KHz. Chip MCU Nordic.</li>\r\n	<li>Bản m&agrave;u đen đi k&egrave;m đầu thu 4KHz.</li>\r\n</ul>\r\n\r\n<p>Mua receiver Lamzu Atlantis 4KHz&nbsp;<a href=\"https://www.phongcachxanh.vn/products/receiver-4khz-cho-chuot-lamzu-atlantis-chi-ho-tro-dong-tuong-thich-4khz\">tại đ&acirc;y.</a></p>\r\n\r\n<p>Lamzu l&agrave; một c&ocirc;ng ty được th&agrave;nh lập từ những người đam m&ecirc; c&aacute;c thiết bị ngoại vi m&aacute;y t&iacute;nh, game thủ FPS, designer, kỹ sư kết cấu v&agrave; quản l&yacute; chuỗi cung ứng với nhiều năm kinh nghiệm trong ng&agrave;nh c&ocirc;ng nghiệp gaming.</p>\r\n\r\n<ul>\r\n</ul>\r\n\r\n<p><strong>Design by Lamzu.</strong></p>\r\n\r\n<p><strong>Bảo h&agrave;nh: 12 th&aacute;ng đổi mới</strong></p>', '13-06-24-16-53-28.webp', '2024-05-31 02:00:29', '2024-06-14 12:34:18'),
+(1, 'Chuột không dây siêu nhẹ Lamzu Atlantis Mini Pro - Hỗ trợ 4KHz', 24, 47, 2000000, '<p><strong>Cải tiến tr&ecirc;n phi&ecirc;n bản&nbsp;Mini Pro:</strong></p>\r\n\r\n<ul>\r\n	<li>Hỗ trợ kết nối Wireless 4KHz. Chip MCU Nordic.</li>\r\n	<li>Bản m&agrave;u đen đi k&egrave;m&nbsp;đầu thu 4KHz.</li>\r\n</ul>\r\n\r\n<p>Mua receiver Lamzu Atlantis 4KHz&nbsp;<a href=\"https://www.phongcachxanh.vn/products/receiver-4khz-cho-chuot-lamzu-atlantis-chi-ho-tro-dong-tuong-thich-4khz\">tại đ&acirc;y.</a></p>\r\n\r\n<p>Lamzu l&agrave; một c&ocirc;ng ty được th&agrave;nh lập từ những người đam m&ecirc; c&aacute;c thiết bị ngoại vi m&aacute;y t&iacute;nh, game thủ FPS, designer, kỹ sư kết cấu v&agrave; quản l&yacute; chuỗi cung ứng với nhiều năm kinh nghiệm trong ng&agrave;nh c&ocirc;ng nghiệp gaming.</p>\r\n\r\n<ul>\r\n</ul>\r\n\r\n<p><strong>Design by Lamzu.</strong></p>\r\n\r\n<p><strong>Bảo h&agrave;nh: 12 th&aacute;ng đổi mới</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<div class=\"eJOY__extension_root_class\" id=\"eJOY__extension_root\" style=\"all: unset;\">&nbsp;</div>', '13-06-24-16-53-28.webp', '2024-05-31 02:00:29', '2024-07-20 09:11:46'),
 (11, 'Chuột không dây siêu nhẹ Pulsar X2H Wireless (Hỗ trợ 4K Polling Rate)', 24, 48, 2499000, '<p><strong>Giảm 10% dongle 4K</strong>&nbsp;khi mua k&egrave;m chuột Pulsar X2V2/X2H/X2A hỗ trợ 4K Polling Rate</p>\r\n\r\n<p>Phi&ecirc;n bản mới nhất của chuột Pulsar X2 cực kỳ th&agrave;nh c&ocirc;ng của Pulsar. X2H l&agrave; phi&ecirc;n bản sử dụng thiết kế mới nhất c&ugrave;ng form chuột thay đổi lưng cao v&agrave; l&ugrave;i s&acirc;u hơn d&agrave;nh cho c&aacute;c bạn th&iacute;ch kiểu cầm chuột claw grip.</p>\r\n\r\n<ul>\r\n	<li>Thiết kế h&ocirc;ng hẹp, lưng l&ugrave;i cao ho&agrave;n to&agrave;n mới.</li>\r\n	<li>Switch quang học. Cuộn chuột Pulsar chống bụi.</li>\r\n	<li>Thay đổi cấu tr&uacute;c b&ecirc;n trong, giảm trọng lượng, tăng độ chắc chắn.</li>\r\n	<li>Hỗ trợ report rate 4000Hz nhờ MCU Nordic (dongle 4000Hz b&aacute;n rời).</li>\r\n	<li>V&agrave; một số thay đổi nhỏ, tăng trải nghiệm sử dụng sản phẩm.</li>\r\n	<li><strong>Designed in Korea</strong></li>\r\n</ul>\r\n\r\n<p><strong>Bảo h&agrave;nh: 24 th&aacute;ng đổi mới</strong></p>', '14-06-24-18-21-16.webp', '2024-06-08 00:46:37', '2024-06-14 12:30:52'),
 (12, 'Laptop HP Pavilion 14 dv2073TU i5 1235U/16GB/512GB/Win11 (7C0P2PA)', 29, 70, 17190000, '<h3><a href=\"https://www.thegioididong.com/laptop/hp-pavilion-14-dv2073tu-i5-7c0p2pa\" rel=\"noopener\" target=\"_blank\" title=\"Tham khảo Laptop HP Pavilion 14 dv2073TU i5 1235U (7C0P2PA) tại thegioididong.com\">Laptop HP Pavilion 14 dv2073TU i5 1235U (7C0P2PA)</a>&nbsp;vừa c&oacute; mặt tại Thế Giới Di Động sẽ khiến bạn thực sự ấn tượng với vẻ ngo&agrave;i v&ocirc; c&ugrave;ng trẻ trung, sở hữu th&ocirc;ng số cấu h&igrave;nh mạnh mẽ cho bất cứ nhu cầu sử dụng c&aacute; nh&acirc;n n&agrave;o. Đ&acirc;y ch&iacute;nh x&aacute;c l&agrave; một mẫu&nbsp;<a href=\"https://www.thegioididong.com/laptop?g=hoc-tap-van-phong\" rel=\"noopener\" target=\"_blank\" title=\"Tham khảo các mẫu laptop học tập - văn phòng tại thegioididong.com\">laptop học tập - văn ph&ograve;ng</a>&nbsp;d&agrave;nh cho mọi nh&agrave;.</h3>\r\n\r\n<p>&bull; HP Pavilion 14 sẽ cho người d&ugrave;ng khả năng xử l&yacute; ho&agrave;n hảo mọi t&aacute;c vụ c&ocirc;ng việc từ soạn thảo văn bản, thực hiện thuyết tr&igrave;nh hay thao t&aacute;c trang t&iacute;nh đến việc coding đơn giản, thiết kế đồ hoạ nhẹ v&agrave; video cơ bản nhờ hiệu năng mạnh mẽ từ con chip&nbsp;<strong>Intel Core i5 1235U&nbsp;</strong>v&agrave; card t&iacute;ch hợp&nbsp;<strong>Intel Iris Xe Graphics</strong>.</p>\r\n\r\n<p>&bull; Ngo&agrave;i ra, sau những giờ ph&uacute;t l&agrave;m việc căng thẳng, bạn cũng c&oacute; thể giải tr&iacute; nhẹ nh&agrave;ng với những con game LOL, Valorant hay FO4 với mức cấu h&igrave;nh tinh chỉnh.</p>\r\n\r\n<p>&bull; Bộ nhớ&nbsp;<strong>RAM 16 GB DDR4 2 khe</strong>&nbsp;mở ra khả năng đa nhiệm tuyệt vời cho c&aacute;c y&ecirc;u cầu kh&aacute;c nhau c&ugrave;ng l&uacute;c, vừa chỉnh sửa h&igrave;nh ảnh tr&ecirc;n Photoshop, vừa mở h&agrave;ng loạt c&aacute;c tab Chrome hay thưởng thức một bản nhạc du dương m&agrave; kh&ocirc;ng lo&nbsp;<a href=\"https://www.thegioididong.com/laptop\" rel=\"noopener\" target=\"_blank\" title=\"Tham khảo các mẫu laptop tại thegioididong.com\">laptop</a>&nbsp;bị đơ.</p>\r\n\r\n<p>&bull; Ổ cứng&nbsp;<strong>SSD</strong>&nbsp;cải thiện đ&aacute;ng kể tốc độ khởi động c&aacute;c ứng dụng, dung lượng thoải m&aacute;i&nbsp;<strong>512 GB</strong>&nbsp;c&oacute; thể mở rộng đến&nbsp;<strong>1 TB</strong>&nbsp;phục vụ đa dạng c&aacute;c y&ecirc;u cầu.</p>\r\n\r\n<p>&bull; L&agrave;m việc thuận lợi v&agrave; thoải m&aacute;i hơn với m&agrave;n h&igrave;nh laptop&nbsp;<strong>14 inch</strong>&nbsp;được t&iacute;ch hợp c&ugrave;ng&nbsp;<strong>IPS</strong>&nbsp;cho m&agrave;n h&igrave;nh mỏng, mở rộng g&oacute;c nh&igrave;n h&igrave;nh ảnh kh&ocirc;ng bị thay đổi d&ugrave; bạn đang nh&igrave;n nghi&ecirc;ng. Độ ph&acirc;n giải&nbsp;<strong>Full HD (1920 x 1080)</strong>&nbsp;cho h&igrave;nh ảnh th&ecirc;m r&otilde; n&eacute;t v&agrave; chi tiết trong mọi t&igrave;nh huống sử dụng.</p>\r\n\r\n<p>&bull; Hệ thống loa k&eacute;p được tinh chỉnh bởi<strong>&nbsp;B&amp;O&nbsp;</strong>t&iacute;ch hợp với c&ocirc;ng nghệ<strong>&nbsp;HP Audio Boost</strong>&nbsp;mang đến chất &acirc;m sống động v&agrave; trung thực, cho ph&uacute;t gi&acirc;y giải tr&iacute; của người d&ugrave;ng th&ecirc;m thư gi&atilde;n v&agrave; th&uacute; vị.</p>\r\n\r\n<p>&bull;&nbsp;<a href=\"https://www.thegioididong.com/laptop-hp-compaq-pavilion\" rel=\"noopener\" target=\"_blank\" title=\"Tham khảo các mẫu laptop HP Pavilion tại thegioididong.com\">Laptop HP Pavilion</a>&nbsp;được ho&agrave;n thiện với gam m&agrave;u&nbsp;<strong>v&agrave;ng&nbsp;</strong>&oacute;ng chủ đạo v&agrave; lớp vỏ&nbsp;<strong>nhựa&nbsp;</strong>chắc chắn, kiểu d&aacute;ng tinh tế ph&ugrave; hợp để c&oacute; thể sử dụng ở bất cứ đ&acirc;u. Linh động hơn với khối lượng tổng thể chỉ vỏn vẹn&nbsp;<strong>1.41 kg</strong>, thuận tiện cho bạn mang theo b&ecirc;n m&igrave;nh khi di chuyển.</p>\r\n\r\n<p>&bull; Mẫu&nbsp;<a href=\"https://www.thegioididong.com/laptop-hp-compaq\" rel=\"noopener\" target=\"_blank\" title=\"Tham khảo các mẫu laptop HP tại thegioididong.com\">laptop HP</a>&nbsp;n&agrave;y cũng t&iacute;ch hợp đầy đủ c&aacute;c cổng kết nối th&ocirc;ng dụng cho đa nhu cầu của người d&ugrave;ng như: Jack tai nghe 3.5 mm, USB Type-A, HDMI v&agrave; USB Type-C.</p>', '14-06-24-18-22-00.jpg', '2024-06-08 01:38:50', '2024-06-14 12:34:18'),
 (13, 'Tấm lót chuột Razer Firefly V2 Pro', 28, 52, 2999000, '<p><strong>Th&ocirc;ng số kỹ thuật</strong></p>\r\n\r\n<table border=\"1\" cellpadding=\"3\" cellspacing=\"0\" id=\"tblGeneralAttribute\">\r\n	<tbody>\r\n		<tr>\r\n			<td><strong>H&atilde;ng sản xuất</strong></td>\r\n			<td>Razer</td>\r\n		</tr>\r\n		<tr>\r\n			<td><strong>Model</strong></td>\r\n			<td>Firefly V2 Pro</td>\r\n		</tr>\r\n		<tr>\r\n			<td><strong>Chống trượt</strong></td>\r\n			<td>C&oacute;</td>\r\n		</tr>\r\n		<tr>\r\n			<td><strong>K&iacute;ch thước</strong></td>\r\n			<td>360mm x 278mm x 4.6mm</td>\r\n		</tr>\r\n		<tr>\r\n			<td><strong>Chất liệu</strong></td>\r\n			<td>Micro-textured</td>\r\n		</tr>\r\n		<tr>\r\n			<td><strong>LED</strong></td>\r\n			<td>Chroma RGB</td>\r\n		</tr>\r\n		<tr>\r\n			<td><strong>T&iacute;nh năng đặc biệt</strong></td>\r\n			<td>Đ&egrave;n led RGB to&agrave;n bộ bề mặt l&oacute;t chuột<br />\r\n			Chất liệu Micro-texture<br />\r\n			T&iacute;ch hợp cổng USB-A 2.0<br />\r\n			C&aacute;p USB-C rời</td>\r\n		</tr>\r\n	</tbody>\r\n</table>', '18-06-24-14-36-06.png', '2024-06-08 01:49:50', '2024-06-18 07:36:06'),
@@ -805,6 +834,36 @@ INSERT INTO `quantity` (`quantity_id`, `product_id`, `color_id`, `capacity`, `si
 (29, 30, NULL, '500GB', NULL, 100, 1500000),
 (30, 30, NULL, '1TB', NULL, 100, 3000000),
 (48, 25, 43, NULL, NULL, 123, 4000000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+DROP TABLE IF EXISTS `review`;
+CREATE TABLE IF NOT EXISTS `review` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `product_id` bigint UNSIGNED NOT NULL,
+  `rating` int NOT NULL,
+  `comment` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`id`, `user_id`, `product_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
+(16, 10, 1, 5, '123', '2024-07-24 09:37:21', '2024-07-24 09:37:21'),
+(17, 20, 1, 5, 'wtf', '2024-07-24 09:45:52', '2024-07-24 09:45:52'),
+(18, 20, 1, 3, '12', '2024-07-24 10:01:21', '2024-07-24 10:01:21'),
+(19, 20, 1, 5, 'cũng oke nha', '2024-07-24 10:51:59', '2024-07-24 10:51:59'),
+(20, 20, 1, 5, 'cho them 2 anj', '2024-07-24 11:09:48', '2024-07-24 11:09:48'),
+(21, 20, 1, 1, '1321312213', '2024-07-24 11:17:03', '2024-07-24 11:17:03');
 
 -- --------------------------------------------------------
 
@@ -875,11 +934,11 @@ CREATE TABLE IF NOT EXISTS `sections` (
   `article_id` int NOT NULL,
   `content1` text,
   `content2` text,
-  `image_id` int DEFAULT NULL,
+  `url_img` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`),
-  KEY `image_id` (`image_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `image_id` (`url_img`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -905,7 +964,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('Z3bIQhf0v6ljdScETYgxXijcRbQhtYniWZ7QaxPX', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiR3VpTEZlckJhZzM3R3BxZ3BldWhieGJFZWVQS2NhckN0RDhmcHpLUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXJ0Ijt9czo0OiJjYXJ0IjthOjE6e3M6NToiMjVfMzkiO2E6OTp7czoyOiJpZCI7aToyNTtzOjQ6Im5hbWUiO3M6NTE6IkNodeG7mXQga2jDtG5nIGTDonkgc2nDqnUgbmjhurkgUHduYWdlIFN0b3JtQnJlYWtlciI7czo4OiJxdWFudGl0eSI7aToxO3M6NToicHJpY2UiO3M6NzoiMzc0MDAwMCI7czo1OiJpbWFnZSI7czoyMjoiMjAtMDYtMjQtMDQtMjktNTgud2VicCI7czo4OiJjb2xvcl9pZCI7aTozOTtzOjEwOiJjb2xvcl9uYW1lIjtzOjEwOiJ4YW5oIGzhu6VjIjtzOjg6ImNhcGFjaXR5IjtOO3M6NDoic2l6ZSI7Tjt9fX0=', 1721312777);
+('YGg3R8kfrXI4gXVvzJOOenUnsmhFl5KLk1q8gmAK', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUmZpZU0xcncyckVzcldsTWNMVjFLaHZnN2pPMzF3NnF5WjNBMzNPSiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0cy8xIjt9fQ==', 1721847953);
 
 -- --------------------------------------------------------
 
@@ -1032,11 +1091,10 @@ ALTER TABLE `color`
   ADD CONSTRAINT `color_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Constraints for table `comment`
+-- Constraints for table `comment_images`
 --
-ALTER TABLE `comment`
-  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `comment_images`
+  ADD CONSTRAINT `comment_images_ibfk_1` FOREIGN KEY (`comment_id`) REFERENCES `review` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `img`
@@ -1094,8 +1152,7 @@ ALTER TABLE `role_has_permissions`
 -- Constraints for table `sections`
 --
 ALTER TABLE `sections`
-  ADD CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `sections_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `sections_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `shipping`

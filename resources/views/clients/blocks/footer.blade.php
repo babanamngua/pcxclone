@@ -1,4 +1,4 @@
-<footer>
+<footer style="    display: ruby;">
     {{-- <section class="footer__top4">
                 <div class="container5">
     <table border="0" style="border-spacing: 44px 30px;">
@@ -39,7 +39,7 @@
                     <div class="row">
                         <table border="0" width="1470px" >
                             <tr>
-                                <td width="35%">
+                                <td width="35%" >
                                    <table border="0">
                                     <tr>
                                         <td rowspan="2"><img src="../../../storage/block/contact/tainghe_logo.png" height="30px" width="30px" style=" border: 0px solid black;"></td>
@@ -89,7 +89,7 @@
                     <div class="row1">
                         <table border="0" width="1470px" >
                             <tr>
-                                <td width="35%" bgcolor="black">
+                                <td width="35%" bgcolor="black" style="padding-left: 45px;">
                                     <div class="footer_top123">KẾT NỐI VỚI CHÚNG TÔI</div>
                                     <div class="footer__top-intro-heading3">
                                     <a href="https://www.facebook.com/niku.no.5"><img src="../../../storage/block/contact/fb_logo.png" height="30px" width="30px" style=" border: 1px solid black; margin-right: 1rem;"></a>
