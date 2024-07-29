@@ -13,7 +13,7 @@
                 @foreach ($article as $ar)
                     <div style="width:440px;margin:0;margin-right:50px;margin-bottom: 100px;">
                         <div id="frontimg" style="border-radius: 10px; position: relative;">
-                            <a href="" style="text-decoration: none; color: black; display: block;">
+                            <a href="{{route('chitiettintuc',$ar->id)}}" style="text-decoration: none; color: black; display: block;">
                                 <img src="{{ asset('storage/articles/' . sanitizeTitle($ar->title) . ' - ' . $ar->id . '/' . $ar->url_img) }}"
                                     alt="img" width="425" height="280" class="zoom">
                         </div>

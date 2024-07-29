@@ -28,6 +28,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PayMethodsController;
 
 
 //giỏ hàng
@@ -47,6 +48,7 @@ Route::get('/products',[HomeController::class,'index'])->name('products.home');
 Route::get('/products/{id}',[HomeController::class,'detail'])->name('products.detail');
 Route::get('/get-price-by-color', [HomeController::class, 'getPriceByColor']);
 Route::get('/baiviet',[HomeController::class,'tintuc'])->name('tintuc');
+Route::get('/baiviet/{id}',[HomeController::class,'chitiettintuc'])->name('chitiettintuc');
 Route::get('/lienhe',[HomeController::class,'lienhe'])->name('lienhe');
 Route::get('/bestsellers',[HomeController::class,'bestsellers'])->name('bestsellers');
 Route::get('/get-brands/{category_id}', [HomeController::class, 'getBrandsByCategory']);
@@ -192,6 +194,17 @@ Route::middleware(['auth','admincheck'])->group(function () {
     Route::get('sections/{articleId}-{sectionId}/edit',[sectionsController::class,'edit'])->name('sections.edit');
     Route::put('sections/{articleId}-{sectionId}/update',[sectionsController::class,'update'])->name('sections.update');
     Route::delete('sections/{articleId}-{sectionId}/destroy',[sectionsController::class,'destroy'])->name('sections.destroy');
+
+    Route::get('discount-product/{id}/',[QuantityController::class,'updateDiscountProductview'])->name('discountproductview.edit');
+    Route::put('discount-product/{id}/update',[QuantityController::class,'updateDiscountProduct'])->name('discountproduct.update');
+    Route::delete('discount-product/{id}/destroy',[QuantityController::class,'updateDiscountProductdestroy'])->name('discountproduct.destroy');
+
+    Route::get('paymethods',[PayMethodsController::class,'index'])->name('paymethods.index');
+    Route::get('paymethods/create',[PayMethodsController::class,'create'])->name('paymethods.create');
+    Route::post('paymethods/',[PayMethodsController::class,'store'])->name('paymethods.store');
+    Route::get('paymethods/{paymethods}/edit',[PayMethodsController::class,'edit'])->name('paymethods.edit');
+    Route::put('paymethods/{paymethods}/update',[PayMethodsController::class,'update'])->name('paymethods.update');
+    Route::delete('paymethods/{paymethods}/destroy',[PayMethodsController::class,'destroy'])->name('paymethods.destroy');
 });
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');

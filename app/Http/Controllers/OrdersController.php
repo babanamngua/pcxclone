@@ -10,6 +10,8 @@ use App\Models\shipping;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\ShippingMethods;
+use App\Models\PayMethods;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -19,15 +21,15 @@ class OrdersController extends Controller
     public function index()
     {
         $this->data['title'] = "trang đơn hàng";
-        $orders = Orders::all();
+        $orders = Orders::orderBy('created_at', 'desc')->get();
         $shipping_methods= ShippingMethods::all();
-        
+        $pay_methods= PayMethods::all();
         // Create an associative array to store the order item counts
         $order_item_Counts = [];
         foreach ($orders as $order) {
             $order_item_Counts[$order->order_id] = Order_items::where('order_id', $order->order_id)->count();
         }
-        return view('admin.orders.list_orders', $this->data, compact('orders', 'order_item_Counts','shipping_methods'));
+        return view('admin.orders.list_orders', $this->data, compact('orders', 'order_item_Counts','shipping_methods','pay_methods'));
     }
     public function edit($id)
     {
@@ -48,6 +50,8 @@ class OrdersController extends Controller
     {
         $order = Orders::findOrFail($id);
         $order_items = Order_items::where('order_id', $order->order_id)->get();
+        $trans = Transaction::where('order_id', $order->order_id)->get();
+
     
         if ($order_items) {
             foreach ($order_items as $order_item) {
@@ -68,7 +72,11 @@ class OrdersController extends Controller
                 $order_item->delete();
             }
         }
-    
+        if($trans){
+            foreach ($trans as $transaction) {
+                // Xóa bản ghi màu từ cơ sở dữ liệu
+                $transaction->delete();
+            }}
         // Delete the order
         $order->delete();
     

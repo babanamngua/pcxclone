@@ -61,7 +61,7 @@
                 <th>Dung lượng</th>
                 <th>Size</th>
                 <th>Giá</th>
-                <th>Xóa</th>
+                <th>Chức năng</th>
             </tr>
         </thead>
         <tbody>
@@ -85,6 +85,7 @@
                     <input type="number" name="price" value="{{ $quantity->price }}" required>          
                 </td>
                 <td>
+                    <a class="btn btn-info" href="{{route('discountproductview.edit',$quantity->quantity_id)}}">Giảm giá</a>
                     <button type="submit" class="btn btn-success">Cập nhật</button>
     </form>
                     <form action="{{ route('quantity.destroy', $quantity->quantity_id) }}" method="POST">

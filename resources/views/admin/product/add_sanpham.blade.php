@@ -25,6 +25,11 @@
                 @endforeach
             </ul>
         @endif
+        @if(session('error'))
+        <div class="alert alert-danger">
+           {{ session('error') }}
+        </div>
+        @endif
         <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -73,8 +78,7 @@
                                 <label>Ảnh đại diện (1 ảnh)</label>                              
                                 <input name="url_name" type="file" class="form-control" > 
                                 <div class="form-group">
-                                      <label for="pwd">Mô tả sản phẩm</label>
-                                      
+                                      <label for="pwd">Mô tả sản phẩm</label>                                     
                                       <textarea id="chi_tiet_bv" name="description" style="resize: none;" rows="5" class="form-control"></textarea>
                                     </div> 
                                 </div>

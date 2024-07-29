@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Quantity;
 use Illuminate\Support\Facades\File;
+use App\Models\Order_items;
 
 class ProductController extends Controller
 {
@@ -48,6 +49,14 @@ class ProductController extends Controller
             // 'url_name' => 'nullable|image|file',
             'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ]);
+            $checknameproduct = Product::all();
+            foreach($checknameproduct as $ck)
+            {
+                    if($ck->product_name == $request->input('product_name'))
+                    {
+                        return redirect()->back()->with('error', 'Tên bị trùng.');        
+                    }
+            }
         $product = new Product();
         $product->product_name = $request->input('product_name');  
         $product->brand_id = $request->input('brand_id');
@@ -143,6 +152,16 @@ public function update(Request $request, $id)
        $images = Img::where('product_id', $id)->get();
        $colors = Color::where('product_id', $id)->get();
        $quantitys = Quantity::where('product_id', $id)->get();
+       $orderitem = Order_items::all();
+
+         if($orderitem){
+        foreach ($orderitem as $ORDERITEM) {
+            // Xóa bản ghi màu từ cơ sở dữ liệu
+            if($ORDERITEM->product_id == $id)
+            {
+            return redirect()->route('product.index')->with('error', 'Không xóa được sản phẩm đã có trong đơn hàng.');
+            }
+        }}
 
        if($images){
        foreach ($images as $image) {

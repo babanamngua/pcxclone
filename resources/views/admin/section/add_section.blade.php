@@ -23,7 +23,7 @@
                                 <div class="form-group">
                                     <input name="article_id" type="hidden" class="form-control" value="{{$article_id}}">
                                     <label for="pwd">Mô tả trên ảnh</label>                                   
-                                    <textarea  name="content1" style="resize: none;" rows="5" class="form-control"></textarea>
+                                    <textarea id="chi_tiet_bv" name="content1" style="resize: none;" rows="5" class="form-control"></textarea>
                                   </div> 
                                   <div class="form-group">
                                     <label for="pwd">ảnh</label>                                   
@@ -31,7 +31,7 @@
                                   </div>
                                 <div class="form-group">
                                         <label for="pwd">Mô tả dưới ảnh</label>
-                                        <textarea  name="content2" style="resize: none;" rows="5" class="form-control"></textarea>
+                                        <textarea id="chi_tiet_bv1"  name="content2" style="resize: none;" rows="5" class="form-control"></textarea>
                                 </div>
                                 <button name="sbm" type="submit" class="btn btn-success">Thêm</button>
                                 <button type="reset" class="btn btn-default">Làm mới</button>                                                          
@@ -49,5 +49,7 @@
 
 @endsection
 @section('js')
-
+<script type="text/javascript">
+    CKEDITOR.replace('chi_tiet_bv1');
+</script>
 @endsection        

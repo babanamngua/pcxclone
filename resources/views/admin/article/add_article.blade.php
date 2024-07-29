@@ -53,7 +53,7 @@
                                 {{-- loai contnent --}}
                                 <div class="form-group">
                                     <label>Miêu tả</label>
-                                    <textarea  name="content" style="resize: none;" rows="5" class="form-control"></textarea>
+                                    <textarea id="chi_tiet_bv"  name="content" style="resize: none;" rows="5" class="form-control"></textarea>
                                 </div>
                         </div>
                         <div class="form-group">
@@ -72,4 +72,5 @@
 @section('css')
 @endsection
 @section('js')
+
 @endsection

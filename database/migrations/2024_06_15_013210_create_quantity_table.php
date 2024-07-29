@@ -26,6 +26,7 @@ return new class extends Migration
                 $table->unsignedBigInteger('product_id')->nullable();
                 $table->unsignedBigInteger('color_id')->nullable();
                 $table->integer('quantity_product')->nullable();
+                $table->integer('discount_id')->nullable();
                 $table->string('capacity', 255);
                 $table->string('size', 100);
                 $table->decimal('price', 10, 0);

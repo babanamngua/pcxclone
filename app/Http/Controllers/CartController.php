@@ -11,7 +11,9 @@ use App\Models\Orders;
 use App\Models\Order_items;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Discount;
 use App\Models\ShippingMethods;
+use App\Models\PayMethods;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; // Thêm use statement cho DB facade
 
@@ -40,6 +42,16 @@ class CartController extends Controller
                                         ->where('capacity', $item->capacity)
                                         ->where('size', $item->size)
                                         ->first();
+                    $price = $quantity ? $quantity->price : null;
+                    $priceAfterDiscount = $price;
+                        
+                    // Calculate the discount if available
+                    if ($quantity && $quantity->discount_id) {
+                        $discount = Discount::find($quantity->discount_id);
+                        // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                            $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                        // }
+                    }                   
                     $cart[] = [
                         "id" => $item->product_id,
                         "name" => $product->product_name,
@@ -49,14 +61,36 @@ class CartController extends Controller
                         "color_name" => $color ? $color->color_name : null,
                         "capacity" => $quantity ? $quantity->capacity : null,
                         "size" => $quantity ? $quantity->size : null,
-                        "price" => $quantity ? $quantity->price : null,
+                        "price" => $priceAfterDiscount,
                     ];
                 }
             }
         } else {
             // If the user is not logged in, use the session to get the cart items
-            $cart = session()->get('cart', []);
-            $cartCount = count($cart);
+        $cart = session()->get('cart', []);
+        $cartCount = count($cart);
+
+        // Calculate the discounted price for each item in the session cart
+        foreach ($cart as $key => &$item) {
+            $quantity = Quantity::where('product_id', $item['id'])
+                                ->where('color_id', $item['color_id'])
+                                ->where('capacity', $item['capacity'])
+                                ->where('size', $item['size'])
+                                ->first();
+
+            $price = $quantity ? $quantity->price : $item['price'];
+            $priceAfterDiscount = $price;
+
+            if ($quantity && $quantity->discount_id) {
+                $discount = Discount::find($quantity->discount_id);
+                // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                    $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                // }
+            }
+
+            $item['price'] = $priceAfterDiscount;
+        }
+        session()->put('cart', $cart);
         }   
         $category1 = Category::whereNotNull('component_id')->get();
         $category2 = Category::whereNull('component_id')->get();
@@ -81,7 +115,7 @@ class CartController extends Controller
         $quantity_product = $request->input('quantity_product'); // Get the quantity_product from the request
     
         $quantityQuery = Quantity::where('product_id', $product->product_id);
-    
+
         if ($colorId) {
             $quantityQuery->where('color_id', $colorId);
         } else {
@@ -106,6 +140,15 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Sản phẩm đã hết hàng!');
         }
     
+        $price = $quantity->price;
+        $priceAfterDiscount = $price;
+
+        if ($quantity->discount_id) {
+            $discount = Discount::find($quantity->discount_id);
+            // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+            // }
+        }
         $alreadyInCart = false;
     
         if (Auth::check()) {
@@ -147,7 +190,7 @@ class CartController extends Controller
                     'color_name' => $color ? $color->color_name : null,
                     'capacity' => $capacities,
                     'size' => $size,
-                    'price' => $quantity->price,
+                    'price' => $priceAfterDiscount, // Use discounted price here
                 ]);
             }
         } else {
@@ -165,7 +208,7 @@ class CartController extends Controller
                     "id" => $product->product_id,
                     "name" => $product->product_name,
                     'quantity' => $quantity_product,
-                    "price" => $quantity->price,
+                    "price" => $priceAfterDiscount, // Use discounted price here
                     "image" => $product->url_name,
                     "color_id" => $color ? $color->color_id : null,
                     "color_name" => $color ? $color->color_name : null,
@@ -227,8 +270,18 @@ class CartController extends Controller
                     return response()->json(['success' => false, 'message' => 'Không tìm thấy thông tin sản phẩm trong kho!']);
                 }
     
+                $price = $quantity->price;
+                $priceAfterDiscount = $price;
+    
+                if ($quantity->discount_id) {
+                    $discount = Discount::find($quantity->discount_id);
+                    // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                        $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                    // }
+                }
+    
                 $cartItem->quantity = $request->quantity;
-                $cartItem->price = $quantity->price;
+                $cartItem->price = $priceAfterDiscount;
                 $cartItem->save();
     
                 // Calculate the new subtotal and total
@@ -248,15 +301,32 @@ class CartController extends Controller
                     . ($request->size ? '_' . $request->size : '');
     
             if (isset($cart[$cartKey])) {
-                $cart[$cartKey]['quantity'] = $request->quantity;
-                session()->put('cart', $cart);
-    
-                // Calculate the new subtotal and total
-                $itemSubtotal = \App\Helpers\NumberHelper::formatCurrency($cart[$cartKey]['quantity'] * $cart[$cartKey]['price']);
-                $total = array_reduce($cart, function($carry, $item) {
-                    return $carry + ($item['quantity'] * $item['price']);
-                }, 0);
-                $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
+                $quantity = Quantity::where('product_id', $request->product_id)
+                ->where('color_id', $request->color_id)
+                ->where('capacity', $request->capacity)
+                ->where('size', $request->size)
+                ->first();
+
+$price = $quantity ? $quantity->price : $cart[$cartKey]['price'];
+$priceAfterDiscount = $price;
+
+if ($quantity && $quantity->discount_id) {
+$discount = Discount::find($quantity->discount_id);
+// if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+    $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+// }
+}
+
+$cart[$cartKey]['quantity'] = $request->quantity;
+$cart[$cartKey]['price'] = $priceAfterDiscount;
+session()->put('cart', $cart);
+
+// Calculate the new subtotal and total
+$itemSubtotal = \App\Helpers\NumberHelper::formatCurrency($cart[$cartKey]['quantity'] * $cart[$cartKey]['price']);
+$total = array_reduce($cart, function($carry, $item) {
+return $carry + ($item['quantity'] * $item['price']);
+}, 0);
+$totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
     
                 return response()->json(['success' => true, 'message' => 'Cập nhật giỏ hàng thành công!', 'itemSubtotal' => $itemSubtotal, 'total' => $totalFormatted]);
             } else {
@@ -353,6 +423,7 @@ class CartController extends Controller
     $cartCount = 0;
     $user = null;
     $shippingmethods = ShippingMethods::all();
+    $paymethods = PayMethods::all();
     if (Auth::check()) {
         $user = Auth::user(); // Get authenticated user
         $userId = Auth::id();
@@ -370,12 +441,23 @@ class CartController extends Controller
                     ->first();
 
                 if ($quantity) {
-                    $totalPrice += $item->quantity * $quantity->price;
-                    $item->product = $product; // Attach product to item
-                    $item->price = $quantity->price; // Attach price to item
-                    $item->capacity = $quantity->capacity;
-                    $item->size = $quantity->size;
-                    $item->color_name = $color ? $color->color_name : null;
+                        // Calculate the discounted price if applicable
+                        $price = $quantity->price;
+                        $priceAfterDiscount = $price;
+    
+                        if ($quantity->discount_id) {
+                            $discount = Discount::find($quantity->discount_id);
+                            // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                                $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                            // }
+                        }
+    
+                        $totalPrice += $item->quantity * $priceAfterDiscount;
+                        $item->product = $product; // Attach product to item
+                        $item->price = $priceAfterDiscount; // Attach discounted price to item
+                        $item->capacity = $quantity->capacity;
+                        $item->size = $quantity->size;
+                        $item->color_name = $color ? $color->color_name : null;
                 } else {
                     // If quantity not found, assign default values or handle error
                     $item->price = 0;
@@ -398,17 +480,28 @@ class CartController extends Controller
                     ->where('capacity', $item['capacity'])
                     ->where('size', $item['size'])
                     ->first();
-                if ($quantity) {
-                    $totalPrice += $item['quantity'] * $quantity->price;
-                    $cartItems[] = (object)[
-                        'product' => $product,
-                        'quantity' => $item['quantity'],
-                        'price' => $quantity->price,
-                        'capacity' => $quantity->capacity,
-                        'size' => $quantity->size,
-                        'color_id' => $item['color_id'] ?? null,
-                        'color_name' => $color ? $color->color_name : null,
-                    ];
+                    if ($quantity) {
+                        // Calculate the discounted price if applicable
+                        $price = $quantity->price;
+                        $priceAfterDiscount = $price;
+    
+                        if ($quantity->discount_id) {
+                            $discount = Discount::find($quantity->discount_id);
+                            // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                                $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                            // }
+                        }
+    
+                        $totalPrice += $item['quantity'] * $priceAfterDiscount;
+                        $cartItems[] = (object)[
+                            'product' => $product,
+                            'quantity' => $item['quantity'],
+                            'price' => $priceAfterDiscount, // Attach discounted price to item
+                            'capacity' => $quantity->capacity,
+                            'size' => $quantity->size,
+                            'color_id' => $item['color_id'] ?? null,
+                            'color_name' => $color ? $color->color_name : null,
+                        ];
                 } else {
                     $cartItems[] = (object)[
                         'product' => $product,
@@ -427,19 +520,16 @@ class CartController extends Controller
     $category1 = Category::whereNotNull('component_id')->get();
     $category2 = Category::whereNull('component_id')->get();
     $brand1 = Brand::whereNotNull('category_id')->get();
-    return view('clients.order', array_merge($this->data, compact('cartItems', 'totalPrice', 'cartCount', 'user', 'category1', 'category2', 'brand1','shippingmethods')));
+    return view('clients.order', array_merge($this->data, compact('cartItems', 'totalPrice',
+     'cartCount', 'user', 'category1', 'category2', 'brand1','shippingmethods','paymethods')));
 }
 public function placeOrder(Request $request)
 {
     // Bắt đầu một giao dịch
     DB::beginTransaction();
     Stripe::setApiKey(env('STRIPE_SECRET'));
-
     $token = $request->stripeToken;
-    try {   
-
-        
-
+    try {
         $totalPrice = 0;
         $cartItems = [];
         if (Auth::check()) {
@@ -455,6 +545,7 @@ public function placeOrder(Request $request)
                 'address' => $request->input('address'),
                 'total_price' => $totalPrice,
                 'shipping_methods_id' => $request->input('shipping'), // Lưu shipping_methods_id
+                'pay_methods_id' => $request->input('payment_method'), // Lưu shipping_methods_id
                 // Các trường khác như created_at, updated_at sẽ tự động được điền
             ]);
         } else {
@@ -468,6 +559,7 @@ public function placeOrder(Request $request)
                 'address' => $request->input('address'),
                 'total_price' => $totalPrice,
                 'shipping_methods_id' => $request->input('shipping'), // Lưu shipping_methods_id
+                'pay_methods_id' => $request->input('payment_method'), // Lưu shipping_methods_id
                 // Các trường khác như created_at, updated_at sẽ tự động được điền
             ]);
             
@@ -482,26 +574,27 @@ public function placeOrder(Request $request)
                 ];
             }
         }
-
-         // /////////////////
-         $charge = Charge::create([
-            'amount' => 1000, // số tiền cần thanh toán, tính bằng cent (10.00 USD)
-            'currency' => 'usd',
-            'description' => 'Example charge',
-            'source' => $token,
-        ]);
-        // Kiểm tra xem người dùng có đăng nhập hay không
-        $userId = auth()->check() ? auth()->id() : null;
-        // Lưu thông tin giao dịch vào database
-        Transaction::create([
-            'user_id' => $userId, // có thể null nếu không đăng nhập
-            'order_id' => $order->order_id,
-            'transaction_id' => $charge->id,
-            'amount' => $charge->amount,
-            'currency' => $charge->currency,
-            'status' => $charge->status,
-        ]);
-        // /////////////////
+            // Kiểm tra xem người dùng có đăng nhập hay không
+            $userId = auth()->check() ? auth()->id() : null;
+        // If payment method is not pay-methods-3, create the charge and save the transaction
+        if ($request->input('payment_method') !== '3') {
+            $charge = Charge::create([
+                'amount' => 1000, // số tiền cần thanh toán, tính bằng cent (10.00 USD)
+                'currency' => 'usd',
+                'description' => 'Example charge',
+                'source' => $token,
+            ]);
+            
+            // Lưu thông tin giao dịch vào database
+            Transaction::create([
+                'user_id' => $userId, // có thể null nếu không đăng nhập
+                'order_id' => $order->order_id,
+                'transaction_id' => $charge->id,
+                'amount' => $charge->amount,
+                'currency' => $charge->currency,
+                'status' => $charge->status,
+            ]);
+        }
 
         // Duyệt qua từng sản phẩm trong giỏ hàng
         foreach ($cartItems as $item) {
@@ -522,11 +615,16 @@ public function placeOrder(Request $request)
                     DB::rollback();
                     return redirect()->route('home')->with('error', 'Sản phẩm ' . $item->product->product_name . ' hiện tại đã hết hàng!');
                 }
-            } else {
-                // Nếu không tìm thấy số lượng, rollback giao dịch và thông báo lỗi
-                DB::rollback();
-                return redirect()->route('home')->with('error', 'Sản phẩm ' . $item->product->product_name . ' hiện tại đã hết hàng!');
-            }
+
+               // Tính giá đã discount nếu có
+               $price = $quantity->price;
+               $priceAfterDiscount = $price;
+               if ($quantity->discount_id) {
+                   $discount = Discount::find($quantity->discount_id);
+                //    if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                       $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                //    }
+               }
             // Cập nhật order_id trong Order_items hoặc thêm mới cho khách hàng chưa đăng nhập
             $product = Product::find($item->product_id);
             $color = Color::find($item->color_id);
@@ -538,7 +636,7 @@ public function placeOrder(Request $request)
                 'color_name' => $color ? $color->color_name : null,
                 'capacity' => $item->capacity,
                 'size' => $item->size,
-                'price' => $quantity->price,
+                'price' => $priceAfterDiscount,
                 'quantity' => $item->quantity,
             ];
             if (Auth::check()) {
@@ -553,7 +651,12 @@ public function placeOrder(Request $request)
                 Order_items::create($orderItemData);
             }
             // Tính tổng giá của đơn hàng
-            $totalPrice += $item->quantity * $quantity->price;
+            $totalPrice += $item->quantity * $priceAfterDiscount;
+        } else {
+            // Nếu không tìm thấy số lượng, rollback giao dịch và thông báo lỗi
+            DB::rollback();
+            return redirect()->route('home')->with('error', 'Sản phẩm ' . $item->product->product_name . ' hiện tại đã hết hàng!');
+        }
         }
         // Cập nhật tổng giá cho đơn hàng
         $order->total_price = $totalPrice;
@@ -571,4 +674,5 @@ public function placeOrder(Request $request)
         return redirect()->route('cartorder.index')->with('error', 'Đã xảy ra lỗi, vui lòng thử lại sau.');
     }
 }
+
 }

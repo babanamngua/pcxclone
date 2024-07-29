@@ -43,13 +43,15 @@
                 </h1>
                 <h1>{{ $product->product_name }}</h1>
                 <div style="display: flex;margin:20px 0px;">
-                    <p id="product-price" style="margin:0px;font-size: x-large;color: #af0707bf;;margin-right: 15px;">
-                        {{ \App\Helpers\NumberHelper::formatCurrency($initialPrice) }}
+                    <p id="product-price-discount" style="margin:0px;font-size: x-large;color: #af0707bf;margin-right: 15px;">
+                        {{ \App\Helpers\NumberHelper::formatCurrency($initialPriceAfterDiscount) }}
                     </p>
+                    @if ($initialPrice != $initialPriceAfterDiscount)
                     <p
                         style="font-size: large;color: #424242bf;margin:0;text-decoration-line:line-through;line-height: 36px;width: 100%;">
-                        2.000.000 ₫
+                        {{ \App\Helpers\NumberHelper::formatCurrency($initialPrice) }}
                     </p>
+                @endif
                     @if ($averageRating != 0)
                         <div style="line-height: 40px;text-align: end;width: 100%;">
                             {{ number_format($averageRating, 1) }} <span class="bi bi-star-fill"></span>
@@ -65,65 +67,54 @@
                     @csrf
                     @if ($colors->isNotEmpty())
                         <div><label for="color">Chọn màu:</label></div>
-                        <div style="    margin-bottom: 15px;">
+                        <div style="margin-bottom: 15px;">
                             <select name="color_id" id="color-select" class="form-control">
                                 @foreach ($colors as $color)
                                     @foreach ($images as $image)
                                         @if ($image->color_id == $color->color_id)
                                             <option value="{{ $color->color_id }}" data-color-id="{{ $color->color_id }}"
                                                 data-image="{{ asset('storage/products/' . $product->product_name . '/img/' . $image->url_img) }}">
-                                                {{-- {{ $color->color_name }} --}}
                                             </option>
-                                        @break
-                                    @endif
+                                            @break
+                                        @endif
+                                    @endforeach
                                 @endforeach
-                            @endforeach
-                        </select>
+                            </select>
+                        </div>
+                    @endif
+                    <div class="capacity-container hidden" style="margin-bottom: 15px;">
+                        <label for="capacity">Dung lượng:</label>
+                        <select name="capacity" id="capacity-select" class="form-control" style="width: auto;"></select>
                     </div>
-                @endif
-                <div class="capacity-container hidden" style="    margin-bottom: 15px;">
-                    <label for="capacity">Dung lượng:</label>
-                    <select name="capacity" id="capacity-select" class="form-control" style="width: auto;">
-                    </select>
-                </div>
-
-                <div class="size-container hidden" style="    margin-bottom: 15px;">
-                    <label for="size">Kích thước:</label>
-                    <select name="size" id="size-select" class="form-control" style="width: auto;">
-                    </select>
-                </div>
-                <div> <label for="quantity_product">Số lượng:</label></div>
-                <div class="quantity-container" style="    margin-bottom: 15px;">
-
-                    <button type="button" class="quantity-btn minus-btn">
-                        -
-                    </button>
-                    <input type="number" name="quantity_product" id="quantity_product" value="1" min="1"
-                        max="100">
-                    <button type="button" class="quantity-btn plus-btn">
-                        +
-                    </button>
-                </div>
-                <div class="chonmua">
-                    <input type="hidden" name="product_id" value="{{ $product->product_id }}">
-                    <button type="submit" class="btn btn-primary"
-                        style="width:80%; padding:10px;font-weight: 600;">Chọn mua</button>
-
-                    {{-- <div type="submit" class="btn btn-primary"
-                        style="width:80%; padding:10px;font-weight: 600;margin:0; background-color:#ccc;border:#ccc;color:black;">Hết hàng</div> --}}
-                </div>
-            </form>
-        </div>
-    </div>
+                    <div class="size-container hidden" style="margin-bottom: 15px;">
+                        <label for="size">Kích thước:</label>
+                        <select name="size" id="size-select" class="form-control" style="width: auto;"></select>
+                    </div>
+                    <div>
+                        <label for="quantity_product">Số lượng:</label>
+                    </div>
+                    <div class="quantity-container" style="margin-bottom: 15px;">
+                        <button type="button" class="quantity-btn minus-btn">-</button>
+                        <input type="number" name="quantity_product" id="quantity_product" value="1" min="1" max="100">
+                        <button type="button" class="quantity-btn plus-btn">+</button>
+                    </div>
+                    <div class="chonmua">
+                        <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                        <button type="submit" class="btn btn-primary" style="width:80%; padding:10px;font-weight: 600;">
+                            Chọn mua
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>        
     {{-- create product same brand here --}}
-    <div class="row" style="display: flex;">      
-            <div class="container4">
+    <div class="row" style="display: flex;">           
             @if ($sameBrandProducts->isNotEmpty())
+            <div style="width: 1490px;">
                 <h1>Cùng thương hiệu</h1>
                 <div class="row">
                     @foreach ($sameBrandProducts as $prod)
-                        <div style="width: 249px; margin:0;margin-top: 20px;" id="cart-item"
-                            data-product-id="{{ $prod->product_id }}">
+                        <div style="width: 249px; margin:0;margin-top: 20px;" id="cart-item" data-product-id="{{ $prod->product_id }}">
                             <a href="{{ route('products.detail', $prod->product_id) }}"
                                 style="text-decoration: none; color:black;">
                                 <div
@@ -133,6 +124,7 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $prod->product_name }}</h5>
+                                </div> 
                             </a>
                             {{-- Hiển thị giá sản phẩm --}}
                             <p class="card-text product-price" id="product-price-{{ $prod->product_id }}">
@@ -183,10 +175,11 @@
                         </div> 
                     @endforeach
                 </div>
+            </div> 
             @endif          
         {{-- //////////////////////////////////////////////// --}}
         @if ($sameCategoryProducts->isNotEmpty())
-            <div class="container4">
+            <div style="width: 1490px;">
                 <h1>Có thể bạn thích</h1>
                 <div class="row">
                     @foreach ($sameCategoryProducts as $produ)
@@ -212,6 +205,7 @@
         @if (Route::has('login'))
             @auth
                 <div class="row">
+                    <div style="width: 1490px;">
                     <h1 style="margin:40px 0px;">Đánh giá sản phẩm</h1>
                     <form action="{{ route('review.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -238,6 +232,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary" style="width:5%;margin-left:13px;">Gửi</button>
                     </form>
+                    </div>
                 </div>
             @endauth
         @endif
@@ -267,6 +262,7 @@
         </div>
         {{-- binh luan --}}
         <div class="row">
+            <div style="width: 1490px;">
             @foreach ($comment as $cmt)
                 <div class="comment-container">
                     <div class="rating">
@@ -311,15 +307,14 @@
                         @if ($cmt->user_id == Auth::id())
                             <div style="float: right;">
                                 <button style="submit" class="btn btn-danger"
-                                    onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?');">Xóa bình
-                                    luận</button>
+                                    onclick="return confirm('Bạn có chắc muốn xóa bình luận này không?');">Xóa bình luận</button>
                             </div>
                         @endif
                     </form>
                 </div>
             @endforeach
         </div>
-    </div>  
+        </div> 
     </div>
 </section>
 @endsection
@@ -395,7 +390,7 @@
     }
 
     .comment-container {
-        margin-top: 30px;
+        margin-top: 50px;
         border-top: 1px solid #e1e1e1;
 
     }
@@ -795,7 +790,7 @@
             var sizeContainer = $('.size-container');
             sizeSelect.empty();
 
-            $.each(sizes, function(size, price) {
+            $.each(sizes, function(size, priceData) {
                 sizeSelect.append($('<option>', {
                     value: size !== null ? size : "",
                     text: size !== null ? size : "Không có kích thước",
@@ -813,9 +808,9 @@
         }
 
         function updatePrice(colorId, capacity, size) {
-            var price = (quantitiesData[colorId] && quantitiesData[colorId][capacity] && quantitiesData[colorId]
-                [capacity][size]) || 0;
-            $('#product-price').text(formatCurrency(price));
+            var priceData = (quantitiesData[colorId] && quantitiesData[colorId][capacity] && quantitiesData[colorId][capacity][size]) || { price: 0, priceAfterDiscount: 0 };
+            $('#product-price').text(formatCurrency(priceData.price));
+            $('#product-price-discount').text(formatCurrency(priceData.priceAfterDiscount));
         }
 
         function formatCurrency(value) {
@@ -841,9 +836,7 @@
 
             // Update the main image source based on the selected color
             if (imagesByColor[colorId] && imagesByColor[colorId].length > 0) {
-                var newImageSrc =
-                    '{{ asset('storage/products/' . $product->product_name . '/img/') }}' + '/' +
-                    imagesByColor[colorId][0].url_img;
+                var newImageSrc = '{{ asset('storage/products/' . $product->product_name . '/img/') }}' + '/' + imagesByColor[colorId][0].url_img;
                 mainImage.attr('src', newImageSrc);
                 scrollToThumbnail(newImageSrc); // Scroll to the corresponding thumbnail
             }
@@ -901,7 +894,6 @@
             }
         });
 
-
         // Update cart count
         function updateCartCount() {
             $.ajax({
@@ -929,6 +921,7 @@
                 $(this).val(100);
             }
         });
+
         // Event handler for form submission
         $('#add-to-cart-form').on('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
@@ -951,8 +944,6 @@
                 }
             });
         });
-
-
     });
 </script>
 

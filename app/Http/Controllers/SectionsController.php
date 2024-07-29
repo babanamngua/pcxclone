@@ -39,6 +39,7 @@ class SectionsController extends Controller
             //step1
         $section = new Section();
         $id = $request->input('article_id');
+        $article = Article::findOrFail($id);
         $section->article_id =  $id;
         $section->content1 = $request->input('content1');
         $section->content2 = $request->input('content2');
@@ -47,12 +48,10 @@ class SectionsController extends Controller
             $image = $request->file('url_img');
             $name = date('d-m-y-H-i-s') . '.' . $image->getClientOriginalExtension();
             $section->url_img = $name;
+            $destinationPath =public_path('storage/articles/' . $article->title.' - '.$article->id.'/'.'img'); // Corrected path to save image in img folder
+            $image->move($destinationPath, $name);
         }
         $section->save();
-        $article = Article::findOrFail($id);
-          //step2
-        $destinationPath =public_path('storage/articles/' . $article->title.' - '.$article->id.'/'.'img'); // Corrected path to save image in img folder
-        $image->move($destinationPath, $name);
         return redirect()->route('sections.index', ['id' => $id])->with('success', 'Section created successfully.');
     }
     public function edit($articleId, $sectionId)

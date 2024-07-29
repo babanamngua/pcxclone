@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('address', 255);
             $table->decimal('total_price', 10,0)->nullable();
             $table->integer('shipping_methods_id');
+            $table->integer('pay_methods_id');
             $table->enum('status', ['pending','confirmed','delivering','delivered','completed','cancelled','refunded','failed'])->default('pending');
             $table->timestamps();
         });

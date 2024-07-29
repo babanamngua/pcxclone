@@ -17,6 +17,7 @@ use App\Models\Section;
 use App\Models\Review;
 use App\Models\CommentImage;
 use App\Models\User;
+use App\Models\Discount;
 
 
 
@@ -60,8 +61,21 @@ class HomeController extends Controller
                 if (!isset($quantitiesData[$product->product_id][$colorId][$capacity])) {
                     $quantitiesData[$product->product_id][$colorId][$capacity] = [];
                 }
-    
-                $quantitiesData[$product->product_id][$colorId][$capacity][$size] = $quantity->price;
+                // Tính giá sau khi áp dụng discount nếu có
+                $price = $quantity->price;
+            $priceAfterDiscount = $price;
+            if ($quantity->discount_id) {
+                $discount = Discount::find($quantity->discount_id);
+                // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                    $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                // }
+            }
+
+            // Lưu cả giá gốc và giá sau discount vào quantitiesData
+            $quantitiesData[$product->product_id][$colorId][$capacity][$size] = [
+                'original_price' => $price,
+                'discounted_price' => $priceAfterDiscount
+            ];
             }
         }
     
@@ -130,6 +144,17 @@ class HomeController extends Controller
         $colorId = $quantity->color_id ?? null;
         $capacity = $quantity->capacity ?? null;
         $size = $quantity->size ?? null;
+        $price = $quantity->price;
+        $priceAfterDiscount = $price; // Khởi tạo giá sau khi giảm giá bằng giá gốc
+
+        if ($quantity->discount_id) {
+            $discount = Discount::find($quantity->discount_id);
+            if ($discount) {
+                // Tính giá sau khi giảm giá
+                $discountValue = $discount->value; // phần trăm giảm giá
+                $priceAfterDiscount = $price * (1 - ($discountValue / 100));
+            }
+        }
 
         if (!isset($quantitiesData[$colorId])) {
             $quantitiesData[$colorId] = [];
@@ -139,14 +164,18 @@ class HomeController extends Controller
             $quantitiesData[$colorId][$capacity] = [];
         }
 
-        $quantitiesData[$colorId][$capacity][$size] = $quantity->price;
+        $quantitiesData[$colorId][$capacity][$size] = [
+            'price' => $price,
+            'priceAfterDiscount' => $priceAfterDiscount
+        ];
     }
 
     $initialColorId = optional($colors->first())->color_id ?? null;
     $initialCapacity = array_key_first($quantitiesData[$initialColorId] ?? $quantitiesData[null] ?? []);
     $initialSize = array_key_first($quantitiesData[$initialColorId][$initialCapacity] ?? $quantitiesData[null][$initialCapacity] ?? []);
 
-    $initialPrice = $quantitiesData[$initialColorId][$initialCapacity][$initialSize] ?? $quantitiesData[null][$initialCapacity][$initialSize] ?? null;
+    $initialPrice = $quantitiesData[$initialColorId][$initialCapacity][$initialSize]['price'] ?? $quantitiesData[null][$initialCapacity][$initialSize]['price'] ?? null;
+    $initialPriceAfterDiscount = $quantitiesData[$initialColorId][$initialCapacity][$initialSize]['priceAfterDiscount'] ?? $quantitiesData[null][$initialCapacity][$initialSize]['priceAfterDiscount'] ?? null;
 
     $category1 = Category::whereNotNull('component_id')->get();
     $category2 = Category::whereNull('component_id')->get();
@@ -231,6 +260,7 @@ class HomeController extends Controller
         'quantities',
         'quantitiesData',
         'initialPrice',
+        'initialPriceAfterDiscount',
         'images',
         'imagesByColor',
 
@@ -295,11 +325,15 @@ class HomeController extends Controller
         $brand1 = Brand::whereNotNull('category_id')->get();
         $brand2 = Brand::whereNull('category_id')->get();
         /////////////////////////////////////////
-        // $article = Article::findOrFail($id);
+        $article = Article::findOrFail($id);
         $section = Section::where('article_id',$id)->get();
+        $article1 = Article::where('id', '!=', $id)
+                            ->inRandomOrder()
+                            ->take(3)
+                            ->get();
         /////////////////////////////////////////
         return view('clients.chitiettintuc',$this->data,compact(
-            'cartCount','category1','category2','brand1','brand2',
+            'cartCount','category1','category2','brand1','brand2','article','article1',
             'section'
         ));
     }

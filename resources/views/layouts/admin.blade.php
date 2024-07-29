@@ -30,6 +30,7 @@
             display: none !important;
         }
     </style>
+    @yield('css')
 </head>
 <body>
     {{-- header --}}
@@ -150,4 +151,5 @@
         });
     });
 </script>
+@yield('js')
 </html>

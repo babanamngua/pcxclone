@@ -15,6 +15,7 @@ class Quantity extends Model
         'product_id',
         'color_id',
         'quantity_product',
+        'discount_id',
         'capacity',
         'size',
         'price',

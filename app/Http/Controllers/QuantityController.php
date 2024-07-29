@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Quantity;
 use App\Models\Color;
+use App\Models\Discount;
 
 class QuantityController extends Controller
 {
@@ -69,5 +70,50 @@ class QuantityController extends Controller
         $quantity->delete();
         
         return redirect()->back()->with('status', 'Xóa số lượng thành công.');
+    }
+    public function updateDiscountProductview($id)
+    {
+        $quantity = Quantity::findOrFail($id);
+        $product = Product::where('product_id',$quantity->product_id)->get();
+        $color = Color::where('color_id',$quantity->color_id)->get();
+        $discount = Discount::where('id',$quantity->discount_id)->get();
+        $this->data['title'] = 'Trang giảm giá sản phẩm';
+        return view('admin.quantity.add_or_edit_discountproduct', $this->data,compact('quantity', 'product','color','discount'));
+    }
+    public function updateDiscountProduct(Request $request,$id)
+    {
+        $quantity = Quantity::findOrFail($id);
+        $request->validate([
+            'description' => 'nullable',
+            'value' => 'required|integer|max:100',
+            'start_date' => 'nullable',
+            'end_date' =>'nullable',
+        ]);
+
+        $discount = new Discount();
+        $discount->description = $request->input('description');
+        $discount->value = $request->input('value');
+        $discount->start_date = $request->input('start_date');
+        $discount->end_date= $request->input('end_date');
+        $discount->save();
+        $quantity->discount_id =  $discount->id;
+        $quantity->save();
+
+        return redirect()->back()->with('success', 'Thành công.');
+    }
+    public function updateDiscountProductdestroy($id)
+    {
+        $discount = Discount::findOrFail($id);
+        $quantity = Quantity::where('discount_id',$id)->get();
+        if($quantity){
+            foreach ($quantity as $quanti) {
+                $quanti->discount_id = null;
+                $quanti->save();
+            }
+          
+        }
+         $discount->delete(); 
+         
+        return redirect()->back()->with('status', 'Xóa thành công.');
     }
 }

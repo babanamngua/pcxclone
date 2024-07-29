@@ -17,7 +17,7 @@
                         <a href="{{ route('sections.create', $article->id) }} "class="btn btn-info" style="width: 100%; margin:10px 0px;">thêm đoạn</a>
 
                         @foreach ($section as $sec)
-                            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;border:1px solid;margin-bottom: 3px;">
+                            <div style="border:1px solid;margin-bottom: 3px;width: 667px;">
 							<div style="display: flex;">
                                 <form method="POST" action="{{ route('sections.destroy', ['articleId' => $article->id, 'sectionId' => $sec->id]) }}">
                                     @csrf
@@ -28,11 +28,21 @@
                                 </form>
 								<a href="{{ route('sections.edit', ['articleId' => $article->id, 'sectionId' => $sec->id]) }}" class="btn btn-success">Chỉnh sửa đoạn</a>
 							</div>
-                                <div>{{ $sec->content1 }}</div>
-                                <div><img
+                            @php
+                            $html_decoded_text = html_entity_decode($sec->content1, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                        @endphp
+                        <p>{!! $html_decoded_text !!}</p>
+                                 @if($sec->url_img)
+                                 <div>                                
+                                    <img
                                         src="{{ asset('storage/articles/' . $article->title . ' - ' . $article->id . '/' . 'img' . '/' . $sec->url_img) }}"alt="img"
-                                        width="500"></div>
-                                <div>{{ $sec->content2 }}</div>
+                                        style="max-width: 667px;max-height: 550px;justify-items: center;display: block;">
+                                    </div>
+                                    @endif
+                                        @php
+                                        $html_decoded_text1 = html_entity_decode($sec->content2, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                    @endphp
+                                    <p>{!! $html_decoded_text1 !!}</p>
                             </div>
                         @endforeach
 

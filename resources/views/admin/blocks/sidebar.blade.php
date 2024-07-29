@@ -63,18 +63,23 @@
             </a>
         </li>
         <li class="parent ">
+            <a href="{{ route('paymethods.index')}}" style="padding-left: 45px;">
+                <span data-toggle="collapse" href="#sub-item-7"></span> Quản lý phương thức thanh toán
+            </a>
+        </li>
+        <li class="parent ">
             <a href="{{ route('articles.index')}}" style="padding-left: 45px;">
-                <span data-toggle="collapse" href="#sub-item-7"></span> Quản lý bài viết
+                <span data-toggle="collapse" href="#sub-item-8"></span> Quản lý bài viết
             </a>
         </li> 
         <li class="parent ">
             <a href="{{ route('product.index')}}" style="padding-left: 45px;">
-                <span data-toggle="collapse" href="#sub-item-8"></span> Quản lý mã giảm giá
+                <span data-toggle="collapse" href="#sub-item-9"></span> Quản lý mã giảm giá
             </a>
         </li> 
         <li class="parent ">
             <a href="{{ route('product.index')}}" style="padding-left: 45px;">
-                <span data-toggle="collapse" href="#sub-item-9"></span> Quản lý banner
+                <span data-toggle="collapse" href="#sub-item-10"></span> Quản lý banner
             </a>
         </li> 
     </ul>

@@ -18,6 +18,7 @@ class Orders extends Model
         'address',
         'total_price',
         'shipping_methods_id',
+        'pay_methods_id',
         'status'
         ];
         public $timestamps = true; // Đảm bảo timestamps được bật
