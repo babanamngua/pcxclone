@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('product_name', 255);
             $table->integer('category_id')->nullable()->index('category_id');
             $table->integer('brand_id')->nullable()->index('brand_id');
-            $table->decimal('price', 10, 0);
             $table->text('description');
-            $table->integer('quantity');
+            $table->text('product_specifications');
+            $table->decimal('weight', 10, 3);
             $table->string('url_name', 191);
             $table->timestamps();
         });

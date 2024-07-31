@@ -40,7 +40,6 @@
                                     <th style="text-align: center; vertical-align: middle;">tổng tiền đơn hàng</th>
                                     <th style="text-align: center; vertical-align: middle;">Phương thức nhận hàng</th>
                                     <th style="text-align: center; vertical-align: middle;">Phương thức thanh toán</th>
-                                    <th style="text-align: center; vertical-align: middle;">trạng thái thanh toán</th>
                                     <th style="text-align: center; vertical-align: middle;">Trạng thái đơn hàng</th>
                                     <th style="text-align: center; vertical-align: middle;width:80px;">Chức năng</th>
                                 </tr>
@@ -56,7 +55,11 @@
 
                                         @foreach ($shipping_methods as $sp)
                                             @if ($sp->shipping_methods_id == $order->shipping_methods_id)
-                                                <td>{{ $sp->method_name }}</td>
+                                                <td>{{ $sp->method_name }} 
+                                                    @if($sp->shipping_methods_id == "1")
+                                                    <a href="{{ route('shipping.edit', $order->order_id) }}" class="btn btn-info">Xem</a>
+                                                    @endif
+                                                </td>
                                             @endif
                                         @endforeach
                                         @foreach ($pay_methods as $p)
@@ -64,7 +67,6 @@
                                                 <td>{{ $p->method_name }}</td>                                                                                  
                                             @endif
                                         @endforeach
-                                        <td></td>
                                         <td>{{ $order->status }}</td>
                                         <td>
                                             <a href="{{ route('orderitem.index', $order->order_id) }}"

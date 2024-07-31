@@ -15,6 +15,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ShippingController;
+
 
 
 use App\Http\Controllers\ProfileController;
@@ -29,6 +31,9 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PayMethodsController;
+
+Route::get('/shipping', [ShippingController::class, 'index']);
+Route::post('/shipping/calculate', [ShippingController::class, 'calculate']);
 
 
 //giỏ hàng
@@ -205,6 +210,9 @@ Route::middleware(['auth','admincheck'])->group(function () {
     Route::get('paymethods/{paymethods}/edit',[PayMethodsController::class,'edit'])->name('paymethods.edit');
     Route::put('paymethods/{paymethods}/update',[PayMethodsController::class,'update'])->name('paymethods.update');
     Route::delete('paymethods/{paymethods}/destroy',[PayMethodsController::class,'destroy'])->name('paymethods.destroy');
+
+    Route::get('shipping/{id}/edit',[ShippingController::class,'edit'])->name('shipping.edit');
+    Route::put('shipping/{id}/update',[ShippingController::class,'update'])->name('shipping.update');
 });
 
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');

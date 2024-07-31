@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\Order_items;
 use App\Models\Quantity;
-use App\Models\shipping;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\ShippingMethods;
+use App\Models\Shipping;
 use App\Models\PayMethods;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +51,7 @@ class OrdersController extends Controller
         $order = Orders::findOrFail($id);
         $order_items = Order_items::where('order_id', $order->order_id)->get();
         $trans = Transaction::where('order_id', $order->order_id)->get();
+        $shipping = Shipping::where('order_id', $order->order_id)->get();
 
     
         if ($order_items) {
@@ -77,6 +78,11 @@ class OrdersController extends Controller
                 // Xóa bản ghi màu từ cơ sở dữ liệu
                 $transaction->delete();
             }}
+            if($shipping){
+                foreach ($shipping as $spin) {
+                    // Xóa bản ghi màu từ cơ sở dữ liệu
+                    $spin->delete();
+                }}
         // Delete the order
         $order->delete();
     
@@ -102,7 +108,7 @@ class OrdersController extends Controller
     
         $orders = Orders::where('user_id',$userId)->get();
         $shipping_methods= ShippingMethods::all();
-        
+
         // Create an associative array to store the order item counts
         $order_item_Counts = [];
         foreach ($orders as $order) {

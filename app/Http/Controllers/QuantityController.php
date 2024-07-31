@@ -67,8 +67,13 @@ class QuantityController extends Controller
     public function destroy($id)
     {
         $quantity = Quantity::findOrFail($id);
+        $discount = Discount::where('id',$quantity->discount_id)->get();
         $quantity->delete();
-        
+        if($discount){
+            foreach ($discount as $dis) {               
+                $dis->delete();
+            }          
+        }
         return redirect()->back()->with('status', 'Xóa số lượng thành công.');
     }
     public function updateDiscountProductview($id)

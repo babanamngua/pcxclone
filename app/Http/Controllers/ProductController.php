@@ -44,8 +44,9 @@ class ProductController extends Controller
             'product_name'=> 'required|string|max:255',
             'category_id' => 'nullable|exists:category,category_id',
             'brand_id' => 'nullable|exists:brand,brand_id',
-            'price' =>'required|numeric',
+            'weight' =>'required|numeric',
             'description'=>'nullable',
+            'product_specifications'=>'nullable',
             // 'url_name' => 'nullable|image|file',
             'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
             ]);
@@ -61,8 +62,9 @@ class ProductController extends Controller
         $product->product_name = $request->input('product_name');  
         $product->brand_id = $request->input('brand_id');
         $product->category_id = $request->input('category_id'); 
-        $product->price = $request->input('price'); 
+        $product->weight = $request->input('weight'); 
         $product->description = $request->input('description'); 
+        $product->product_specifications = $request->input('product_specifications');
         $productFolder = public_path('storage/products/' . $product->product_name.'/'.'img');
         if (!File::exists($productFolder)) 
             {
@@ -96,8 +98,9 @@ public function update(Request $request, $id)
         'product_name' => 'required|string|max:255',
         'category_id' => 'nullable|exists:category,category_id',
         'brand_id' => 'nullable|exists:brand,brand_id',
-        'price' => 'required|numeric',
+        'weight' => 'required|numeric',
         'description' => 'nullable',
+        'product_specifications' => 'nullable',
         // 'url_name' => 'nullable|image|file',
         'url_name' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
     ]);
@@ -109,8 +112,9 @@ public function update(Request $request, $id)
     $product->product_name = $request->input('product_name');
     $product->brand_id = $request->input('brand_id');
     $product->category_id = $request->input('category_id');
-    $product->price = $request->input('price');
+    $product->weight = $request->input('weight');
     $product->description = $request->input('description');
+    $product->product_specifications = $request->input('product_specifications');
 
     $newProductFolder = public_path('storage/products/' . $product->product_name . '/' . 'img');
     $oldProductFolder = public_path('storage/products/' . $oldProductName . '/' . 'img');

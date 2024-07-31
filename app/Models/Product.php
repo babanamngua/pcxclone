@@ -15,8 +15,9 @@ class Product extends Model
         'product_name',
         'category_id',
         'brand_id',
-        'price',
         'description',
+        'product_specifications',
+        'weight',
         'url_name',
         ];
     public $timestamps = true; // Đảm bảo timestamps được bật

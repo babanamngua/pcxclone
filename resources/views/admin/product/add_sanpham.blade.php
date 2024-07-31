@@ -45,8 +45,8 @@
                                 </div>                                                            
                             <div class="form-group">
                                 {{-- giá sản phẩm --}}
-                              <label>Giá sản phẩm</label>
-                              <input  name="price" type="text" class="form-control" placeholder="Giá sản phẩm...">
+                              <label>Cân nặng (kg)</label>
+                              <input  name="weight" type="text" class="form-control" placeholder="Cân nặng sản phẩm...">
                           </div>
                           {{-- loai san pham --}}
                           <div class="form-group">
@@ -81,7 +81,12 @@
                                       <label for="pwd">Mô tả sản phẩm</label>                                     
                                       <textarea id="chi_tiet_bv" name="description" style="resize: none;" rows="5" class="form-control"></textarea>
                                     </div> 
+                                    <div class="form-group">
+                                        <label for="pwd">Thông số kỹ thuật</label>                                     
+                                        <textarea id="chi_tiet_bv1" name="product_specifications" style="resize: none;" rows="5" class="form-control"></textarea>
+                                      </div> 
                                 </div>
+                                
                                 <button name="sbm" type="submit" class="btn btn-success">Thêm</button>
                                 <button type="reset" class="btn btn-default">Làm mới</button>                             
                               
@@ -97,5 +102,7 @@
 
 @endsection
 @section('js')
-
+<script type="text/javascript">
+    CKEDITOR.replace('chi_tiet_bv1');
+</script>
 @endsection

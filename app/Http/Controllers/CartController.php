@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Discount;
 use App\Models\ShippingMethods;
+use App\Models\Shipping;
 use App\Models\PayMethods;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; // Thêm use statement cho DB facade
@@ -416,31 +417,33 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
     }
     
     public function CartOrder()
-{
-    $this->data['title'] = 'Đặt hàng';
-    $cartItems = [];
-    $totalPrice = 0;
-    $cartCount = 0;
-    $user = null;
-    $shippingmethods = ShippingMethods::all();
-    $paymethods = PayMethods::all();
-    if (Auth::check()) {
-        $user = Auth::user(); // Get authenticated user
-        $userId = Auth::id();
-        $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
-        $cartCount = $cartItems->count();  // Correctly set cart count
-        foreach ($cartItems as $item) {
-            $product = Product::find($item->product_id);
-            if ($product) {
-                // Find the corresponding color
-                $color = Color::find($item->color_id);
-                $quantity = Quantity::where('product_id', $item->product_id)
-                    ->where('color_id', $item->color_id)
-                    ->where('capacity', $item->capacity)
-                    ->where('size', $item->size)
-                    ->first();
-
-                if ($quantity) {
+    {
+        $this->data['title'] = 'Đặt hàng';
+        $cartItems = [];
+        $totalPrice = 0;
+        $cartCount = 0;
+        $user = null;
+        $shippingmethods = ShippingMethods::all();
+        $paymethods = PayMethods::all();
+        
+        if (Auth::check()) {
+            $user = Auth::user(); // Get authenticated user
+            $userId = Auth::id();
+            $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
+            $cartCount = $cartItems->count();  // Correctly set cart count
+            $totalWeight = 0;
+            foreach ($cartItems as $item) {
+                $product = Product::find($item->product_id);
+                if ($product) {
+                    // Find the corresponding color
+                    $color = Color::find($item->color_id);
+                    $quantity = Quantity::where('product_id', $item->product_id)
+                        ->where('color_id', $item->color_id)
+                        ->where('capacity', $item->capacity)
+                        ->where('size', $item->size)
+                        ->first();
+    
+                    if ($quantity) {
                         // Calculate the discounted price if applicable
                         $price = $quantity->price;
                         $priceAfterDiscount = $price;
@@ -453,33 +456,35 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
                         }
     
                         $totalPrice += $item->quantity * $priceAfterDiscount;
+                        $totalWeight += $product->weight * $item->quantity; // Cộng dồn cân nặng sản phẩm
                         $item->product = $product; // Attach product to item
                         $item->price = $priceAfterDiscount; // Attach discounted price to item
                         $item->capacity = $quantity->capacity;
                         $item->size = $quantity->size;
                         $item->color_name = $color ? $color->color_name : null;
-                } else {
-                    // If quantity not found, assign default values or handle error
-                    $item->price = 0;
-                    $item->color_name = null;
-                    $item->capacity = null;
-                    $item->size = null;
+                    } else {
+                        // If quantity not found, assign default values or handle error
+                        $item->price = 0;
+                        $item->color_name = null;
+                        $item->capacity = null;
+                        $item->size = null;
+                    }
                 }
             }
-        }
-    } else {
-        // Handle the cart for non-logged-in users
-        $cart = session()->get('cart', []);
-        foreach ($cart as $cartKey => $item) {
-            $productId = explode('_', $cartKey)[0];
-            $product = Product::find($productId);
-            if ($product) {
-                $color = Color::find($item['color_id']);
-                $quantity = Quantity::where('product_id', $productId)
-                    ->where('color_id', $item['color_id'])
-                    ->where('capacity', $item['capacity'])
-                    ->where('size', $item['size'])
-                    ->first();
+        } else {
+            // Handle the cart for non-logged-in users
+            $cart = session()->get('cart', []);
+            $totalWeight = 0;
+            foreach ($cart as $cartKey => $item) {
+                $productId = explode('_', $cartKey)[0];
+                $product = Product::find($productId);
+                if ($product) {
+                    $color = Color::find($item['color_id']);
+                    $quantity = Quantity::where('product_id', $productId)
+                        ->where('color_id', $item['color_id'])
+                        ->where('capacity', $item['capacity'])
+                        ->where('size', $item['size'])
+                        ->first();
                     if ($quantity) {
                         // Calculate the discounted price if applicable
                         $price = $quantity->price;
@@ -493,6 +498,7 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
                         }
     
                         $totalPrice += $item['quantity'] * $priceAfterDiscount;
+                        $totalWeight += $product->weight * $item['quantity']; // Cộng dồn cân nặng sản phẩm
                         $cartItems[] = (object)[
                             'product' => $product,
                             'quantity' => $item['quantity'],
@@ -502,177 +508,246 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
                             'color_id' => $item['color_id'] ?? null,
                             'color_name' => $color ? $color->color_name : null,
                         ];
-                } else {
+                    } else {
+                        $cartItems[] = (object)[
+                            'product' => $product,
+                            'quantity' => $item['quantity'],
+                            'price' => 0,
+                            'capacity' => null,
+                            'size' => null,
+                            'color_id' => $item['color_id'] ?? null,
+                            'color_name' => null,
+                        ];
+                    }
+                }
+            }
+            $cartCount = count($cart);
+        }
+    
+        $address_start = "89 Hồ Văn Huê, P.9, Q.Phú Nhuận, Hồ Chí Minh";
+        $address_end = $user ? $user->address : '';
+    
+        // Calculate distance between addresses (dummy example, you should use real distance calculation)
+        $distance = $this->calculateDistance($address_start, $address_end);
+    
+        // Calculate shipping cost
+        $shippingCost = $this->calculateCost($distance, $totalWeight);
+    
+        $category1 = Category::whereNotNull('component_id')->get();
+        $category2 = Category::whereNull('component_id')->get();
+        $brand1 = Brand::whereNotNull('category_id')->get();
+    
+        return view('clients.order', array_merge($this->data, compact(
+            'product', 'cartItems', 'totalPrice', 'cartCount', 'user', 'category1', 'category2', 'brand1',
+            'shippingmethods', 'paymethods', 'distance', 'totalWeight', 'shippingCost'
+        )));
+    }
+    
+        private function calculateDistance($start, $end)
+    {
+        // Tạo khoảng cách ngẫu nhiên với độ chính xác 1 chữ số thập phân
+        return $this->randomFloat(1.0, 15.0, 1);
+    }
+
+    private function randomFloat($min, $max, $precision = 1)
+    {
+        $factor = pow(10, $precision);
+        return round(mt_rand($min * $factor, $max * $factor) / $factor, $precision);
+    }
+    private function calculateCost($distance, $weight)
+    {
+        $cost = 0;
+    
+        // Tính phí vận chuyển theo khoảng cách
+        if ($distance < 3) {
+            $cost = 0;
+        } elseif ($distance >= 3 && $distance <= 10) {
+            $cost = 20000;
+        } else {
+            $cost = 40000;
+        }
+    
+        // Thêm phí vận chuyển theo cân nặng
+        if ($weight > 5) {
+            $extraWeight = ceil(($weight - 5) / 0.5);
+            $cost += $extraWeight * 5000;
+        }
+    
+        return $cost;
+    }
+    
+    public function placeOrder(Request $request)
+    {
+        // Bắt đầu một giao dịch
+        DB::beginTransaction();
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $token = $request->stripeToken;
+        $user = null;
+        
+        // Khai báo các biến
+        $totalPrice = 0;
+        $totalWeight = $request->input('totalWeight');
+        $distance = $request->input('distance'); // Giả sử bạn có cách tính khoảng cách
+    
+        try {
+            $cartItems = [];
+            if (Auth::check()) {
+                // Xử lý khi người dùng đã đăng nhập
+                $user = Auth::user(); // Get authenticated user
+                $userId = Auth::id();
+                $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
+                
+                // Tạo đơn hàng mới cho người dùng đã đăng nhập
+                $order = Orders::create([
+                    'user_id' => $userId,
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'sdt' => $request->input('sdt'),
+                    'address' => $request->input('address'),
+                    'total_price' => $totalPrice,
+                    'shipping_methods_id' => $request->input('shipping'),
+                    'pay_methods_id' => $request->input('payment_method'),
+                ]);
+            } else {
+                // Xử lý khi người dùng chưa đăng nhập
+                $cart = session()->get('cart', []);
+                
+                // Tạo đơn hàng mới cho người dùng chưa đăng nhập
+                $order = Orders::create([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'sdt' => $request->input('sdt'),
+                    'address' => $request->input('address'),
+                    'total_price' => $totalPrice,
+                    'shipping_methods_id' => $request->input('shipping'),
+                    'pay_methods_id' => $request->input('payment_method'),
+                ]);
+                
+                foreach ($cart as $cartKey => $item) {
+                    $productId = explode('_', $cartKey)[0];
                     $cartItems[] = (object)[
-                        'product' => $product,
+                        'product_id' => $productId,
                         'quantity' => $item['quantity'],
-                        'price' => 0,
-                        'capacity' => null,
-                        'size' => null,
                         'color_id' => $item['color_id'] ?? null,
-                        'color_name' => null,
+                        'capacity' => $item['capacity'] ?? null,
+                        'size' => $item['size'] ?? null,
                     ];
                 }
             }
-        }
-        $cartCount = count($cart);
-    }
-    $category1 = Category::whereNotNull('component_id')->get();
-    $category2 = Category::whereNull('component_id')->get();
-    $brand1 = Brand::whereNotNull('category_id')->get();
-    return view('clients.order', array_merge($this->data, compact('cartItems', 'totalPrice',
-     'cartCount', 'user', 'category1', 'category2', 'brand1','shippingmethods','paymethods')));
-}
-public function placeOrder(Request $request)
-{
-    // Bắt đầu một giao dịch
-    DB::beginTransaction();
-    Stripe::setApiKey(env('STRIPE_SECRET'));
-    $token = $request->stripeToken;
-    try {
-        $totalPrice = 0;
-        $cartItems = [];
-        if (Auth::check()) {
-            // Xử lý khi người dùng đã đăng nhập
-            $userId = Auth::id();
-            $cartItems = Order_items::where('user_id', $userId)->whereNull('order_id')->get();
-            // Tạo đơn hàng mới cho người dùng đã đăng nhập
-            $order = Orders::create([
-                'user_id' => $userId,
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'sdt' => $request->input('sdt'),
-                'address' => $request->input('address'),
-                'total_price' => $totalPrice,
-                'shipping_methods_id' => $request->input('shipping'), // Lưu shipping_methods_id
-                'pay_methods_id' => $request->input('payment_method'), // Lưu shipping_methods_id
-                // Các trường khác như created_at, updated_at sẽ tự động được điền
-            ]);
-        } else {
-            // Xử lý khi người dùng chưa đăng nhập
-            $cart = session()->get('cart', []);
-            // Tạo đơn hàng mới cho người dùng chưa đăng nhập
-            $order = Orders::create([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'sdt' => $request->input('sdt'),
-                'address' => $request->input('address'),
-                'total_price' => $totalPrice,
-                'shipping_methods_id' => $request->input('shipping'), // Lưu shipping_methods_id
-                'pay_methods_id' => $request->input('payment_method'), // Lưu shipping_methods_id
-                // Các trường khác như created_at, updated_at sẽ tự động được điền
-            ]);
-            
-            foreach ($cart as $cartKey => $item) {
-                $productId = explode('_', $cartKey)[0];
-                $cartItems[] = (object)[
-                    'product_id' => $productId,
-                    'quantity' => $item['quantity'],
-                    'color_id' => $item['color_id'] ?? null,
-                    'capacity' => $item['capacity'] ?? null,
-                    'size' => $item['size'] ?? null,
-                ];
+    
+            // If payment method is not pay-methods-3, create the charge and save the transaction
+            if ($request->input('payment_method') !== '3') {
+                $charge = Charge::create([
+                    'amount' => 1000, // số tiền cần thanh toán, tính bằng cent (10.00 USD)
+                    'currency' => 'usd',
+                    'description' => 'Example charge',
+                    'source' => $token,
+                ]);
+                
+                // Lưu thông tin giao dịch vào database
+                Transaction::create([
+                    'user_id' => $user ? $user->id : null,
+                    'order_id' => $order->order_id,
+                    'transaction_id' => $charge->id,
+                    'amount' => $charge->amount,
+                    'currency' => $charge->currency,
+                    'status' => $charge->status,
+                ]);
             }
-        }
-            // Kiểm tra xem người dùng có đăng nhập hay không
-            $userId = auth()->check() ? auth()->id() : null;
-        // If payment method is not pay-methods-3, create the charge and save the transaction
-        if ($request->input('payment_method') !== '3') {
-            $charge = Charge::create([
-                'amount' => 1000, // số tiền cần thanh toán, tính bằng cent (10.00 USD)
-                'currency' => 'usd',
-                'description' => 'Example charge',
-                'source' => $token,
-            ]);
-            
-            // Lưu thông tin giao dịch vào database
-            Transaction::create([
-                'user_id' => $userId, // có thể null nếu không đăng nhập
-                'order_id' => $order->order_id,
-                'transaction_id' => $charge->id,
-                'amount' => $charge->amount,
-                'currency' => $charge->currency,
-                'status' => $charge->status,
-            ]);
-        }
-
-        // Duyệt qua từng sản phẩm trong giỏ hàng
-        foreach ($cartItems as $item) {
-            // Tìm số lượng đúng với product_id, color_id và capacity từ bảng Quantity
-            $quantity = Quantity::where('product_id', $item->product_id)
-                ->where('color_id', $item->color_id)
-                ->where('capacity', $item->capacity)
-                ->where('size', $item->size)
-                ->first();
-            // Nếu có số lượng trong bảng Quantity, cập nhật số lượng
-            if ($quantity) {
-                // Kiểm tra xem số lượng còn đủ để đặt hàng hay không
-                if ($quantity->quantity_product >= $item->quantity) {
-                    $quantity->quantity_product -= $item->quantity;
-                    $quantity->save();
+    
+            // Duyệt qua từng sản phẩm trong giỏ hàng
+            foreach ($cartItems as $item) {
+                $quantity = Quantity::where('product_id', $item->product_id)
+                    ->where('color_id', $item->color_id)
+                    ->where('capacity', $item->capacity)
+                    ->where('size', $item->size)
+                    ->first();
+                
+                if ($quantity) {
+                    if ($quantity->quantity_product >= $item->quantity) {
+                        $quantity->quantity_product -= $item->quantity;
+                        $quantity->save();
+                    } else {
+                        DB::rollback();
+                        return redirect()->route('home')->with('error', 'Sản phẩm ' . $item->product->product_name . ' hiện tại đã hết hàng!');
+                    }
+    
+                    $price = $quantity->price;
+                    $priceAfterDiscount = $price;
+                    if ($quantity->discount_id) {
+                        $discount = Discount::find($quantity->discount_id);
+                        // if ($discount && now()->between($discount->start_date, $discount->end_date)) {
+                            $priceAfterDiscount = $price - ($price * ($discount->value / 100));
+                        // }
+                    }
+    
+                    // Cập nhật hoặc thêm mới Order_items
+                    $product = Product::find($item->product_id);
+                    $color = Color::find($item->color_id);
+                    $orderItemData = [
+                        'order_id' => $order->order_id,
+                        'product_id' => $item->product_id,
+                        'product_name' => $product->product_name,
+                        'color_id' => $item->color_id,
+                        'color_name' => $color ? $color->color_name : null,
+                        'capacity' => $item->capacity,
+                        'size' => $item->size,
+                        'price' => $priceAfterDiscount,
+                        'quantity' => $item->quantity,
+                    ];
+                    
+                    if (Auth::check()) {
+                        $orderItem = Order_items::where('user_id', Auth::id())
+                            ->where('product_id', $item->product_id)
+                            ->whereNull('order_id')
+                            ->first();
+                        if ($orderItem) {
+                            $orderItem->update($orderItemData);
+                        }
+                    } else {
+                        Order_items::create($orderItemData);
+                    }
+    
+                    // Tính tổng giá và trọng lượng của đơn hàng
+                    $totalPrice += $item->quantity * $priceAfterDiscount;
                 } else {
-                    // Nếu số lượng không đủ, rollback giao dịch và thông báo lỗi
                     DB::rollback();
                     return redirect()->route('home')->with('error', 'Sản phẩm ' . $item->product->product_name . ' hiện tại đã hết hàng!');
                 }
-
-               // Tính giá đã discount nếu có
-               $price = $quantity->price;
-               $priceAfterDiscount = $price;
-               if ($quantity->discount_id) {
-                   $discount = Discount::find($quantity->discount_id);
-                //    if ($discount && now()->between($discount->start_date, $discount->end_date)) {
-                       $priceAfterDiscount = $price - ($price * ($discount->value / 100));
-                //    }
-               }
-            // Cập nhật order_id trong Order_items hoặc thêm mới cho khách hàng chưa đăng nhập
-            $product = Product::find($item->product_id);
-            $color = Color::find($item->color_id);
-            $orderItemData = [
-                'order_id' => $order->order_id,
-                'product_id' => $item->product_id,
-                'product_name' => $product->product_name,
-                'color_id' => $item->color_id,
-                'color_name' => $color ? $color->color_name : null,
-                'capacity' => $item->capacity,
-                'size' => $item->size,
-                'price' => $priceAfterDiscount,
-                'quantity' => $item->quantity,
-            ];
-            if (Auth::check()) {
-                $orderItem = Order_items::where('user_id', Auth::id())
-                    ->where('product_id', $item->product_id)
-                    ->whereNull('order_id')
-                    ->first();
-                if ($orderItem) {
-                    $orderItem->update($orderItemData);
-                }
-            } else {
-                Order_items::create($orderItemData);
             }
-            // Tính tổng giá của đơn hàng
-            $totalPrice += $item->quantity * $priceAfterDiscount;
-        } else {
-            // Nếu không tìm thấy số lượng, rollback giao dịch và thông báo lỗi
+            $shippingCost = $request->input('shippingCost');
+            // Cập nhật tổng giá cho đơn hàng
+            $order->total_price = $totalPrice + $shippingCost;
+            $order->save();
+            // Nếu chọn phương thức vận chuyển thì lưu thông tin vào bảng Shipping
+            if ($request->input('shipping') == '1') {
+                Shipping::create([
+                    'order_id' => $order->order_id,
+                    'shipping_method_id' => $request->input('shipping'),
+                    'kg' => $totalWeight , // Trọng lượng của đơn hàng
+                    'km' => $distance, // Khoảng cách
+                    'shipping_price' => $shippingCost, // Phí vận chuyển
+                    'total_price' => $totalPrice + $shippingCost, // Tổng giá (bao gồm phí vận chuyển)
+                    'address_start' => "89 Hồ Văn Huê, P.9, Q.Phú Nhuận, Hồ Chí Minh",
+                    'address_end' => $request->input('address'),
+                ]);
+            }
+    
+            // Commit giao dịch
+            DB::commit();
+            
+            if (!Auth::check()) {
+                // Xóa giỏ hàng trong session cho người dùng chưa đăng nhập
+                session()->forget('cart');
+            }
+    
+            return redirect()->route('home')->with('success', 'Đặt hàng thành công!');
+        } catch (\Exception $e) {
+            // Nếu có lỗi xảy ra, rollback giao dịch
             DB::rollback();
-            return redirect()->route('home')->with('error', 'Sản phẩm ' . $item->product->product_name . ' hiện tại đã hết hàng!');
+            return redirect()->route('cartorder.index')->with('error', 'Đã xảy ra lỗi, vui lòng thử lại sau.');
         }
-        }
-        // Cập nhật tổng giá cho đơn hàng
-        $order->total_price = $totalPrice;
-        $order->save();
-        // Commit giao dịch
-        DB::commit();
-        if (!Auth::check()) {
-            // Xóa giỏ hàng trong session cho người dùng chưa đăng nhập
-            session()->forget('cart');
-        }
-        return redirect()->route('home')->with('success', 'Đặt hàng thành công!');
-    } catch (\Exception $e) {
-        // Nếu có lỗi xảy ra, rollback giao dịch
-        DB::rollback();
-        return redirect()->route('cartorder.index')->with('error', 'Đã xảy ra lỗi, vui lòng thử lại sau.');
     }
-}
+    
 
 }
