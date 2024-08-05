@@ -70,9 +70,7 @@
             <!-- right -->
             <div class="listsanphamright">
                 <div class="tenvahinhanhlistsanpham">
-                    <div class="anhlistsanpham">
-                        <img src="/public/uploads/loaisanpham/" class="anhlistsanpham1">
-                    </div>
+                    
                     <div class="motalistsanpham"></div>
                 </div>
                 <div class="sapxephienthi">

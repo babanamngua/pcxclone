@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\CommentImage;
+use App\Models\Orders;
+use App\Models\Order_items;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -24,6 +26,7 @@ class ReviewController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'product_id' => 'required|exists:product,product_id',
             'rating' => 'required|integer|between:1,5',
@@ -37,6 +40,20 @@ class ReviewController extends Controller
         $review->rating = $request->input('rating');
         $review->comment = $request->input('comment');
         $review->save();
+
+         // Lấy các order item cần cập nhật
+    $existOrderItems = Order_items::where('user_id', Auth::id())
+    ->whereNotNull('order_id')
+    ->whereNull('review_id')
+    ->where('product_id', $request->input('product_id'))
+    ->get();
+
+// Cập nhật review_id cho từng order item
+foreach ($existOrderItems as $orderItem) {
+    $orderItem->review_id = $review->id;
+    $orderItem->save();
+}
+
         $RVFolder = public_path('storage/reviews/'.$review->id.$review->user_id.'-'.$review->product_id.'/'.'img');
         if (!File::exists($RVFolder)) 
             {

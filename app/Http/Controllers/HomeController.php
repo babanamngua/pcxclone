@@ -18,6 +18,7 @@ use App\Models\Review;
 use App\Models\CommentImage;
 use App\Models\User;
 use App\Models\Discount;
+use App\Models\Orders;
 
 
 
@@ -229,11 +230,15 @@ class HomeController extends Controller
     //////////////////////////////////////////////////////////
      //////////////////////////////////////////////////////////
      //comment
+    $existOrderItem = Order_items::where('user_id', $userId)
+                            ->whereNotNull('order_id')
+                            ->whereNull('review_id')
+                            ->where('product_id',$product->product_id)
+                            ->count();
 
+                
      $startReview = Review::where('product_id', $product->product_id)->get();
-
-     $averageRating = $startReview->avg('rating');
-        
+     $averageRating = $startReview->avg('rating');      
         // Calculate the count of each rating
         $ratingCounts = array_fill(1, 5, 0);
         foreach ($startReview as $rv) {
@@ -241,12 +246,12 @@ class HomeController extends Controller
         }
         // Total number of ratings
         $totalRatings = array_sum($ratingCounts);
-
         $comment = Review::where('product_id', $product->product_id)
         ->orderBy('created_at', 'desc')
         ->get();
         $username  = User::all();
         $img = CommentImage::all();
+
     //////////////////////////////////////////////////////////
     return view('clients.chitietsanpham', $this->data, compact(
         'cartCount',
@@ -278,6 +283,8 @@ class HomeController extends Controller
         'comment',
         'username',
         'img',
+        'existOrderItem',
+
     ));
 }
 
@@ -301,7 +308,7 @@ class HomeController extends Controller
         $brand2 = Brand::whereNull('category_id')->get();
         /////////////////////////////////////////
         // Lấy danh sách các bài viết và phân trang
-            $article = Article::orderBy('created_at', 'desc')->paginate(10); // 10 là số bài viết mỗi trang
+            $article = Article::orderBy('created_at', 'desc')->paginate(2); // 10 là số bài viết mỗi trang
         /////////////////////////////////////////
         return view('clients.listtintuc',$this->data,compact(
             'cartCount','category1','category2','brand1','brand2',

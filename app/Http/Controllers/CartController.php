@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\DB; // Thêm use statement cho DB facade
 use Stripe\Stripe;
 use Stripe\Charge;
 use App\Models\Transaction;
+use App\Mail\OrderPlaced;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -740,7 +742,8 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
                 // Xóa giỏ hàng trong session cho người dùng chưa đăng nhập
                 session()->forget('cart');
             }
-    
+            // Gửi email xác nhận đơn hàng
+            Mail::to($order->email)->send(new OrderPlaced($order));
             return redirect()->route('home')->with('success', 'Đặt hàng thành công!');
         } catch (\Exception $e) {
             // Nếu có lỗi xảy ra, rollback giao dịch

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('user_id')->nullable()->index('user_id');
             $table->integer('order_id')->nullable()->index('order_id');
             $table->integer('product_id')->nullable()->index('product_id');
+            $table->integer('review_id');
             $table->string('product_name', 255);
             $table->integer('quantity')->nullable();
             $table->integer('color_id')->nullable()->index('color_id');

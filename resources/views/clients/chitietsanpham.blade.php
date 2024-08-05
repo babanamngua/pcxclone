@@ -204,6 +204,7 @@
         <!-- Form đánh giá -->
         @if (Route::has('login'))
             @auth
+            @if($existOrderItem !== 0)
                 <div class="row">
                     <div style="width: 1490px;">
                     <h1 style="margin:40px 0px;">Đánh giá sản phẩm</h1>
@@ -224,16 +225,24 @@
                         </div>
                         <div class="form-group">
                             <label style="display: contents;">Thêm ảnh:</label>
-                            <input name="image_url[]" type="file" multiple>
+                            <input id="imageUpload" name="image_url[]" type="file" multiple>
+                        </div>
+                        <div id="imagePreview" class="form-group">
+                            <!-- Các ảnh xem trước sẽ được thêm vào đây -->
                         </div>
                         <div class="form-group">
                             <label for="comment" style="display: contents;">Bình luận:</label>
-                            <textarea name="comment" id="comment" rows="5" class="form-control" style="width:50%;"></textarea>
+                            <span id="commentError" style="color:red; display:none;">Bạn phải nhập bình luận.</span>
+                            <textarea name="comment" id="comment" rows="5" class="form-control" style="width:50%;" placeholder="Viết đánh giá của bạn..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                        <p class="question">Bạn chỉ có thể bình luận được duy nhất 1 lần, sau khi bình luận có thể xóa và không thể sửa sau khi đã bình luận.</p>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width:5%;margin-left:13px;">Gửi</button>
                     </form>
                     </div>
                 </div>
+                @endif
             @endauth
         @endif
         <div style="border-top: 1px solid #e1e1e1;margin:35px;"></div>
@@ -325,6 +334,49 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
+    .question {
+        display: inline-block;
+        position: relative;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .question::before {
+        content: '*';
+        color: red;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .question::after {
+        content: '*';
+        color: red;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .image-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+.image-preview {
+    max-width: 150px;
+}
+
+.delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0px 4px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0px 0px 0px 10px; /* Optional: Adds rounding to the button */
+}
+
     .thumbnail {
         cursor: pointer;
         transition: 0.3s;
@@ -687,6 +739,57 @@
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+document.getElementById('imageUpload').addEventListener('change', function(event) {
+    var imagePreview = document.getElementById('imagePreview');
+    imagePreview.innerHTML = ""; // Clear previous images
+    var files = event.target.files;
+
+    if (files) {
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var imgContainer = document.createElement('div');
+                imgContainer.className = 'image-container';
+
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'image-preview';
+
+                var deleteButton = document.createElement('button');
+                deleteButton.innerHTML = 'X';
+                deleteButton.className = 'delete-button';
+
+                deleteButton.addEventListener('click', function() {
+                    imgContainer.remove();
+                });
+
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(deleteButton);
+                imagePreview.appendChild(imgContainer);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
+</script>
+<script>
+    function validateForm() {
+        var comment = document.getElementById("comment").value;
+        var commentError = document.getElementById("commentError");
+        if (comment.trim() === "") {
+            commentError.style.display = "block";
+            return false;
+        } else {
+            commentError.style.display = "none";
+            return true;
+        }
+    }
+    </script>
 <script>
     function openModal(src) {
         var modal = document.getElementById("myModal");

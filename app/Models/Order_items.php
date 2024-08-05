@@ -14,6 +14,7 @@ class Order_items extends Model
         'user_id',
         'order_id',
         'product_id',
+        'review_id',
         'product_name',
         'quantity',
         'color_id',

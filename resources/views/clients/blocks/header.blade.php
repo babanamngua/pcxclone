@@ -27,14 +27,14 @@
                     <a class="dawdawdavsdv" href="{{ route('tintuc') }}">Tin tức</a>
                     <a class="dawdawdavsdv" href="{{ route('lienhe') }}">Liên hệ</a>
                 </td>
-                <td width="45%">
+                <td >
                     <div style="margin-right:18px; cursor:pointer; padding:0px;">
                         <button id="search-button" style="padding: 0px 10px;">
                             <a id="form-giohang"><i class="bi bi-search"></i></a>
                         </button>
                     </div>
                 </td>
-                <td width="7%">
+                <td style="width: 13%;text-align: center;">
                     <div>
                         @if (Route::has('login'))
                             @auth
@@ -42,34 +42,34 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                                         style="border:0px; background:none;">
-                                        {{ Auth::user()->name }}
+                                        <img src="{{ asset('storage/avatar.png') }}"
+                                        style="width: 40px;height: 40px;margin-right: 10px;">{{ Auth::user()->name }}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="dropdown-item" href="{{ route('profile.orderclients') }}">Đơn hàng</a>
                                         </li>
                                         <li><a class="dropdown-item"
-                                                href="{{ route('profile.edit') }}">{{ __('Profile') }}</a></li>
+                                                href="{{ route('profile.edit') }}">{{ __('Thông tin cá nhân') }}</a></li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <li>
-                                                <button type="submit" class="dropdown-item">{{ __('Log Out') }}</button>
+                                                <button type="submit" class="dropdown-item">{{ __('Đăng xuất') }}</button>
                                             </li>
                                         </form>
                                     </ul>
                                 </div>
                             @else
                                 <ul class="navbar-nav ms-auto" style="display: -webkit-box;">
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Đăng nhập</a></li>
                                     @if (Route::has('register'))
-                                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a>
-                                        </li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Đăng ký</a></li>
                                     @endif
                                 </ul>
                             @endauth
                         @endif
                     </div>
                 </td>
-                <td width="3%">
+                <td style="width: 3%;">
                     <div>
                         <a id="form-giohang" href="{{ route('cart.index') }}">
                             @if ($cartCount > 0)

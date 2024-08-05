@@ -143,7 +143,7 @@
                                                 alt="{{ $item->product->product_name }}" class="img-thumbnail"
                                                 width="50">
                                             <span class="badge1">{{ $item->quantity }}</span>
-                                            <span style="width: 100%;">{{ $item->product->product_name }}</span>
+                                            <span>{{ $item->product->product_name }}</span>
                                             @if ($item->color_name || $item->capacity || $item->size)
                                                 <div class="badge-container">
                                                     @if ($item->color_name)

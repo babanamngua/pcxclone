@@ -25,21 +25,10 @@
     </table>
     </div>         
             </section> --}}
-    
-    <section class="footer__top2">
-                <div class="container3">
-                    <div class="row">
-                        <!-- <span class="footer__bottom-content1">Sinh viên thực hiện: Mu Sa Sa Liêm | mã số sinh viên: DH51902901 | lớp: D19_TH07</span>
-                        <span class="footer__bottom-content1">Sinh viên thực hiện: Nguyễn Trung Hiếu | mã số sinh viên: DH51903588 | lớp: D19_TH07</span> -->
-    
-                    </div>
-                </div>
-            
-                <div class="container3">
                     <div class="row">
                         <table border="0" width="1470px" >
                             <tr>
-                                <td width="35%" >
+                                <td >
                                    <table border="0">
                                     <tr>
                                         <td rowspan="2"><img src="../../../storage/block/contact/tainghe_logo.png" height="30px" width="30px" style=" border: 0px solid black;"></td>
@@ -53,8 +42,8 @@
                                    </table>
                                 </td>
                            
-                                <td  width="35%">
-                                <table border="0">
+                                <td  >
+                                <table border="0" style="margin: 0px 30px;">
                                     <tr>
                                         <td rowspan="2"  ><img src="../../../storage/block/contact/phone_logo.png" height="30px" width="30px" style=" border: 0px solid black; margin-right: 0.3rem;"></td>
                                         <td ><div class="footer_top1234">Hỗ trợ kỹ thuật</div></td>
@@ -66,7 +55,7 @@
                                     </tr>
                                    </table>
                                 </td>
-                                <td  width="35%">
+                                <td  >
                                 <table border="0">
                                     <tr>
                                         <td rowspan="2"><img src="../../../storage/block/contact/mail_logo.png" height="30px" width="30px" style=" border: 0px solid black;  margin-right: 0.4rem;"></td>
@@ -82,8 +71,6 @@
                             </tr>
                         </table>
                     </div>
-                </div>
-            </section>
             <section class="footer__top3">
                 <div class="container3">
                     <div class="row1">
