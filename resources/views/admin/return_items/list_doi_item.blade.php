@@ -53,12 +53,12 @@
                     </option>
                 @endforeach
             </select>
-            <input type="number" name="quantity" id="quantity" class="form-control" placeholder="số lượng . . .">
+            <input required type="number" name="quantity" id="quantity" class="form-control" placeholder="số lượng . . .">
         </div>
         <label>Sản phẩm sẽ đổi</label>
         <input type="text" name="textsearchproduct" id="textsearchproduct" class="form-control"
             placeholder="Tìm kiếm theo tên . . .">
-        <input type="number" name="exchange_quantity" id="exchange_quantity" class="form-control"
+        <input required type="number" name="exchange_quantity" id="exchange_quantity" class="form-control"
             placeholder="số lượng . . .">
         <div class="anotherProduct">
             @foreach ($products as $product)
@@ -127,6 +127,14 @@
             margin: 20px;
         }
 
+        .is-invalid {
+            border-color: red;
+        }
+
+        .is-invalid::placeholder {
+            color: red;
+        }
+
         .order-container {
             border: 1px solid #ddd;
             padding: 20px;
@@ -180,6 +188,39 @@
 
 @section('js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Hàm kiểm tra các trường required
+            function validateForm() {
+                let isValid = true;
+                $('input[required]').each(function() {
+                    if ($(this).val() === '') {
+                        $(this).addClass('is-invalid'); // Thêm lớp để hiển thị lỗi
+                        isValid = false;
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+                return isValid;
+            }
+
+            // Bắt sự kiện submit của form
+            $('form').on('submit', function(event) {
+                if (!validateForm()) {
+                    event.preventDefault(); // Ngăn chặn việc gửi form nếu không hợp lệ
+                    alert('Vui lòng điền đầy đủ thông tin các trường yêu cầu.');
+                }
+            });
+
+            // Loại bỏ thông báo lỗi khi người dùng nhập dữ liệu
+            $('input[required]').on('input', function() {
+                if ($(this).val() !== '') {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             function updateHiddenInputs() {

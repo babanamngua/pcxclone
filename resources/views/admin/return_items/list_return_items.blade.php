@@ -56,11 +56,11 @@
                                             @endif
                                         @endforeach
                                         </td>   
-                                        <td><a href="{{route('doiItem.index',$order->order_id)}}" class="btn btn-primary">Đổi</a>/<a href="" class="btn btn-info">Trả</a></td>                            
+                                        <td><a href="{{route('doiItem.index',$order->order_id)}}" class="btn btn-primary">Đổi</a>/<a href="{{route('traItem.index',$order->order_id)}}" class="btn btn-info">Trả</a></td>                            
                                         <td>
                                             <a href="{{ route('watchdoiItem.index', $order->order_id) }}"
                                                 class="btn btn-primary">Xem đổi sản phẩm</a>
-                                                <a href="{{ route('orderitem.index', $order->order_id) }}"
+                                                <a href="{{ route('watchtraItem.index', $order->order_id) }}"
                                                     class="btn btn-info">Xem trả sản phẩm</a>
                                             </div>
                                         </td>

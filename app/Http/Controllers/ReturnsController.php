@@ -24,7 +24,7 @@ class ReturnsController extends Controller
     }
     public function doiItem($id)
     {
-        $this->data['title'] = "Trang đổi, trả sản phẩm";
+        $this->data['title'] = "Trang đổi sản phẩm";
         $order = Orders::findOrFail($id);
         $orderitem = Order_items::where('order_id',$id)->get();
         $orderitemAll = Order_items::all();
@@ -70,7 +70,9 @@ class ReturnsController extends Controller
             'color_id' => 'nullable|exists:color,color_id',
             'capacity' => 'nullable',
             'size' => 'nullable',
-            'quantity_product' => 'required|integer|min:1|max:100' // Validate quantity_product
+            'quantity_product' => 'required|integer|min:1|max:100', // Validate quantity_product
+            'quantity' => 'required',
+            'exchange_quantity' => 'required',
         ]);
     
         $product = Product::find($request->input('product_id'));
@@ -125,25 +127,98 @@ class ReturnsController extends Controller
                     'size' => $size,
                     'price' => $priceAfterDiscount, // Use discounted price here
                 ]);
+                 // Tìm các mục trả lại liên quan đến order_id
+        $retune = ReturnItem::where('order_id', $id)
+        ->where('order_item_id', $request->input('exchange_order_items_id'))
+        ->first();
+
+    // Nếu không tìm thấy, tức là mục này chưa tồn tại, thì mới tạo mới
+    if (!$retune) {
                 ReturnItem::create([
                     'order_id' => $id,
                     'order_item_id' => $request->input('order_items_id'),
                     'product_id' => $product->product_id,
                     'quantity' => $request->input('quantity'),
+                    'new' => 1,
                     'exchange_order_item_id' => $oRo->order_item_id,
                     'exchange_quantity' => $request->input('exchange_quantity'),
                 ]);
-                return redirect()->back()->with('status', 'Done!');
-
+                return redirect()->back()->with('status', 'Thành công!');
+            } else {
+                // Nếu đã tồn tại, có thể trả về một thông báo khác (tuỳ thuộc vào logic bạn muốn)
+                return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại bên đơn trả sản phẩm.');
+            }
     }
     public function watchdoiItem($id)
     {
-        $this->data['title'] = "Trang đổi, trả sản phẩm";
+        $this->data['title'] = "Trang đổi sản phẩm";
         $order = Orders::findOrFail($id);
         $orderitem = Order_items::where('order_id',$id)->get();
         $orderitemAll = Order_items::all();
-        $retune = ReturnItem::where('order_id',$id)->get();
+        $retune = ReturnItem::where('order_id',$id)->where('new',1)->get();
         return view('admin.return_items.xem_doi_item', $this->data, compact('order', 'orderitem','retune','orderitemAll'));
+    }
+    public function doiTtemdestroy($id)
+    {
+        $retune = ReturnItem::findOrFail($id);
+        $orderitem = Order_items::where('order_item_id',$retune->exchange_order_item_id)->get();
+        if($orderitem){
+            foreach ($orderitem as $orderitems) {
+                // Xóa bản ghi màu từ cơ sở dữ liệu
+                $orderitems->delete();
+            }}
+        $retune->delete();
+        return redirect()->back()->with('success', 'Thành công!');
+    }
+    
+
+    public function traItem($id)
+    {
+        $this->data['title'] = "Trang trả sản phẩm";
+        $order = Orders::findOrFail($id);
+        $orderitem = Order_items::where('order_id',$id)->get();
+        return view('admin.return_items.list_tra_item', $this->data, compact('order', 'orderitem'));
+    }
+    public function tra(Request $request, $id)
+    {
+        $request->validate([
+            'exchange_quantity' => 'required',
+        ]);
+        // Tìm các mục trả lại liên quan đến order_id
+        $retune = ReturnItem::where('order_id', $id)
+            ->where('order_item_id', $request->input('exchange_order_items_id'))
+            ->first();
+    
+        // Nếu không tìm thấy, tức là mục này chưa tồn tại, thì mới tạo mới
+        if (!$retune) {
+            ReturnItem::create([
+                'order_id' => $id,
+                'new' => 0,
+                'exchange_order_item_id' => $request->input('exchange_order_items_id'),
+                'exchange_quantity' => $request->input('exchange_quantity'),
+            ]);
+    
+            return redirect()->back()->with('status', 'Thành công!');
+        } else {
+            // Nếu đã tồn tại, có thể trả về một thông báo khác (tuỳ thuộc vào logic bạn muốn)
+            return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại bên đơn đổi sản phẩm.');
+        }
+    }
+    
+    public function watchtraItem($id)
+    {
+        $this->data['title'] = "Trang trả sản phẩm";
+        $order = Orders::findOrFail($id);
+        $orderitemAll = Order_items::all();
+        $retune = ReturnItem::where('order_id',$id)->where('new',0)->get();
+        return view('admin.return_items.xem_tra_item', $this->data, compact('order','retune','orderitemAll'));
+    }
+    public function traItemdestroy($id)
+    {
+      $retune = ReturnItem::findOrFail($id);
+
+        $retune->delete();
+        return redirect()->back()->with('success', 'Thành công!');
     }
 } 
     

@@ -27,7 +27,7 @@
                     <a class="dawdawdavsdv" href="{{ route('tintuc') }}">Tin tức</a>
                     <a class="dawdawdavsdv" href="{{ route('lienhe') }}">Liên hệ</a>
                 </td>
-                <td >
+                <td>
                     <div style="margin-right:18px; cursor:pointer; padding:0px;">
                         <button id="search-button" style="padding: 0px 10px;">
                             <a id="form-giohang"><i class="bi bi-search"></i></a>
@@ -43,10 +43,10 @@
                                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                                         style="border:0px; background:none;">
                                         @php
-                                        $idanh = rand(1, 6);
-                                    @endphp
-                                        <img src="{{ asset('storage/'.$idanh.'.jpg') }}"
-                                        style="width: 40px;height: 40px;margin-right: 10px;">{{ Auth::user()->name }}
+                                            $idanh = rand(1, 6);
+                                        @endphp
+                                        <img src="{{ asset('storage/' . $idanh . '.jpg') }}"
+                                            style="width: 40px;height: 40px;margin-right: 10px;">{{ Auth::user()->name }}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="dropdown-item" href="{{ route('profile.orderclients') }}">Đơn hàng</a>
@@ -65,7 +65,8 @@
                                 <ul class="navbar-nav ms-auto" style="display: -webkit-box;">
                                     <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Đăng nhập</a></li>
                                     @if (Route::has('register'))
-                                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Đăng ký</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Đăng ký</a>
+                                        </li>
                                     @endif
                                 </ul>
                             @endauth
@@ -140,34 +141,27 @@
                                 }
                             @endphp
                             @if ($hasBrand)
-                            <span class="glyphicon glyphicon-chevron-right icon-circle">></span>
+                                <span class="glyphicon glyphicon-chevron-right icon-circle">></span>
                             @endif
                         </li>
                     @endforeach
-                    {{-- @foreach ($c0mponent as $component)
-                        <li>{{ $component->component_name }}</li>
-                        @foreach($categorycomponent as $categorycomponentt)
-                            @if ($component->component_id == $categorycomponentt->component_id)
-                                <li>{{ $categorycomponentt->category_name }}</li>
-                                @foreach ($brand1 as $brand3)
-                                    @if ($categorycomponentt->category_id == $brand3->category_id)
-                                        <li>{{ $brand3->brand_name }}</li>
-                                    @endif
-                                @endforeach
-                            @endif
-                        @endforeach
-                    @endforeach --}}
+                    @foreach ($c0mponent as $component)
+                        <li class="component-item" style="cursor: pointer;"
+                            data-component-id="{{ $component->component_id }}">{{ $component->component_name }}
+                            <span class="glyphicon glyphicon-chevron-right icon-circle">></span>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
             <div hidden id="category-id-display">
                 @php
                     $categoryid = $category2->first()->category_id;
+                    $componentid = $c0mponent->first()->component_id;
                 @endphp
                 {{ $categoryid }}
+                {{ $componentid }}
             </div>
         </div>
-        {{-- </div> --}}
-        {{-- <div class="benngoai" style="display: flex;"> --}}
         <div id="overlay-content2" class="overlay-content2" style="display: none;">
             <div style="margin: 40px 100px 100px 25px;">
                 <ul id="brand-list">
@@ -181,13 +175,32 @@
                             </li>
                         @endif
                     @endforeach
-
+                </ul>
+                <ul id="categorycomponent-list">
+                    @foreach ($categorycomponent as $categorycomponentt)
+                        @if ($component->component_id == $categorycomponentt->component_id)
+                            <img>
+                            <li>{{ $categorycomponentt->category_name }}</li>
+                            <span class="glyphicon glyphicon-chevron-right icon-circle">></span>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <!-- Div thứ ba -->
+        <div id="overlay-content3" class="overlay-content3" style="display: none;">
+            <div style="margin: 40px 100px 100px 25px;">
+                <ul id="brand-list">
+                    @foreach ($brand1 as $brand3)
+                        @if ($categorycomponentt->category_id == $brand3->category_id)
+                            <li>{{ $brand3->brand_name }}</li>
+                        @endif
+                    @endforeach
                 </ul>
             </div>
         </div>
     </div>
 </div>
-
 
 {{-- ---------------------------------------------- css ---------------------------------------------- --}}
 <style>
@@ -280,29 +293,107 @@
         color: black;
         text-decoration: unset;
     }
+
     .icon-circle {
         float: right;
         margin: 8px 25px;
         display: inline-block;
-        width: 20px; /* Điều chỉnh kích thước hình tròn */
-        height: 20px; /* Điều chỉnh kích thước hình tròn */
-        line-height: 17px; /* Điều chỉnh độ cao dòng để căn giữa icon */
-        text-align: center; /* Căn giữa icon */
-        border-radius: 50%; /* Tạo hình tròn */
-        border: 1px solid #ccc; /* Đường viền */
-        font-size: 12px; /* Điều chỉnh kích thước biểu tượng */
+        width: 20px;
+        /* Điều chỉnh kích thước hình tròn */
+        height: 20px;
+        /* Điều chỉnh kích thước hình tròn */
+        line-height: 17px;
+        /* Điều chỉnh độ cao dòng để căn giữa icon */
+        text-align: center;
+        /* Căn giữa icon */
+        border-radius: 50%;
+        /* Tạo hình tròn */
+        border: 1px solid #ccc;
+        /* Đường viền */
+        font-size: 12px;
+        /* Điều chỉnh kích thước biểu tượng */
         font-weight: 700;
+    }
+
+    .category-component-item {
+        /* display: flex;
+    align-items: center;
+    justify-content: space-between; */
+        display: contents;
+        transition: background-color 0.3s;
+    }
+
+    .category-component-item:hover {}
+
+    .category-component-item .category-text {
+        font-size: x-large;
+    }
+
+    .category-component-item:hover .category-text {
+        text-decoration: underline;
+        /* Gạch chân khi hover */
+        transition: color 0.3s;
+    }
+
+    .category-component-item .icon-circle {
+        color: rgb(0, 0, 0);
+        /* Màu chữ */
+        transition: color 0.3s;
+    }
+
+    .category-component-item:hover .icon-circle {
+        color: rgb(255, 255, 255);
+        /* Thay đổi màu biểu tượng khi hover */
+        background-color: black;
+        /* Thay đổi nền khi hover */
+    }
+
+    /* CSS cho container bao quanh các mục danh sách trong overlayContent3 */
+    .brand-list-container {
+        display: flex;
+        flex-direction: column;
+        margin: 40px 100px 100px 25px;
+        /* Áp dụng lề cho div */
+    }
+
+    /* CSS cho danh sách thương hiệu trong overlayContent3 */
+    .brand-list-item {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        /* Khoảng cách giữa các mục trong danh sách */
+    }
+
+    .brand-list-item img {
+        margin-right: 10px;
+        /* Khoảng cách giữa hình ảnh và tên thương hiệu */
+    }
+
+    .brand-list-item span {
+        font-size: 16px;
+        /* Kích thước chữ của tên thương hiệu */
     }
 </style>
 {{-- ---------------------------------------------- script ---------------------------------------------- --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const categoryItems = document.querySelectorAll('.category-item');
+        const componentItems = document.querySelectorAll('.component-item');
         const overlayContent2 = document.getElementById('overlay-content2');
+        const overlayContent3 = document.getElementById('overlay-content3');
         const brandList = document.getElementById('brand-list');
+        const categorycomponentList = document.getElementById('categorycomponent-list') || document
+            .createElement('ul');
         const categories = @json($category2);
         const brands = @json($brand1);
+        const components = @json($c0mponent);
+        const categorycomponents = @json($categorycomponent);
 
+        // Hide overlayContent3 and brandList initially
+        overlayContent3.style.display = 'none';
+        brandList.style.display = 'none';
+
+        // Handle category-item click
         categoryItems.forEach(item => {
             item.addEventListener('click', function() {
                 const selectedCategoryId = this.getAttribute('data-category-id');
@@ -310,9 +401,8 @@
                     selectedCategoryId);
                 const filteredBrands = brands.filter(brand => brand.category_id ==
                     selectedCategoryId);
-                // Update category id display
-                document.getElementById('category-id-display').innerText = selectedCategoryId;
-                // Update brand list
+
+                // Update brand list in div 2
                 brandList.innerHTML = '';
                 filteredBrands.forEach(brand => {
                     const brandListItem = document.createElement('li');
@@ -330,12 +420,143 @@
                     brandListItem.appendChild(brandLink);
                     brandList.appendChild(brandListItem);
                 });
-                // Show overlay content 2
+
+                // Hide div 3 and categorycomponent list when a category is selected
+                overlayContent3.style.display = 'none';
+                categorycomponentList.style.display = 'none';
+                overlayContent3.innerHTML = ''; // Clear previous content if any
+                brandList.style.display = 'block'; // Show brand list
+
+                // Show overlay content 2 with animation
+                overlayContent2.classList.add('show');
                 overlayContent2.style.display = 'block';
+            });
+        });
+
+        // Handle component-item click
+        componentItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const selectedComponentId = this.getAttribute('data-component-id');
+                const filteredCategories = categorycomponents.filter(cat => cat.component_id ==
+                    selectedComponentId);
+
+                // Hide brand list when a component is selected
+                brandList.style.display = 'none';
+
+                // Clear old category component list
+                categorycomponentList.innerHTML = '';
+
+                // Update new category component list with images
+                filteredCategories.forEach(categorycomponentt => {
+                    const categorycomponentItem = document.createElement('li');
+                    categorycomponentItem.classList.add(
+                        'category-component-item'); // Add CSS class for hover effect
+
+                    // Create a wrapper div for flexbox
+                    const flexWrapper = document.createElement('div');
+                    flexWrapper.style.display = 'flex';
+                    flexWrapper.style.alignItems = 'center'; // Center vertically
+                    flexWrapper.style.justifyContent =
+                        'space-between'; // Space out the content
+                        flexWrapper.style.margin = '10px 0px'; // Add margin
+
+
+                    const leftWrapper = document.createElement('div');
+                    leftWrapper.style.display = 'flex';
+                    leftWrapper.style.alignItems = 'center'; // Center vertically
+                    leftWrapper.style.margin = '0'; // Add margin 0
+
+                    const categoryImg = document.createElement('img');
+                    categoryImg.src =
+                        `/storage/category/${categorycomponentt.url_name}`;
+                    categoryImg.style.marginRight = '10px';
+                    categoryImg.height = 45;
+
+                    const categoryText = document.createElement('span');
+                    categoryText.classList.add(
+                        'category-text'); // Add CSS class for underline and transition
+                    categoryText.innerText = categorycomponentt.category_name;
+
+                    leftWrapper.appendChild(categoryImg);
+                    leftWrapper.appendChild(categoryText);
+
+                    const iconSpan = document.createElement('span');
+                    iconSpan.classList.add('glyphicon', 'glyphicon-chevron-right',
+                        'icon-circle'); // Add CSS class for icon
+                    iconSpan.innerText = '>'; // Add ">" symbol
+
+                    flexWrapper.appendChild(leftWrapper);
+                    flexWrapper.appendChild(iconSpan);
+
+                    categorycomponentItem.appendChild(flexWrapper);
+
+                    categorycomponentList.appendChild(categorycomponentItem);
+
+                    // Add click event to show div 3
+                    categorycomponentItem.addEventListener('click', function() {
+                        const selectedCategoryId = categorycomponentt
+                            .category_id;
+
+                        // Filter and display brands in div 3
+                        const filteredBrands = brands.filter(brand => brand
+                            .category_id == selectedCategoryId);
+                        overlayContent3.innerHTML =
+                            ''; // Clear previous content
+
+                        const brandListContainer = document.createElement(
+                            'div');
+                        brandListContainer.classList.add(
+                            'brand-list-container'
+                            ); // Add CSS class for container
+
+                        filteredBrands.forEach(brand => {
+                            const brandListItem = document
+                                .createElement('li');
+                            brandListItem.classList.add(
+                                'brand-list-item'
+                            ); // Add CSS class for styling
+                            brandListItem.style.listStyleType =
+                                'none'; // Remove bullet points
+
+                            const brandImg = document.createElement(
+                                'img');
+                            brandImg.src =
+                                `/storage/brand/${brand.url_name}`;
+                            brandImg.style.marginRight =
+                                '10px'; // Margin between image and text
+                            brandImg.width = 50;
+
+                            const brandName = document.createElement(
+                                'span');
+                            brandName.innerText = brand.brand_name;
+
+                            brandListItem.appendChild(brandImg);
+                            brandListItem.appendChild(brandName);
+                            brandListContainer.appendChild(
+                                brandListItem);
+                        });
+
+                        overlayContent3.appendChild(brandListContainer);
+
+                        // Show overlay content 3 only when an item is clicked in the foreach loop
+                        overlayContent3.style.display = 'block';
+                    });
+                });
+
+
+                // Show overlay content 2 if necessary
+                overlayContent2.style.display = 'block';
+
+                // Show the category component list
+                categorycomponentList.style.display = 'block';
+
+                // Hide overlay content 3 when a component is selected
+                overlayContent3.style.display = 'none';
             });
         });
     });
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
         document.querySelectorAll('.category-item').forEach(item => {

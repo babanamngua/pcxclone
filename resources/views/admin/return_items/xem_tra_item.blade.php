@@ -11,8 +11,7 @@
             <div class="alert alert-success">
                 {{ session('status') }}
             </div>
-        @endif
-        @if (session('success'))
+        @endif        @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
@@ -36,32 +35,25 @@
             <span><strong>Địa chỉ:</strong> {{ $order->address }}</span>
         </div>
         <div>
+            <label style="color: blue;">Sản phẩm trả của khách hàng:</label>
+
             @if ($retune)
+            @php $i = 0; @endphp 
                 @foreach ($retune as $RE)
-                    @foreach ($orderitem as $order)
-                        @if ($RE->order_item_id == $order->order_item_id)
-                            <label style="color: red;">Sản phẩm của khách hàng:</label>
-                            <div class="form-control"> #{{ $order->order_item_id }} - {{ $order->product_name }} -
-                                {{ $order->color_name }} -
-                                {{ $order->capacity }} - {{ $order->size }}</div>
-                            <div>Số lượng: {{$RE->quantity}}</div>
-                        @endif
-                    @endforeach
-        
+                @php $i++;@endphp
                     @foreach ($orderitemAll as $orderiCON)
                         @if ($RE->exchange_order_item_id == $orderiCON->order_item_id)
-                            <label style="color: blue;">Sản phẩm đổi cho khách hàng:</label>
-                            <div class="form-control"> #{{ $orderiCON->order_item_id }} - {{ $orderiCON->product_name }} -
+                            <div class="form-control">{{$i}} #{{ $orderiCON->order_item_id }} - {{ $orderiCON->product_name }} -
                                 {{ $orderiCON->color_name }} -
                                 {{ $orderiCON->capacity }} - {{ $orderiCON->size }}</div>
-                                <div>Số lượng: {{$RE->exchange_quantity}}</div>
+                            <div>Số lượng: {{$RE->exchange_quantity}}</div>
+                            <form method="POST" action="{{ route('traItem.destroy', $RE->id) }}">
+                                @csrf
+                                @method('delete')
+                            <button type="submit"class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa sản phẩm này không?');">Xóa</button>
+                            </form>
                         @endif
-                    @endforeach
-                    <form method="POST" action="{{ route('doiItem.destroy', $RE->id) }}">
-                        @csrf
-                        @method('delete')
-                    <button type="submit"class="btn btn-danger" onclick="return confirm('Bạn có muốn xóa sản phẩm này không?');">Xóa</button>
-                    </form>
+                    @endforeach   
                 @endforeach
             @endif
         </div>

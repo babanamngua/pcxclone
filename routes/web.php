@@ -223,10 +223,13 @@ Route::middleware(['auth','admincheck'])->group(function () {
     Route::get('exchange/order/{id}',[ReturnsController::class,'doiItem'])->name('doiItem.index');
     Route::post('/exchange/order/add/{id}', [ReturnsController::class, 'add'])->name('doiItem.add');
     Route::get('/watchexchange/order/{id}', [ReturnsController::class, 'watchdoiItem'])->name('watchdoiItem.index');
-    
-    Route::get('returns/order/{id}',[ReturnsController::class,'doiItem'])->name('doiItem.index');
-    Route::post('/returns/order/add/{id}', [ReturnsController::class, 'add'])->name('doiItem.add');
-    Route::get('/watchreturns/order/{id}', [ReturnsController::class, 'watchdoiItem'])->name('watchdoiItem.index');
+    Route::delete('/exchange/order/{id}/destroy',[ReturnsController::class,'doiTtemdestroy'])->name('doiItem.destroy');
+
+
+    Route::get('returns/order/{id}',[ReturnsController::class,'traItem'])->name('traItem.index');
+    Route::post('/returns/order/add/{id}', [ReturnsController::class, 'tra'])->name('traItem.add');
+    Route::get('/watchreturns/order/{id}', [ReturnsController::class, 'watchtraItem'])->name('watchtraItem.index');
+    Route::delete('/returns/order/{id}/destroy',[ReturnsController::class,'traItemdestroy'])->name('traItem.destroy');
 });
 // routes/web.php
 // web.php
