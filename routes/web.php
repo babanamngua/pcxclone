@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
@@ -16,6 +15,7 @@ use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\SectionsController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\ReturnsController;
 
 
 
@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/orderclients', [OrdersController::class, 'orderclients'])->name('profile.orderclients');
+    Route::get('/orderclients/{id}', [OrdersController::class, 'orderItemclients'])->name('profile.orderItemclients');
     
 
     //binh luan
@@ -213,12 +214,35 @@ Route::middleware(['auth','admincheck'])->group(function () {
 
     Route::get('shipping/{id}/edit',[ShippingController::class,'edit'])->name('shipping.edit');
     Route::put('shipping/{id}/update',[ShippingController::class,'update'])->name('shipping.update');
-});
 
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+    Route::get('returns',[ReturnsController::class,'index'])->name('returns.index');
+    Route::get('returns/{id}/edit',[ReturnsController::class,'edit'])->name('returns.edit');
+    Route::put('returns/{id}/update',[ReturnsController::class,'update'])->name('returns.update');
+    Route::delete('returns/{id}/destroy',[ReturnsController::class,'destroy'])->name('returns.destroy');
+
+    Route::get('exchange/order/{id}',[ReturnsController::class,'doiItem'])->name('doiItem.index');
+    Route::post('/exchange/order/add/{id}', [ReturnsController::class, 'add'])->name('doiItem.add');
+    Route::get('/watchexchange/order/{id}', [ReturnsController::class, 'watchdoiItem'])->name('watchdoiItem.index');
+    
+    Route::get('returns/order/{id}',[ReturnsController::class,'doiItem'])->name('doiItem.index');
+    Route::post('/returns/order/add/{id}', [ReturnsController::class, 'add'])->name('doiItem.add');
+    Route::get('/watchreturns/order/{id}', [ReturnsController::class, 'watchdoiItem'])->name('watchdoiItem.index');
+});
+// routes/web.php
+// web.php
+
+Route::get('/payment/{id}', [PaymentController::class, 'index'])->name('payment.index');
 Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
+Route::post('/vnpay_payment/{id}', [PaymentController::class, 'vnpay'])->name('vnpay.store');
+
+Route::get('/paymentinfo', [PaymentController::class, 'paymentInfo'])->name('paymentinfo');
+Route::post('/vnpay_refund', [PaymentController::class, 'refund'])->name('vnpay_refund');
+Route::get('/handlepayment', [PaymentController::class, 'handlePayment']);
+
+Route::get('/payment/cleanup/{id}', [PaymentController::class, 'cleanup'])->name('payment.cleanup');
+
+
+
+
 
 require __DIR__.'/auth.php';
-
-
-

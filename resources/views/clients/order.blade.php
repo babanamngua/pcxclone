@@ -99,6 +99,7 @@
                                 </div>
                             @endforeach
                         </div>
+                        {{-- ///////////////////////credit-card//////////////////// --}}
                         <div id="additional-payment-info" style="display: none;">
                             <div class="container">
                                 <div class="card">
@@ -129,6 +130,23 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        {{-- ///////////////////vnpay//////////////////////// --}}
+                        <div id="vnpay" style="display: none;">
+                            <div class="vnpayment"> </div>
+                            <label style="padding: 20px 60px;">Sau khi nhấp vào “Đặt hàng”, bạn sẽ được
+                                chuyển hướng đến VNPAY - Thẻ nội địa và tài khoản ngân hàng để hoàn tất việc mua hàng
+                                một cách an toàn.</label>
+                            {{-- <div class="form-control" style="display: inline-grid;">
+                                <label style="font-weight: 500;" for="">Chọn ngân hàng:</label>
+                                <select id="bank-select" name="vnpaymethod" class="form-control">
+                                    @foreach (['VIETCOMBANK', 'VIETINBANK', 'BIDV', 'AGRIBANK', 'SACOMBANK', 'TECHCOMBANK', 'MBBANK', 'ACB', 'VPBANK', 'SHB', 'DONGABANK', 'EXIMBANK', 'TPBANK', 'NCB', 'OJB', 'MSBANK', 'HDBANK', 'NAMABANK', 'OCB', 'SCB', 'ABBANK', 'IVB', 'VIETCAPITALBANK', 'VIETBANK', 'SEABANK', 'VIB', 'BACABANK', 'VIETABANK', 'SAIGONBANK', 'PVCOMBANK', 'WOORIBANK', 'KIENLONGBANK', 'LIENVIETBANK', 'BAOVIETBANK', 'PGBANK', 'GPBANK', 'UOB', 'VRB', 'VIDBANK', 'SHINHANBANK', 'MAFC', 'VIETCREDIT'] as $bank)
+                                        <option value="{{ $bank }}"
+                                            data-image="{{ asset('storage/logo_bank/' . $bank . '.webp') }}">
+                                            {{ $bank }}</option>
+                                    @endforeach
+                                </select>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -201,9 +219,46 @@
         </div>
     </section>
 @endsection
-
+{{-- url('../../../storage/credit-card.png') --}}
 @section('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <style>
+        #vnpay {
+            background-color: #0000000d;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+        .vnpayment {
+            position: relative;
+            background-image: url('../../../storage/credit-card.png');
+            /* Thay thế bằng đường dẫn đến ảnh của bạn */
+            background-size: 50% auto;
+            /* Thay đổi kích thước ảnh nền, ví dụ 50% chiều rộng */
+            background-position: center;
+            /* Căn giữa ảnh */
+            background-repeat: no-repeat;
+            /* Ngăn ảnh lặp lại */
+            padding: 20px;
+            /* Thêm padding nếu cần */
+
+            width: 200px;
+            height: 200px;
+        }
+        .select2-container--default .select2-results__option img {
+            height: 20px;
+            width: auto;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .select2-container--default .select2-selection--single {
+            height: 50px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 48px;
+        }
+
         .contact-info,
         .shipping-info,
         .order-summary,
@@ -308,9 +363,39 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#bank-select').select2({
+                templateResult: function(option) {
+                    if (!option.id) {
+                        return option.text;
+                    }
+                    var $option = $(
+                        '<span><img src="' + $(option.element).data('image') + '" /> ' + option
+                        .text + '</span>'
+                    );
+                    return $option;
+                },
+                templateSelection: function(option) {
+                    if (!option.id) {
+                        return option.text;
+                    }
+                    var $option = $(
+                        '<span><img src="' + $(option.element).data('image') +
+                        '" style="height: 20px; width: auto;" /> ' + option.text + '</span>'
+                    );
+                    return $option;
+                }
+            });
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+            // var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+            var stripe = Stripe(
+                'pk_test_51PdSCGRsG8g38Rd2qb2HvN93YWSf1tV90diU6qy5LqkmhThoYwBuHGooHPKOQ1SBLtcC3CPRKTS8mt7gEkmSnEya00ti4VSnX6'
+            );
             const elements = stripe.elements();
             var style = {
                 base: {
@@ -333,6 +418,7 @@
             const cardErrors = document.getElementById('card-errors');
             const paymentForm = document.getElementById('payment-form');
             const additionalPaymentInfo = document.getElementById('additional-payment-info');
+            const vnpayForm = document.getElementById('vnpay');
             const placeOrderButton = document.getElementById('place-order-button');
 
             card.addEventListener('change', function(event) {
@@ -376,8 +462,13 @@
                 element.addEventListener('change', function() {
                     if (this.value === '1') { // Assuming '1' is the ID for Stripe
                         additionalPaymentInfo.style.display = 'block';
+                        vnpayForm.style.display = 'none';
+                    } else if (this.value === '2') {
+                        vnpayForm.style.display = 'block';
+                        additionalPaymentInfo.style.display = 'none';
                     } else {
                         additionalPaymentInfo.style.display = 'none';
+                        vnpayForm.style.display = 'none';
                     }
                 });
             });
@@ -385,6 +476,8 @@
             const initialPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
             if (initialPaymentMethod && initialPaymentMethod.value === '1') {
                 additionalPaymentInfo.style.display = 'block';
+            } else if (initialPaymentMethod && initialPaymentMethod.value === '2') {
+                vnpayForm.style.display = 'block';
             }
 
             ///////////////////////////////////////////////////////////////////////////////////

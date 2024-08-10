@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order_items;
 use App\Models\Orders;
 use App\Models\ShippingMethods;
+use App\Models\Shipping;
 
 class OrderItemController extends Controller
 {
@@ -16,6 +17,7 @@ class OrderItemController extends Controller
         $order_items = Order_items::where('order_id',$id)->get();
         $shippingmethods = ShippingMethods::all();
         $orders = Orders::where('order_id',$id)->get();
-        return view('admin.order_items.list_order_items',$this->data,compact('order_items','orders','shippingmethods'));
+        $shipping = Shipping::where('order_id',$id)->get();
+        return view('admin.order_items.list_order_items',$this->data,compact('order_items','orders','shippingmethods','shipping'));
     }
 }

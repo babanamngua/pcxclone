@@ -42,7 +42,10 @@
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                                         style="border:0px; background:none;">
-                                        <img src="{{ asset('storage/avatar.png') }}"
+                                        @php
+                                        $idanh = rand(1, 6);
+                                    @endphp
+                                        <img src="{{ asset('storage/'.$idanh.'.jpg') }}"
                                         style="width: 40px;height: 40px;margin-right: 10px;">{{ Auth::user()->name }}
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

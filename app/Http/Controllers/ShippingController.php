@@ -16,7 +16,7 @@ class ShippingController extends Controller
         $order = Orders::where('order_id',$id)->get();
         $shippingmethods = ShippingMethods::all();
         $shipping = Shipping::where('order_id',$id)->get();
-        $statusOptions = ['pending','delivering','delivered','cancelled','refunded','failed'];
+        $statusOptions = ['Đang chuẩn bị','Đang giao hàng','Đã giao hàng','hoàn thành','Hủy đơn hàng','Đã hoàn lại tiền','Thất bại'];
         return view('admin.shipping.edit_shipping',$this->data,compact('order','shippingmethods','shipping','statusOptions'));
     }
     public function update(Request $request, $id)

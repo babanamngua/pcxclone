@@ -18,7 +18,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required','string','lowercase','email','max:255',Rule::unique(User::class)->ignore($this->user()->user_id,'user_id')],
-            'sdt' => ['required','integer'],
+            'sdt' => 'required|string|min:8|max:11', // Điều chỉnh quy tắc theo định dạng số điện thoại của bạn
             'address' => ['required', 'string', 'max:255'],
         ];
     }

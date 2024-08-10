@@ -24,7 +24,7 @@ return new class extends Migration
                     $table->decimal('total_price', 10, 0);
                     $table->dateTime('shipping_date')->nullable();
                     $table->dateTime('shipped_date')->nullable();
-                    $table->enum('status', ['pending', 'shipped', 'delivered'])->default('pending');
+                    $table->enum('status', ['Đang chuẩn bị','Đang giao hàng','Đã giao hàng','hoàn thành','Hủy đơn hàng','Đã hoàn lại tiền','Thất bại'])->default('Đang chuẩn bị');
         });
         }
     }

@@ -16,12 +16,12 @@ return new class extends Migration
             $table->integer('user_id')->nullable()->index('user_id');
             $table->string('name');
             $table->string('email');
-            $table->integer('sdt');
+            $table->string('sdt',11);
             $table->string('address', 255);
             $table->decimal('total_price', 10,0)->nullable();
             $table->integer('shipping_methods_id');
             $table->integer('pay_methods_id');
-            $table->enum('status', ['pending','confirmed','delivering','delivered','completed','cancelled','refunded','failed'])->default('pending');
+            $table->enum('status', ['Chưa xác nhận','Đã xác nhận','Đang giao hàng','Đã giao hàng','hoàn thành','Hủy đơn hàng','Đã hoàn lại tiền','Thất bại'])->default('Chưa xác nhận');
             $table->timestamps();
         });
     }

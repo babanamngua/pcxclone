@@ -23,12 +23,12 @@
                     <table id="table_id" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th style="text-align: center; vertical-align: middle;width:10px;">stt</th>
-                                <th style="text-align: center; vertical-align: middle;">Mã đơn hàng</th>
-                                <th style="text-align: center; vertical-align: middle;">tổng tiền đơn hàng</th>
-                                <th style="text-align: center; vertical-align: middle;">Phương thức nhận hàng</th>
-                                <th style="text-align: center; vertical-align: middle;">Trạng thái</th>
-                                <th style="text-align: center; vertical-align: middle;"></th>
+                                <th style="text-align: center; vertical-align: middle;width:10px;">STT</th>
+                                <th >Số đơn hàng</th>
+                                <th >Giá trị</th>
+                                <th >Thời gian</th>
+                                <th >Trạng thái</th>
+                                <th ></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,86 +37,30 @@
                                 @php $i++; @endphp
                                 <tr>
                                     <td>{{ $i }}</td>
-                                    <td>{{ $order->order_id }}</td>
+                                    <td>#{{ $order->order_id }} <a href="{{ route('profile.orderItemclients', $order->order_id) }}">Xem chi tiết</a>
+                                    </td>
                                     <td>{{ \App\Helpers\NumberHelper::formatCurrency($order->total_price) }}</td>
                                     @foreach($shipping_methods as $sp)
                                     @if($sp->shipping_methods_id == $order->shipping_methods_id)
-                                    <td>{{ $sp->method_name }}
-                                        @if($order->shipping_methods_id == "1")
-                                        <a href="{{ route('orderitem.index', $order->order_id) }}" class="btn btn-info">Xem</a>
-                                        @endif
+                                    <td>
+                                        @php
+                                            $date = \Carbon\Carbon::parse($order->created_at);
+                                            $day = $date->day;
+                                            $month = $date->format('m'); // Lấy tháng dưới dạng số với 2 chữ số
+                                            $year = $date->year;
+                                        @endphp
+                                        {{ $day }}-{{ $month }}-{{ $year }}
                                     </td>
                                     @endif
                                     @endforeach
                                     <td>{{ $order->status }}</td>
                                     <td>
                                         <div class="form-group" style="display: -webkit-inline-box;">
-                                            <a href="{{ route('orderitem.index', $order->order_id) }}" class="btn btn-info">Xem các Sản phẩm</a>
                                             <form method="POST" action="{{ route('orders.destroy', $order->order_id) }}">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
-                                                    <a><i class="glyphicon glyphicon-remove" style="color: white;">Hủy</i></a>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @foreach($orders as $order)
-                                @php $i++; @endphp
-                                <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $order->order_id }}</td>
-                                    <td>{{ \App\Helpers\NumberHelper::formatCurrency($order->total_price) }}</td>
-                                    @foreach($shipping_methods as $sp)
-                                    @if($sp->shipping_methods_id == $order->shipping_methods_id)
-                                    <td>{{ $sp->method_name }}
-                                        @if($order->shipping_methods_id == "1")
-                                        <a href="{{ route('orderitem.index', $order->order_id) }}" class="btn btn-info">Xem</a>
-                                        @endif
-                                    </td>
-                                    @endif
-                                    @endforeach
-                                    <td>{{ $order->status }}</td>
-                                    <td>
-                                        <div class="form-group" style="display: -webkit-inline-box;">
-                                            <a href="{{ route('orderitem.index', $order->order_id) }}" class="btn btn-info">Xem các Sản phẩm</a>
-                                            <form method="POST" action="{{ route('orders.destroy', $order->order_id) }}">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
-                                                    <a><i class="glyphicon glyphicon-remove" style="color: white;">Hủy</i></a>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @foreach($orders as $order)
-                                @php $i++; @endphp
-                                <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $order->order_id }}</td>
-                                    <td>{{ \App\Helpers\NumberHelper::formatCurrency($order->total_price) }}</td>
-                                    @foreach($shipping_methods as $sp)
-                                    @if($sp->shipping_methods_id == $order->shipping_methods_id)
-                                    <td>{{ $sp->method_name }}
-                                        @if($order->shipping_methods_id == "1")
-                                        <a href="{{ route('orderitem.index', $order->order_id) }}" class="btn btn-info">Xem</a>
-                                        @endif
-                                    </td>
-                                    @endif
-                                    @endforeach
-                                    <td>{{ $order->status }}</td>
-                                    <td>
-                                        <div class="form-group" style="display: -webkit-inline-box;">
-                                            <a href="{{ route('orderitem.index', $order->order_id) }}" class="btn btn-info">Xem các Sản phẩm</a>
-                                            <form method="POST" action="{{ route('orders.destroy', $order->order_id) }}">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
-                                                    <a><i class="glyphicon glyphicon-remove" style="color: white;">Hủy</i></a>
+                                                    <a><i class="glyphicon glyphicon-remove" style="color: white;">Hủy đơn hàng</i></a>
                                                 </button>
                                             </form>
                                         </div>

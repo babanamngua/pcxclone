@@ -291,7 +291,10 @@
                     @foreach ($username as $name)
                         @if ($name->user_id == $cmt->user_id)
                             <div class="username">
-                                <img src="{{ asset('storage/avatar.png') }}"
+                                @php
+                                $idanh = rand(1, 6);
+                            @endphp
+                                <img src="{{ asset('storage/'.$idanh.'.jpg') }}"
                                     style="width: 40px;height: 40px;margin-right: 10px;">{{ $name->name }}
                                 <span class="purchase-badge">Đã mua hàng</span>
                             </div>

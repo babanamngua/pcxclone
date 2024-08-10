@@ -540,7 +540,7 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
         $brand1 = Brand::whereNotNull('category_id')->get();
     
         return view('clients.order', array_merge($this->data, compact(
-            'product', 'cartItems', 'totalPrice', 'cartCount', 'user', 'category1', 'category2', 'brand1',
+            'cartItems', 'totalPrice', 'cartCount', 'user', 'category1', 'category2', 'brand1',
             'shippingmethods', 'paymethods', 'distance', 'totalWeight', 'shippingCost'
         )));
     }
@@ -582,7 +582,8 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
     {
         // Bắt đầu một giao dịch
         DB::beginTransaction();
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        // Stripe::setApiKey(env('STRIPE_SECRET')); 
+        Stripe::setApiKey('sk_test_51PdSCGRsG8g38Rd2a49CxVNMbYZoZFfN5wObfqPir41rgKyMKrAQUXCc2qE2yWqzSwJAQEfRZX1bwO1jAUKgx5Ow00Iue43epM');
         $token = $request->stripeToken;
         $user = null;
         
@@ -638,7 +639,7 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
             }
     
             // If payment method is not pay-methods-3, create the charge and save the transaction
-            if ($request->input('payment_method') !== '3') {
+            if ($request->input('payment_method') == '1') {
                 $charge = Charge::create([
                     'amount' => 1000, // số tiền cần thanh toán, tính bằng cent (10.00 USD)
                     'currency' => 'usd',
@@ -709,7 +710,8 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
                     } else {
                         Order_items::create($orderItemData);
                     }
-    
+                    // Lưu dữ liệu orderItems vào mảng
+                    $orderItemsData[] = (object) $orderItemData;
                     // Tính tổng giá và trọng lượng của đơn hàng
                     $totalPrice += $item->quantity * $priceAfterDiscount;
                 } else {
@@ -735,15 +737,21 @@ $totalFormatted = \App\Helpers\NumberHelper::formatCurrency($total);
                 ]);
             }
     
+            // Mail::to($order->email)->send(new OrderPlaced($order, $orderItemsData,$shippingCost));
             // Commit giao dịch
             DB::commit();
-            
+
+            if ($request->input('payment_method') == '2') {
+            return redirect()->route('payment.index',$order->order_id);
+            }
+            // Gửi email xác nhận đơn hàng
+                 // Gửi email qua hàng đợi
+        Mail::to($order->email)->queue(new OrderPlaced($order, $orderItemsData, $shippingCost));
             if (!Auth::check()) {
                 // Xóa giỏ hàng trong session cho người dùng chưa đăng nhập
                 session()->forget('cart');
             }
-            // Gửi email xác nhận đơn hàng
-            Mail::to($order->email)->send(new OrderPlaced($order));
+
             return redirect()->route('home')->with('success', 'Đặt hàng thành công!');
         } catch (\Exception $e) {
             // Nếu có lỗi xảy ra, rollback giao dịch
